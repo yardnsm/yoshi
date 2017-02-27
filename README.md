@@ -152,7 +152,6 @@ yoshi: {
 
 Flag | Short Flag | Description
 ---- | ---------- | -----------
---client | -c | Runs linters for client only (`stylelint`).
 
 Executes `TSLint` or `ESLint` (depending on the type of the project) over all matched files. An '.eslintrc' / `tslint.json` file with proper configurations is required.
 

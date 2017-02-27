@@ -102,14 +102,22 @@ p {
 }`;
       const res = test
         .setup({
-          'a.sass': goodStyle,
-          'a.scss': goodStyle,
-          'package.json': fx.packageJson()
+          'src/a.sass': goodStyle,
+          'src/a.scss': goodStyle,
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.0",\n
+            "stylelint": {
+              "rules": {
+                "max-empty-lines": 1
+              }
+            }
+          }`
         })
-        .execute('lint', ['--client']);
+        .execute('lint', []);
 
       expect(res.stdout).to.contain(`Starting 'stylelint'`);
-      expect(res.stdout).to.contain('2 sources checked');
+      expect(res.stdout).to.contain(`Finished 'stylelint'`);
       expect(res.code).to.equal(0);
     });
 
@@ -126,16 +134,23 @@ p {
 
       const res = test
         .setup({
-          'a.sass': badStyle,
-          'a.scss': badStyle,
-          'package.json': fx.packageJson()
+          'src/a.sass': badStyle,
+          'src/a.scss': badStyle,
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.0",\n
+            "stylelint": {
+              "rules": {
+                "max-empty-lines": 1
+              }
+            }
+          }`
         })
-        .execute('lint', ['--client']);
+        .execute('lint', []);
 
       expect(res.stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
       expect(res.code).to.equal(1);
     });
-
   });
 
   describe('Empty state', () => {

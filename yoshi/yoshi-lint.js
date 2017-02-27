@@ -11,7 +11,6 @@ const run = require('./lib/run');
 const lint = require('./lib/tasks/aggregators/lint');
 
 program
-	.option('--client', 'special linters for client only: stylelint')
 	.parse(process.argv);
 
 run(program)(lint);

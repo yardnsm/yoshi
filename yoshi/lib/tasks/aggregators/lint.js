@@ -11,7 +11,7 @@ const linter = isTypescriptProject() ? tslint : eslint;
 function lint(options) {
   const tasks = [
     linter,
-    ...options.client ? [stylelint] : []
+    stylelint
   ];
 
   return run(options)(...tasks);
