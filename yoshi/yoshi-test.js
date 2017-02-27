@@ -12,7 +12,6 @@ program
   .option('--karma', 'run unit tests on karma')
   .option('--jest', 'run unit tests on qjest')
   .option('--protractor', 'run e2e on protractor')
-  .option('--watch', 'watch for changes')
   .parse(process.argv);
 
 run(program)(test);
