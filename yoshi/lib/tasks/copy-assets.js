@@ -17,14 +17,14 @@ function copyDir(source, destination = '', base = '.') {
   );
 }
 
-function copyAssets({context = 'src', output = 'statics'} = {}) {
+function copyAssets({output = 'statics'} = {}) {
   const assets = `${baseDir}/assets/**/*`;
   const htmlAssets = `${baseDir}/**/*.{ejs,html,vm}`;
   const serverAssets = `${baseDir}/**/*.{css,json,d.ts}`;
 
   const copyAllAssets = () => Promise.all([
     copyDir([assets, htmlAssets, serverAssets]),
-    copyDir([assets, htmlAssets], output, path.join(process.cwd(), context))
+    copyDir([assets, htmlAssets], output, path.join(process.cwd(), 'src'))
   ]);
 
   if (watch) {

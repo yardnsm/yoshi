@@ -410,23 +410,6 @@ describe('Aggregator: Build', () => {
       expect(test.content('dist/statics/app.bundle.js')).to.contain('module.exports = function (a)');
     });
 
-    it.skip('should generate a bundle using different entry and different context', () => {
-      const res = test
-          .setup({
-            'app/app-final.js': `const aFunction = require('./dep');const a = aFunction(1);`,
-            'src/dep.js': `module.exports = function(a){return a + 1;};`,
-            'package.json': fx.packageJson({
-              entry: './app-final.js'
-            })
-          })
-          .execute('build', ['--context=app']);
-
-      expect(res.code).to.equal(0);
-      expect(test.list('dist/statics')).to.contain('app.bundle.js');
-      expect(test.content('dist/statics/app.bundle.js')).to.contain('const a = aFunction(1);');
-      expect(test.content('dist/statics/app.bundle.js')).to.contain('module.exports = function (a)');
-    });
-
     it('should support single entry point in package.json', () => {
       const res = test
           .setup({
@@ -474,20 +457,6 @@ describe('Aggregator: Build', () => {
 
       expect(res.code).to.equal(0);
       expect(test.list('dist/statics1').indexOf('app.bundle.js')).to.be.at.least(0);
-    });
-
-    it.skip('should set the context of webpack if a value provided when --context flag is set', () => {
-      const res = test.setup({
-        'app/app.js': `const thisIsWorks = true;`,
-        'package.json': fx.packageJson({
-          entry: {
-            app: './app.js',
-          }
-        })
-      }).execute('build', ['--context=app']);
-
-      expect(res.code).to.equal(0);
-      expect(test.list(`dist/${defaultOutput}`).indexOf('app.bundle.js')).to.be.at.least(0);
     });
 
     it('should create sourceMaps for both bundle and specs', () => {
@@ -1042,20 +1011,6 @@ describe('Aggregator: Build', () => {
 
       expect(res.code).to.equal(0);
       expect(test.list(`dist/statics1/assets`)).to.include('some-file');
-    });
-
-    it('should copy files from assets folder directly to the output directory and only from the context directory when the --context flag is set', () => {
-      const res = test.setup({
-        'app/assets/some-file': 'a',
-        'src/assets/should-not-be-here': 'a',
-        'package.json': fx.packageJson(),
-        'pom.xml': fx.pom()
-      }).execute('build', ['--output=statics', '--context=app']);
-
-      expect(res.code).to.equal(0);
-      expect(test.list(`dist/statics/assets`)).to.include('some-file');
-      expect(test.list(`dist/statics/assets`)).to.not.include('should-not-be-here');
-      expect(test.list(`dist/statics/`)).to.not.include('src');
     });
 
     it('should copy html assets to dist and to statics', () => {

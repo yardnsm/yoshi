@@ -85,7 +85,6 @@ The following are the default values for the CDN server's port and the mount dir
 Flag | Short Flag | Description | Default Value
 ---- | ---------- | ----------- | ------------
 --output <dir> | | The output directory for static assets. | `statics`
---context <dir> | | The directory used for resolving entries. More info [here](https://webpack.github.io/docs/configuration.html#context). | `src`
 
 This task will perform the following:
 

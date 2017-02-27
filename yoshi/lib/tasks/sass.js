@@ -12,8 +12,8 @@ const watch = watchMode();
 
 module.exports = sass;
 
-function sass({context}) {
-  const glob = globs.sass(context);
+function sass() {
+  const glob = globs.sass();
 
   if (watch) {
     gulp.watch(glob, () => transpile(glob));

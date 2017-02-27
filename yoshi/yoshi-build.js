@@ -12,7 +12,6 @@ const build = require('./lib/tasks/aggregators/build');
 
 program
   .option('--output <dir>', 'output directory for the static assets', 'statics')
-  .option('--context <dir>', 'The directory used for resolving entries', 'src')
   .parse(process.argv);
 
 run(program)(build);
