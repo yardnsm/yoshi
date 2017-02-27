@@ -31,11 +31,8 @@
     "bluebird": "^3.4.7",
     "ejs": "^2.5.6",
     "express": "^4.13.4",
-    "i18next": "^3.4.3",
-    "i18next-xhr-backend": "^1.2.0",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-i18next": "^1.10.1"
+    "react-dom": "^15.3.2"
   },
   "babel": {
     "presets": [
