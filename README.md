@@ -24,6 +24,7 @@ yoshi
 * Bundle JS/CSS using Webpack
 * External/Inline css
 * Webpack 2 (tree shaking)
+* HMR
 
 ## Install
 
