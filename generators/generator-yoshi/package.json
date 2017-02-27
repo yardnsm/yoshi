@@ -1,0 +1,44 @@
+{
+  "name": "generator-yoshi",
+  "version": "1.0.0",
+  "files": [
+    "generators",
+    "bin",
+    "npm-shrinkwrap.json"
+  ],
+  "main": "generators/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "eslint .",
+    "test": "rm -rf generated-examples; mocha -R mocha-env-reporter",
+    "release": "npm shrinkwrap && wnpm-release && sh auto-generate-examples.sh",
+    "postpublish": "rm -f npm-shrinkwrap.json"
+  },
+  "bin": {
+    "wixclean": "./bin/wixclean.sh"
+  },
+  "eslintConfig": {
+    "extends": "wix/esnext"
+  },
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "generator-wix-fullstack": "~1.0.0",
+    "generator-wix-web": "~1.0.0",
+    "inquirer-npm-name": "^2.0.0",
+    "lodash": "^4.13.1",
+    "update-notifier": "^1.0.2",
+    "yeoman-generator": "^0.23.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.6.1",
+    "eslint-config-wix": "latest",
+    "mocha": "^2.2.3",
+    "mocha-env-reporter": "^1.0.2",
+    "namoey": "latest",
+    "wnpm-ci": "latest",
+    "yeoman-assert": "^2.0.0",
+    "yeoman-test": "^1.0.0"
+  }
+}
