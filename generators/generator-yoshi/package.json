@@ -24,8 +24,7 @@
   },
   "dependencies": {
     "chalk": "^1.0.0",
-    "generator-wix-fullstack": "~1.0.0",
-    "generator-wix-web": "~1.0.0",
+    "generator-yoshi-fullstack": "latest",
     "inquirer-npm-name": "^2.0.0",
     "lodash": "^4.13.1",
     "update-notifier": "^1.0.2",
