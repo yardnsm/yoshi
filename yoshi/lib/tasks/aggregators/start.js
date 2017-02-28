@@ -13,11 +13,11 @@ const copyAssets = require('../copy-assets');
 const runServer = require('../run-server');
 
 function start(options) {
-  const runWithOptions = run(options);
   const restartServer = () => options.server && runServer({entryPoint: options.entryPoint});
+  const runWithOptions = run({...options, ...{done: restartServer}});
 
   return runWithOptions(clean, updateNodeVersion)
-    .then(() => runWithOptions(sass, petri, targz, copyAssets, webpackDevServer, transpile(restartServer)))
+    .then(() => runWithOptions(sass, petri, targz, copyAssets, webpackDevServer, transpile))
     .then(() => spawn('npm', ['test', '--silent'], {stdio: 'inherit'}));
 }
 

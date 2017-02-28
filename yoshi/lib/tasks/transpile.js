@@ -6,16 +6,16 @@ const noTranspile = require('./no-transpile');
 const {runIndividualTranspiler} = require('../../config/project');
 const {isTypescriptProject, isBabelProject} = require('../utils');
 
-function transpile(...args) {
+function transpile() {
   if (isTypescriptProject() && runIndividualTranspiler()) {
-    return typescript(...args);
+    return typescript;
   }
 
   if (isBabelProject() && runIndividualTranspiler()) {
-    return babel(...args);
+    return babel;
   }
 
-  return noTranspile(...args);
+  return noTranspile;
 }
 
-module.exports = transpile;
+module.exports = transpile();

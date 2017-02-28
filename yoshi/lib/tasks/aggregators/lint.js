@@ -9,12 +9,7 @@ const tslint = require('../tslint');
 const linter = isTypescriptProject() ? tslint : eslint;
 
 function lint(options) {
-  const tasks = [
-    linter,
-    stylelint
-  ];
-
-  return run(options)(...tasks);
+  return run(options)(linter, stylelint);
 }
 
 module.exports = lint;

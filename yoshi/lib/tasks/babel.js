@@ -7,24 +7,22 @@ const gutil = require('gulp-util');
 const plumber = require('gulp-plumber');
 const fileTransformCache = require('gulp-file-transform-cache');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
+const babelTranspiler = require('gulp-babel');
 const globs = require('../globs');
 const {noop, watchMode} = require('../utils');
-const {logFn} = require('../run');
+const {log} = require('../run');
 
 const watch = watchMode();
 const files = globs.babel();
 
-function runBabel(done = noop) {
-  return function babel() {
-    const transpileThenDone = () => transpile().then(done);
+function babel({done = noop}) {
+  const transpileThenDone = () => transpile().then(done);
 
-    if (watch) {
-      gulp.watch(files, transpileThenDone);
-    }
+  if (watch) {
+    gulp.watch(files, transpileThenDone);
+  }
 
-    return transpileThenDone();
-  };
+  return transpileThenDone();
 }
 
 function transpile() {
@@ -37,7 +35,7 @@ function transpile() {
       .pipe(interceptor.catchErrors())
       .pipe(fileTransformCache({
         path: path.resolve('target', '.babel-cache'),
-        transformStreams: [sourcemaps.init(), babel()]
+        transformStreams: [sourcemaps.init(), babelTranspiler()]
       }))
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest('dist'))
@@ -69,4 +67,4 @@ function printErrors(err) {
   console.log(message);
 }
 
-module.exports = logFn(runBabel);
+module.exports = log(babel);

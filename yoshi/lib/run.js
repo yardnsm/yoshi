@@ -48,21 +48,10 @@ const log = module.exports.log = task => {
   };
 };
 
-const logFn = module.exports.logFn = fn => {
-  return args => log(fn(args));
-};
-
 module.exports.logIf = (task, condFn) => {
   return options => {
     const newTask = condFn(options) ? log(task) : task;
     return newTask(options);
-  };
-};
-
-module.exports.logFnIf = (fn, condFn) => {
-  return args => {
-    const newFn = condFn(args) ? logFn(fn) : fn;
-    return newFn(args);
   };
 };
 

@@ -14,7 +14,7 @@ function build(options) {
   const runWithOptions = run(options);
 
   return runWithOptions(clean, updateNodeVersion)
-    .then(() => runWithOptions(sass, petri, targz, copyAssets, transpile(), bundle({debug: true}), bundle({debug: false})));
+    .then(() => runWithOptions(sass, petri, targz, copyAssets, transpile, bundle));
 }
 
 module.exports = build;
