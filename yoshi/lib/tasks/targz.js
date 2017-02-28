@@ -1,4 +1,5 @@
 'use strict';
+
 const utils = require('../utils');
 const path = require('path');
 const projectConfig = require('../../config/project');

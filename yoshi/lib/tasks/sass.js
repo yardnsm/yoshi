@@ -7,10 +7,9 @@ const nodeSass = require('node-sass');
 const gulp = require('gulp');
 const globs = require('../globs');
 const {watchMode, readDir, writeFile} = require('../utils');
+const {logIf} = require('../run');
 
 const watch = watchMode();
-
-module.exports = sass;
 
 function sass() {
   const glob = globs.sass();
@@ -22,9 +21,12 @@ function sass() {
   return transpile(glob);
 }
 
+function readGlob(glob) {
+  return readDir(glob).filter(file => path.basename(file)[0] !== '_');
+}
+
 function transpile(glob) {
-  const fileList = readDir(glob).filter(file => path.basename(file)[0] !== '_');
-  return Promise.all(fileList.map(renderFile));
+  return Promise.all(readGlob(glob).map(renderFile));
 }
 
 function renderFile(file) {
@@ -45,3 +47,5 @@ function renderFile(file) {
     });
   });
 }
+
+module.exports = logIf(sass, () => readGlob(globs.sass()).length > 0);

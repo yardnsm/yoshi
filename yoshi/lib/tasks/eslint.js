@@ -2,6 +2,8 @@
 
 const {CLIEngine} = require('eslint');
 const globs = require('../globs');
+const {readDir} = require('../utils');
+const {logIf} = require('../run');
 
 const files = globs.eslint();
 
@@ -16,4 +18,4 @@ function eslint() {
   });
 }
 
-module.exports = eslint;
+module.exports = logIf(eslint, () => readDir(files).length > 0);

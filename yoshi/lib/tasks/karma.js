@@ -6,6 +6,7 @@ const {Server} = require('karma');
 const webpack = require('webpack');
 const {watchMode} = require('../utils');
 const wpConfig = require('../../config/webpack.config.specs');
+const {log} = require('../run');
 
 const watch = watchMode();
 
@@ -67,4 +68,4 @@ function karma() {
   });
 }
 
-module.exports = karma;
+module.exports = log(karma);
