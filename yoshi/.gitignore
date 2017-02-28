@@ -1,6 +1,5 @@
 .history
 .idea
-.vscode
 node_modules
 target
 yarn-error.log

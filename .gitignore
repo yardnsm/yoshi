@@ -1,7 +1,6 @@
 .DS_Store
 .history
 .idea
-.vscode
 node_modules
 yarn-error.log
 node-debug.log
