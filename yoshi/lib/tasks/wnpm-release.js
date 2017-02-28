@@ -1,7 +1,7 @@
 'use strict';
 
 const wnpm = require('wnpm-ci');
-const {log} = require('../run');
+const {log} = require('../log');
 
 function wnpmRelease() {
   return new Promise(resolve =>

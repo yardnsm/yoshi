@@ -8,10 +8,10 @@ if (watchMode()) {
 
 const program = require('commander');
 const run = require('./lib/run');
-const build = require('./lib/tasks/aggregators/build');
 
 program
   .option('--output <dir>', 'output directory for the static assets', 'statics')
   .parse(process.argv);
 
-run(program)(build);
+const {build} = require('./lib/yoshi-plugins')(program);
+run(build, program);

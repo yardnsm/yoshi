@@ -8,9 +8,9 @@ if (watchMode()) {
 
 const program = require('commander');
 const run = require('./lib/run');
-const lint = require('./lib/tasks/aggregators/lint');
 
 program
 	.parse(process.argv);
 
-run(program)(lint);
+const {lint} = require('./lib/yoshi-plugins')(program);
+run(lint, program);

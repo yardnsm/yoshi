@@ -4,7 +4,7 @@ const fs = require('fs');
 const {Linter, Configuration} = require('tslint');
 const globs = require('../globs');
 const {readDir} = require('../utils');
-const {logIf} = require('../run');
+const {logIf} = require('../log');
 
 const options = {fix: false, formatter: 'prose'};
 const files = globs.tslint();

@@ -3,7 +3,7 @@
 const gutil = require('gulp-util');
 const {watchMode} = require('../utils');
 const {hasConfFile, run} = require('../protractor');
-const {log} = require('../run');
+const {log} = require('../log');
 
 const watch = watchMode();
 

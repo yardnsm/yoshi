@@ -3,7 +3,7 @@
 const {lint} = require('stylelint');
 const cosmiconfig = require('cosmiconfig');
 const globs = require('../globs');
-const {logIfP} = require('../run');
+const {logIfP} = require('../log');
 
 function hasConfig() {
   return cosmiconfig('stylelint')

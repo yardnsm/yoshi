@@ -10,7 +10,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const babelTranspiler = require('gulp-babel');
 const globs = require('../globs');
 const {noop, watchMode} = require('../utils');
-const {log} = require('../run');
+const {log} = require('../log');
 
 const watch = watchMode();
 const files = globs.babel();

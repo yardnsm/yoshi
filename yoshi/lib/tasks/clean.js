@@ -1,7 +1,7 @@
 'use strict';
 
 const del = require('del');
-const {log} = require('../run');
+const {log} = require('../log');
 
 function cleanDir(dir) {
   return del([`${dir}/**`, `!${dir}`]);

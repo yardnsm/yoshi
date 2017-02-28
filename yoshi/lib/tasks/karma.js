@@ -6,7 +6,7 @@ const {Server} = require('karma');
 const webpack = require('webpack');
 const {watchMode} = require('../utils');
 const wpConfig = require('../../config/webpack.config.specs');
-const {log} = require('../run');
+const {log} = require('../log');
 
 const watch = watchMode();
 

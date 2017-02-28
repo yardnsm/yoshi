@@ -3,7 +3,7 @@
 const {CLIEngine} = require('eslint');
 const globs = require('../globs');
 const {readDir} = require('../utils');
-const {logIf} = require('../run');
+const {logIf} = require('../log');
 
 const files = globs.eslint();
 

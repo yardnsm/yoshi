@@ -7,7 +7,7 @@ const nodeSass = require('node-sass');
 const gulp = require('gulp');
 const globs = require('../globs');
 const {watchMode, readDir, writeFile} = require('../utils');
-const {logIf} = require('../run');
+const {logIf} = require('../log');
 
 const watch = watchMode();
 

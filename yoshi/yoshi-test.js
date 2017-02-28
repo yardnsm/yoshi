@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const _ = require('lodash');
 const program = require('commander');
 const run = require('./lib/run');
-const test = require('./lib/tasks/aggregators/test');
 
 program
   .option('--mocha', 'run unit tests on mocha')
@@ -14,4 +12,5 @@ program
   .option('--protractor', 'run e2e on protractor')
   .parse(process.argv);
 
-run(program)(test);
+const {test} = require('./lib/yoshi-plugins')(program);
+run(test, program);

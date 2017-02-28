@@ -4,7 +4,7 @@ const _ = require('lodash/fp');
 const webpack = require('webpack');
 const getConfig = require('../../config/webpack.config.client');
 const {shouldRunWebpack, filterNoise} = require('../utils');
-const {logIf} = require('../run');
+const {logIf} = require('../log');
 
 function runBundle(webpackOptions) {
   const webpackConfig = getConfig(webpackOptions);

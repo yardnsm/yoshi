@@ -4,7 +4,7 @@ const path = require('path');
 const gulp = require('gulp');
 const {watchMode} = require('../utils');
 const globs = require('../globs');
-const {log} = require('../run');
+const {log} = require('../log');
 
 const watch = watchMode();
 const baseDir = globs.base();

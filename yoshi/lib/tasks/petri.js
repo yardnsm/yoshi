@@ -6,7 +6,7 @@
 const {tryRequire, exists, watchMode} = require('../utils');
 const globs = require('../globs');
 const petriSpecs = tryRequire('petri-specs/lib/petri-specs');
-const {logIf} = require('../run');
+const {logIf} = require('../log');
 
 function shouldRun() {
   return petriSpecs && exists(globs.petriSpecs());

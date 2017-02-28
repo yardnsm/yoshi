@@ -4,7 +4,7 @@ const _ = require('lodash/fp');
 const spawn = require('cross-spawn');
 const gutil = require('gulp-util');
 const {watchMode, noop} = require('../utils');
-const {log} = require('../run');
+const {log} = require('../log');
 
 const watch = watchMode();
 const typescriptSuccessRegex = /Compilation complete/;

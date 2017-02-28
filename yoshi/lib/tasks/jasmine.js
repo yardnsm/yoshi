@@ -5,7 +5,7 @@ const gulpJasmine = require('gulp-jasmine');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
 const {inTeamCity} = require('../utils');
-const {log} = require('../run');
+const {log} = require('../log');
 
 function jasmine() {
   process.env.NODE_ENV = 'test';

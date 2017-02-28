@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
+const program = require('commander');
 const run = require('./lib/run');
-const release = require('./lib/tasks/aggregators/release');
 
-run()(release);
+program
+	.parse(process.argv);
+
+const {release} = require('./lib/yoshi-plugins')(program);
+run(release, program);
