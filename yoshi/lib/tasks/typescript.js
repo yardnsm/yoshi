@@ -4,7 +4,6 @@ const _ = require('lodash/fp');
 const spawn = require('cross-spawn');
 const gutil = require('gulp-util');
 const {watchMode, noop} = require('../utils');
-const {logFn} = require('../run');
 
 const watch = watchMode();
 const typescriptSuccessRegex = /Compilation complete/;
@@ -70,4 +69,4 @@ function toCliArgs(obj) {
   return _.toPairs(obj).reduce((list, [key, value]) => [...list, `--${key}`, value], []);
 }
 
-module.exports = logFn(runTypescript);
+module.exports = runTypescript;

@@ -4,18 +4,15 @@ const fs = require('fs');
 const {Linter, Configuration} = require('tslint');
 const globs = require('../globs');
 const {readDir} = require('../utils');
-const {logIf} = require('../run');
 
 const options = {fix: false, formatter: 'prose'};
 const files = globs.tslint();
 
-function readGlob() {
-  return readDir(files).filter(file => !file.match(/\.d\.ts$/));
-}
+module.exports = tslint;
 
 function tslint() {
   return Promise
-    .all(readGlob().map(lint))
+    .all(readDir(files).filter(file => !file.match(/\.d\.ts$/)).map(lint))
     .then(results => {
       const output = results.reduce((acc, result) => acc + result.output, '');
       const errorCount = results.reduce((acc, result) => acc + result.failureCount, 0);
@@ -41,5 +38,3 @@ function readFile(file) {
     fs.readFile(file, 'utf8', (err, content) =>
       err ? reject(err) : resolve(content)));
 }
-
-module.exports = logIf(tslint, () => readGlob().length > 0);

@@ -7,7 +7,6 @@ const {watchMode} = require('../utils');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
 const {inTeamCity} = require('../utils');
-const {log} = require('../run');
 
 const watch = watchMode();
 const mochaGlobs = projectConfig.specs.node() || globs.specs();
@@ -37,4 +36,4 @@ function mocha() {
   return runMocha();
 }
 
-module.exports = log(mocha);
+module.exports = mocha;

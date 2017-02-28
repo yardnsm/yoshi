@@ -3,7 +3,6 @@
 const jestCli = require('jest-cli');
 const config = require('../../config/project').jestConfig();
 const {watchMode, inTeamCity} = require('../utils');
-const {log} = require('../run');
 
 function jest() {
   const watch = watchMode();
@@ -20,4 +19,4 @@ function jest() {
   });
 }
 
-module.exports = log(jest);
+module.exports = jest;

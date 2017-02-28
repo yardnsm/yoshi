@@ -4,7 +4,6 @@ const path = require('path');
 const gulp = require('gulp');
 const {watchMode} = require('../utils');
 const globs = require('../globs');
-const {log} = require('../run');
 
 const watch = watchMode();
 const baseDir = globs.base();
@@ -35,4 +34,4 @@ function copyAssets({output = 'statics'} = {}) {
   return copyAllAssets();
 }
 
-module.exports = log(copyAssets);
+module.exports = copyAssets;
