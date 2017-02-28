@@ -6,12 +6,16 @@
 const {tryRequire, exists, watchMode} = require('../utils');
 const globs = require('../globs');
 const petriSpecs = tryRequire('petri-specs/lib/petri-specs');
+const {logIf} = require('../run');
 
+function shouldRun() {
+  return petriSpecs && exists(globs.petriSpecs());
+}
 
 function build() {
   const options = {directory: globs.petri(), json: globs.petriOutput()};
 
-  if (!petriSpecs || !exists(globs.petriSpecs())) {
+  if (!shouldRun()) {
     return Promise.resolve();
   }
 
@@ -29,4 +33,4 @@ function petri() {
   return watchMode() ? watch() : build();
 }
 
-module.exports = petri;
+module.exports = logIf(petri, shouldRun);

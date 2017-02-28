@@ -1,6 +1,7 @@
 'use strict';
 
 const wnpm = require('wnpm-ci');
+const {log} = require('../run');
 
 function wnpmRelease() {
   return new Promise(resolve =>
@@ -8,4 +9,4 @@ function wnpmRelease() {
   );
 }
 
-module.exports = wnpmRelease;
+module.exports = log(wnpmRelease);

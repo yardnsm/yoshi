@@ -3,25 +3,30 @@
 const {lint} = require('stylelint');
 const cosmiconfig = require('cosmiconfig');
 const globs = require('../globs');
+const {logIfP} = require('../run');
 
-function stylelint() {
+function hasConfig() {
   return cosmiconfig('stylelint')
     .load(process.cwd())
-    .then(result => {
-      if (result) {
-        return lint({
-          files: globs.sass(),
-          formatter: 'string'
-        })
-        .then(({output, errored}) => {
-          console.log(output);
-
-          if (errored) {
-            return Promise.reject();
-          }
-        });
-      }
-    });
+    .then(result => !!result);
 }
 
-module.exports = stylelint;
+function stylelint() {
+  return hasConfig(result => {
+    if (result) {
+      return lint({
+        files: globs.sass(),
+        formatter: 'string'
+      })
+      .then(({output, errored}) => {
+        console.log(output);
+
+        if (errored) {
+          return Promise.reject();
+        }
+      });
+    }
+  });
+}
+
+module.exports = logIfP(stylelint, hasConfig);

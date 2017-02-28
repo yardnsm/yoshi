@@ -1,8 +1,10 @@
 'use strict';
 
+const _ = require('lodash/fp');
 const webpack = require('webpack');
 const getConfig = require('../../config/webpack.config.client');
 const {shouldRunWebpack, filterNoise} = require('../utils');
+const {logFnIf} = require('../run');
 
 function runBundle(webpackOptions) {
   return function bundle() {
@@ -24,4 +26,4 @@ function runBundle(webpackOptions) {
   };
 }
 
-module.exports = runBundle;
+module.exports = logFnIf(runBundle, _.compose(shouldRunWebpack, getConfig));

@@ -10,6 +10,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
 const globs = require('../globs');
 const {noop, watchMode} = require('../utils');
+const {logFn} = require('../run');
 
 const watch = watchMode();
 const files = globs.babel();
@@ -68,4 +69,4 @@ function printErrors(err) {
   console.log(message);
 }
 
-module.exports = runBabel;
+module.exports = logFn(runBabel);
