@@ -14,7 +14,7 @@ const runServer = require('../run-server');
 
 function start(options) {
   const restartServer = () => options.server && runServer({entryPoint: options.entryPoint});
-  const runWithOptions = run({...options, ...{done: restartServer}});
+  const runWithOptions = run(Object.assign(options, {done: restartServer}));
 
   return runWithOptions(clean, updateNodeVersion)
     .then(() => runWithOptions(sass, petri, targz, copyAssets, webpackDevServer, transpile))

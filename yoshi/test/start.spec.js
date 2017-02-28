@@ -281,7 +281,7 @@ describe('Aggregator: Start', () => {
       });
     });
 
-    it('should update .nvmrc to relevant version as shown in dockerfile', () => {
+    it.only('should update .nvmrc to relevant version as shown in dockerfile', () => {
       const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {encoding: 'utf-8'});
       child = test
         .setup({
