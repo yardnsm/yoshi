@@ -2,7 +2,7 @@
 
 const path = require('path');
 const gulp = require('gulp');
-const spawnMocha = require('gulp-spawn-mocha');
+const {spawn} = require('child_process');
 const {watchMode} = require('../utils');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
@@ -10,24 +10,18 @@ const {inTeamCity} = require('../utils');
 const {log} = require('../log');
 
 const watch = watchMode();
-const mochaGlobs = projectConfig.specs.node() || globs.specs();
+const files = projectConfig.specs.node() || globs.specs();
 
-function runMocha() {
-  return new Promise((resolve, reject) =>
-    gulp.src(mochaGlobs, {read: false})
-      .pipe(spawnMocha({
-        env: {NODE_ENV: 'test', SRC_PATH: './src'},
-        reporter: inTeamCity() ? 'mocha-teamcity-reporter' : 'progress',
-        timeout: 30000,
-        require: [
-          path.join(__dirname, '..', 'require-hooks'),
-          path.join(__dirname, '..', 'setup', 'mocha-setup')
-        ]
-      }))
-      .on('error', reject)
-      .once('end', resolve)
-  );
-}
+const mochaBin = path.join('mocha', 'bin', 'mocha');
+const env = Object.assign(process.env, {NODE_ENV: 'test', SRC_PATH: './src'});
+const options = {cwd: process.cwd(), env, stdio: 'inherit'};
+const args = {
+  reporter: inTeamCity() ? 'mocha-teamcity-reporter' : 'progress',
+  timeout: 30000, recursive: true,
+  require: [absolute('require-hooks'), absolute('setup', 'mocha-setup')]
+};
+
+module.exports = log(mocha);
 
 function mocha() {
   if (watch) {
@@ -37,4 +31,26 @@ function mocha() {
   return runMocha();
 }
 
-module.exports = log(mocha);
+function runMocha() {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(require.resolve(mochaBin), [...toCliArgs(args), files], options);
+    proc.on('close', code => code ? reject() : resolve());
+  });
+}
+
+function absolute(...a) {
+  return path.join(__dirname, '..', ...a);
+}
+
+function toCliArgs(args) {
+  return Object.keys(args).reduce((result, name) => {
+    return [...result, ...decorate(args[name], name)];
+  }, []);
+}
+
+function decorate(value, name) {
+  return []
+    .concat(value)
+    .map(val => [`--${name}`].concat(val === true ? [] : String(val)))
+    .reduce((acc, val) => [...acc, ...val], []);
+}

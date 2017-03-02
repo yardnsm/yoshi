@@ -48,7 +48,6 @@
     "gulp-jasmine": "^2.3.0",
     "gulp-plumber": "^1.1.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-spawn-mocha": "^2.2.2",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.6",
     "html-loader": "^0.4.4",
