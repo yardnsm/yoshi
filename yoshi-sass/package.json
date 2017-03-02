@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter"
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
+    "build": ":",
+    "release": "wnpm-release --no-shrinkwrap"
   },
   "dependencies": {
     "chai": "^3.5.0",
@@ -15,5 +17,12 @@
     "mocha": "^3.2.0",
     "mocha-env-reporter": "^2.0.4",
     "node-sass": "^4.5.0"
+  },
+  "devDependencies": {
+    "yoshi": "latest",
+    "test-phases": "latest"
+  },
+  "peerDependencies": {
+    "yoshi": "latest"
   }
 }
