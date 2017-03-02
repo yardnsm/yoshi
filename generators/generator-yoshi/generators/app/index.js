@@ -10,7 +10,7 @@ const validations = require('./validations');
 
 const projectTypes = {
   FULLSTACK: 'fullstack',
-  CLIENT: 'client (coming soon)',
+  CLIENT: 'client',
   NODE_LIBRARY: 'node library (coming soon)',
   SERVER: 'server (coming soon)',
   UNIVERSAL: 'universal (coming soon)',
@@ -106,7 +106,6 @@ module.exports = yeoman.Base.extend({
   writing() {
     const options = this.options;
     const childGeneratorName = generators[options.projectsType];
-
     this.composeWith(childGeneratorName, {options}, {
       local: require.resolve(childGeneratorName),
       link: 'strong'

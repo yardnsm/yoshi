@@ -1,0 +1,32 @@
+{
+  "name": "generator-yoshi-web",
+  "version": "1.0.0",
+  "files": [
+    "generators"
+  ],
+  "main": "generators/app/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "eslint .",
+    "test": "mocha -R mocha-env-reporter",
+    "release": "wnpm-release --no-shrinkwrap"
+  },
+  "eslintConfig": {
+    "extends": "wix/react"
+  },
+  "dependencies": {
+    "lodash": "^4.13.1",
+    "yeoman-generator": "^0.23.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.6.1",
+    "eslint-config-wix": "latest",
+    "mocha": "^2.2.3",
+    "mocha-env-reporter": "^1.0.2",
+    "wnpm-ci": "latest",
+    "yeoman-assert": "^2.0.0",
+    "yeoman-test": "^1.0.0"
+  }
+}

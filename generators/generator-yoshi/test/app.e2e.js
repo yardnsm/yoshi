@@ -60,5 +60,18 @@ describe('generator-yoshi', function () {
       namoeyInstance.createRunner().run('yoshi')
     );
   });
+
+  describe('client', () => {
+    beforeEach(() => {
+      namoeyInstance = getNamoyInstance({
+        projectsType: 'client',
+        clientProjectsType: 'react'
+      });
+    });
+
+    it('should be fine for client generation', () =>
+      namoeyInstance.createRunner().run('yoshi')
+    );
+  });
 });
 
