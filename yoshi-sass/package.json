@@ -16,12 +16,12 @@
     "mkdirp": "^0.5.1",
     "mocha": "^3.2.0",
     "mocha-env-reporter": "^2.0.4",
-    "node-sass": "^4.5.0",
-    "wnpm-ci": "latest"
+    "node-sass": "^4.5.0"
   },
   "devDependencies": {
     "yoshi": "latest",
-    "test-phases": "latest"
+    "test-phases": "latest",
+    "wnpm-ci": "latest"
   },
   "peerDependencies": {
     "yoshi": "latest"
