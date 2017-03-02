@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "cross-spawn": "^5.1.0",
-    "shelljs": "^0.7.6",
+    "shelljs": "^0.7.6"
+  },
+  "devDependencies": {
     "wnpm-ci": "latest"
   }
 }
