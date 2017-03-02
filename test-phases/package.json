@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": ":"
+  },
   "dependencies": {
     "cross-spawn": "^5.1.0",
     "shelljs": "^0.7.6"
