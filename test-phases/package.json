@@ -1,0 +1,10 @@
+{
+  "name": "test-phases",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cross-spawn": "^5.1.0",
+    "shelljs": "^0.7.6"
+  }
+}

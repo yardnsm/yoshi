@@ -1,0 +1,19 @@
+{
+  "name": "yoshi-sass",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.16.1",
+    "glob": "^7.1.1",
+    "gulp": "^3.9.1",
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.2.0",
+    "mocha-env-reporter": "^2.0.4",
+    "node-sass": "^4.5.0"
+  }
+}
