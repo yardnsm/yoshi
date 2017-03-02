@@ -1202,7 +1202,7 @@ describe('Aggregator: Build', () => {
 
   describe('Node', () => {
     it('should update .nvmrc to relevant version as shown in dockerfile', () => {
-      const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {encoding: 'utf-8'});
+      const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {encoding: 'utf-8'}).trim();
       const res = test
         .setup({
           'package.json': fx.packageJson(),
@@ -1215,7 +1215,7 @@ describe('Aggregator: Build', () => {
     });
 
     it('should create .nvmrc if it does not exist', () => {
-      const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {encoding: 'utf-8'});
+      const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {encoding: 'utf-8'}).trim();
       const res = test
         .setup({
           'package.json': fx.packageJson()
