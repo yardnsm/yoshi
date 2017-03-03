@@ -13,7 +13,7 @@ function eslint() {
     const results = cli.executeOnFiles(files).results;
     const formatter = cli.getFormatter();
     const errors = CLIEngine.getErrorResults(results);
-    console.log(formatter(results));
+    process.stdout.write(formatter(results));
     return errors.length && Promise.reject();
   });
 }
