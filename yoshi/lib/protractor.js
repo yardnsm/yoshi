@@ -42,8 +42,6 @@ function hasConfFile() {
 }
 
 module.exports = {
-  verifyWebdriver,
-  launch,
   run,
   hasConfFile
 };

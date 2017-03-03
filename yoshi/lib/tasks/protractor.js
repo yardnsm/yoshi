@@ -1,25 +1,15 @@
 'use strict';
 
-const gutil = require('gulp-util');
 const {watchMode} = require('../utils');
 const {hasConfFile, run} = require('../protractor');
-const {log} = require('../log');
-
-const watch = watchMode();
+const {logIf} = require('../log');
 
 function protractor() {
-  if (watch) {
-    gutil.log('Protractor will not run in watch mode.');
+  if (hasConfFile() && !watchMode()) {
+    return run();
+  } else {
     return Promise.resolve();
   }
-
-  if (!hasConfFile()) {
-    gutil.log('Protractor configurations file was not found, not running e2e.');
-    return Promise.resolve();
-  }
-
-  gutil.log('Running E2E with Protractor');
-  return run();
 }
 
-module.exports = log(protractor);
+module.exports = logIf(protractor, () => hasConfFile() && !watchMode());
