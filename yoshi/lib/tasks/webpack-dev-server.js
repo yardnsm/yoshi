@@ -23,7 +23,7 @@ function webpackDevServer() {
 
     middlewares = [
       webpackDevMiddleware(bundler, {quiet: true}),
-      webpackHotMiddleware(bundler)
+      webpackHotMiddleware(bundler, {log: null})
     ];
   }
 
