@@ -2,7 +2,7 @@
 
 const {CLIEngine} = require('eslint');
 const globs = require('../globs');
-const {readDir} = require('../utils');
+const {readDir, logIfAny} = require('../utils');
 const {logIf} = require('../log');
 
 const files = globs.eslint();
@@ -13,7 +13,7 @@ function eslint() {
     const results = cli.executeOnFiles(files).results;
     const formatter = cli.getFormatter();
     const errors = CLIEngine.getErrorResults(results);
-    process.stdout.write(formatter(results));
+    logIfAny(formatter(results));
     return errors.length && Promise.reject();
   });
 }

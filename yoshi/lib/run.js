@@ -1,6 +1,6 @@
 'use strict';
 
-const {watchMode} = require('./utils');
+const {watchMode, logIfAny} = require('./utils');
 
 const watch = watchMode();
 
@@ -10,10 +10,7 @@ module.exports = (plugins, options) => {
       return Promise.all(parallel.map(task => {
         return require(task)(Object.assign(options, watch))
           .catch(error => {
-            if (error) {
-              console.log(error);
-            }
-
+            logIfAny(error);
             if (!watch) {
               process.exit(1);
             }

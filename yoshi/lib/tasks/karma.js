@@ -4,19 +4,21 @@ const _ = require('lodash/fp');
 const path = require('path');
 const {Server} = require('karma');
 const webpack = require('webpack');
-const {watchMode} = require('../utils');
+const {watchMode, logIfAny} = require('../utils');
 const wpConfig = require('../../config/webpack.config.specs');
 const {log} = require('../log');
 
 const watch = watchMode();
 
 function printStats(stats) {
-  console.log(stats.toString({
+  logIfAny(stats.toString({
     colors: true,
     hash: false,
     chunks: false,
     assets: false,
-    children: false
+    children: false,
+    version: false,
+    timings: false
   }));
 }
 

@@ -33,7 +33,15 @@ function concatCustomizer(objValue, srcValue) {
   }
 }
 
+function logIfAny(log) {
+  if (log) {
+    console.log(log);
+  }
+}
+
 module.exports.noop = () => {};
+
+module.exports.logIfAny = logIfAny;
 
 module.exports.mergeByConcat = mergeWith(concatCustomizer);
 
@@ -81,12 +89,14 @@ module.exports.inTeamCity = () =>
 
 module.exports.filterNoise = comp => {
   comp.plugin('done', stats => {
-    console.log(stats.toString({
+    logIfAny(stats.toString({
       colors: true,
       hash: false,
       chunks: false,
       assets: false,
-      children: false
+      children: false,
+      version: false,
+      timings: false
     }));
     mkdirp.sync(path.resolve('target'));
     fs.writeFileSync('target/webpack-stats.json', JSON.stringify(stats.toJson()));
