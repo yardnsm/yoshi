@@ -7,7 +7,19 @@ const exists = require('./utils').exists;
 
 const bin = 'protractor/bin';
 
-function verifyWebdriver() {
+function checkWebdriver() {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    const webdriver = spawn(
+      require.resolve(`${bin}/webdriver-manager`),
+      ['status']
+    );
+    webdriver.stdout.on('data', chunk => data += chunk.toString());
+    webdriver.once('close', () => data.includes('chromedriver version available') ? resolve() : reject());
+  });
+}
+
+function updateWebdriver() {
   return new Promise(resolve => {
     const webdriver = spawn(
       require.resolve(`${bin}/webdriver-manager`),
@@ -34,7 +46,7 @@ function launch(options) {
 }
 
 function run(options) {
-  return verifyWebdriver().then(() => launch(options));
+  return checkWebdriver().catch(() => updateWebdriver()).then(() => launch(options));
 }
 
 function hasConfFile() {
