@@ -1,19 +1,19 @@
-# generator-wix-js [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-yoshi [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > A fullstack generator for javascript applications
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-wix-js using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-yoshi-js using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-wix-js
+npm install -g generator-yoshi
 ```
 
 Then generate your new project:
 
 ```bash
-yo wix-js
+yo yoshi
 ```
 
 ## Getting To Know Yeoman
