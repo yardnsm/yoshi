@@ -27,6 +27,6 @@
     "wnpm-ci": "latest"
   },
   "peerDependencies": {
-    "yoshi": "latest"
+    "yoshi": "~1.0"
   }
 }
