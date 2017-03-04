@@ -25,8 +25,6 @@ yo yoshi
 
 ## License
 
-ISC © [Yaniv Efraim]()
-
 
 [npm-image]: https://badge.fury.io/js/generator-wix-js.svg
 [npm-url]: https://npmjs.org/package/generator-wix-js
