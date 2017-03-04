@@ -25,8 +25,5 @@
     "yoshi": "latest",
     "test-phases": "latest",
     "wnpm-ci": "latest"
-  },
-  "peerDependencies": {
-    "yoshi": "~1.0"
   }
 }
