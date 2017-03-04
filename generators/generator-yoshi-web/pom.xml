@@ -16,8 +16,43 @@
 
     <developers>
         <developer>
+            <name>Roy Miloh</name>
+            <email>roymi@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+        <developer>
             <name>Yaniv Efraim</name>
             <email>yanivef@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Shlomi Toussia Cohen</name>
+            <email>yanivef@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Tomas Miliauskas</name>
+            <email>tomasm@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Ronen Amiel</name>
+            <email>ronena@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Yarden Sod Moria</name>
+            <email>Yardensm@wix.com</email>
             <roles>
                 <role>owner</role>
             </roles>
