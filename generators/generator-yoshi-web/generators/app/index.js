@@ -53,7 +53,7 @@ module.exports = generators.Base.extend({
         },
         scripts: {
           start: 'yoshi start --entry-point=./test/fakes/start-fake-server.js',
-          pretest: 'wix-node-build lint && yoshi build',
+          pretest: 'yoshi lint && yoshi build',
           build: ':',
           test: 'yoshi test'
         },

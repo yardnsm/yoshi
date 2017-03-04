@@ -30,11 +30,7 @@ describe('generator-wix-web:app', () => {
     });
 
     it('generates package.json\'s start command', () => {
-      assert.jsonFileContent('package.json', {scripts: {start: 'yoshi start --entry-point=./test/mock/start-fake-server.js'}});
-    });
-
-    it('generates package.json\'s private flag to be false (module should be deployed to npm)', () => {
-      assert.jsonFileContent('package.json', {private: true});
+      assert.jsonFileContent('package.json', {scripts: {start: 'yoshi start --entry-point=./test/fakes/start-fake-server.js'}});
     });
 
     it('generates package.json\'s scripts', () => {
