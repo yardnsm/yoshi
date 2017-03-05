@@ -4,6 +4,7 @@ const process = require('process');
 const path = require('path');
 const sh = require('shelljs');
 const spawn = require('cross-spawn');
+const mkdirp = require('mkdirp');
 // const cwd = path.join(__dirname, '..', '..');
 
 class Test {
@@ -16,7 +17,7 @@ class Test {
     this.stdout = '';
     this.stderr = '';
     this.tmp = path.join(sh.tempdir().toString(), new Date().getTime().toString());
-    sh.mkdir('-p', this.tmp);
+    mkdirp.sync(this.tmp);
   }
 
   setup(tree, hooks) {
@@ -95,7 +96,7 @@ class Test {
   write(file, content) {
     const fullpath = path.join(this.tmp, file);
     content = content.replace(/'/g, `'\\''`);
-    sh.mkdir('-p', path.dirname(fullpath));
+    mkdirp.sync(path.dirname(fullpath));
     sh.exec(`echo '${content}'`, {silent: true}).to(fullpath);
     return this;
   }

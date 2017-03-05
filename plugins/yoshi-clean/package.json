@@ -1,0 +1,19 @@
+{
+  "name": "yoshi-clean",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "del": "^2.2.2",
+    "eslint": "^3.16.1",
+    "mocha": "^3.2.0",
+    "mocha-env-reporter": "^2.0.4"
+  },
+  "devDependencies": {
+    "yoshi": "latest"
+  }
+}
