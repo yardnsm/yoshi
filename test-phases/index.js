@@ -5,7 +5,7 @@ const path = require('path');
 const sh = require('shelljs');
 const spawn = require('cross-spawn');
 const mkdirp = require('mkdirp');
-// const cwd = path.join(__dirname, '..', '..');
+const cwd = path.join(__dirname, '..', '..');
 
 class Test {
   constructor(...args) {
