@@ -4,7 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter"
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
+    "build": ":",
+    "release": "wnpm-release --no-shrinkwrap"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "chai": "^3.5.0",
@@ -14,6 +19,8 @@
     "mocha-env-reporter": "^2.0.4"
   },
   "devDependencies": {
-    "yoshi": "latest"
+    "yoshi": "latest",
+    "test-phases": "latest",
+    "wnpm-ci": "latest"
   }
 }
