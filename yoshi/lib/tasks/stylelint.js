@@ -15,7 +15,7 @@ function stylelint() {
   return hasConfig().then(result => {
     if (result) {
       return lint({
-        files: globs.sass(),
+        files: [globs.sass(), globs.less()],
         formatter: 'string'
       })
       .then(({output, errored}) => {

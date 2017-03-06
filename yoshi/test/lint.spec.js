@@ -104,6 +104,7 @@ p {
         .setup({
           'src/a.sass': goodStyle,
           'src/a.scss': goodStyle,
+          'a.less': goodStyle,
           'package.json': `{
             "name": "a",\n
             "version": "1.0.0",\n
@@ -151,6 +152,38 @@ p {
       expect(res.stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
       expect(res.code).to.equal(1);
     });
+
+    it('should fail with exit code 1 with only a .less file', () => {
+      const badStyle = `
+p {
+  color: #ff0;
+}
+
+
+
+
+`;
+
+      const res = test
+        .setup({
+          'src/a.less': badStyle,
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.0",\n
+            "stylelint": {
+              "rules": {
+                "max-empty-lines": 1
+              }
+            }
+          }`
+        })
+        .execute('lint', []);
+
+      expect(res.stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
+      expect(res.code).to.equal(1);
+    });
+
+
   });
 
   describe('Empty state', () => {

@@ -24,13 +24,13 @@ function tests(options) {
 module.exports = options => ({
   build: [
     ['./tasks/clean', './tasks/update-node-version'],
-    ['./tasks/sass', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/bundle']
+    ['./tasks/sass', './tasks/less', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/bundle']
   ],
   lint: [[linter, './tasks/stylelint']],
   release: [['./tasks/wnpm-release']],
   start: [
     ['./tasks/clean', './tasks/update-node-version'],
-    ['./tasks/sass', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/webpack-dev-server']
+    ['./tasks/sass', './tasks/less', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/webpack-dev-server']
   ],
   test: tests(options)
 });
