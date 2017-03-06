@@ -21,11 +21,11 @@ function less() {
 }
 
 function readGlob(glob) {
-    return readDir(glob).filter(file => path.basename(file)[0] !== '_');
+  return readDir(glob).filter(file => path.basename(file)[0] !== '_');
 }
 
 function transpile(glob) {
-    return Promise.all(readGlob(glob).map(renderFile));
+  return Promise.all(readGlob(glob).map(renderFile));
 }
 
 function renderFile(file) {
