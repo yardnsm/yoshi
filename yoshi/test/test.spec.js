@@ -467,53 +467,6 @@ describe('Aggregator: Test', () => {
     });
   });
 
-  describe('--jasmine', () => {
-    it('should pass with exit code 0', () => {
-      // the way we detect that Jasmine runs is by using expect() at the spec,
-      // mocha does not expose such a method.
-      const res = test
-        .setup(passingJasmineTest())
-        .execute('test', ['--jasmine']);
-
-      expect(res.code).to.equal(0);
-      expect(res.stdout).to.contain('1 spec, 0 failures');
-    });
-
-    it('should pass with exit code 1', () => {
-      const res = test
-        .setup(failingJasmineTest())
-        .execute('test', ['--jasmine']);
-
-      expect(res.code).to.equal(1);
-      expect(res.stdout).to.contain('1 spec, 1 failure');
-    });
-
-    it('should consider custom globs if configured', () => {
-      const res = test
-        .setup({
-          'some/other.glob.js': `it("should pass", () => 1);`,
-          'package.json': fx.packageJson({
-            specs: {
-              node: 'some/*.glob.js'
-            }
-          })
-        })
-        .execute('test', ['--jasmine']);
-
-      expect(res.code).to.equal(0);
-      expect(res.stdout).to.contain('1 spec, 0 failures');
-    });
-
-    it('should use the right reporter when running inside TeamCity', () => {
-      const res = test
-        .setup(passingJasmineTest())
-        .execute('test', ['--jasmine'], insideTeamCity);
-
-      expect(res.code).to.equal(0);
-      expect(res.stdout).to.contain('##teamcity[progressStart \'Running Jasmine Tests\']');
-    });
-  });
-
   describe('--karma', function () {
     this.timeout(60000);
 
@@ -754,20 +707,6 @@ describe('Aggregator: Test', () => {
     });
   });
 });
-
-function passingJasmineTest() {
-  return {
-    'test/some.spec.js': 'it("should pass", function () { expect(1).toBe(1); });',
-    'package.json': fx.packageJson()
-  };
-}
-
-function failingJasmineTest() {
-  return {
-    'test/some.spec.js': 'it("should fail", () => expect(1).toBe(2));',
-    'package.json': fx.packageJson()
-  };
-}
 
 function passingMochaTest() {
   return {

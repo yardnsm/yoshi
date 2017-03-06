@@ -1,30 +1,40 @@
 'use strict';
 
 const gulp = require('gulp');
-const gulpJasmine = require('gulp-jasmine');
+const Jasmine = require('jasmine');
+const {TerminalReporter, TeamCityReporter} = require('jasmine-reporters');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
 const {inTeamCity} = require('../utils');
 const {log} = require('../log');
+const {watchMode} = require('../utils');
 
-function jasmine() {
-  process.env.NODE_ENV = 'test';
-  process.env.SRC_PATH = './src';
-
-  const jasmineGlobs = projectConfig.specs.node() || globs.specs();
-  const settings = {/*includeStackTrace: true, */errorOnFail: true};
-
-  if (inTeamCity()) {
-    const TeamCityReporter = require('jasmine-reporters').TeamCityReporter;
-    settings.reporter = new TeamCityReporter();
-  }
-
-  return new Promise((resolve, reject) => {
-    gulp.src(jasmineGlobs)
-      .pipe(gulpJasmine(settings))
-      .on('error', reject)
-      .once('jasmineDone', resolve);
-  });
-}
+const watch = watchMode();
+const files = projectConfig.specs.node() || globs.specs();
 
 module.exports = log(jasmine);
+
+function jasmine() {
+  if (watch) {
+    gulp.watch(`${globs.base()}/**/*`, runJasmine);
+  }
+
+  return runJasmine();
+}
+
+function runJasmine() {
+  return new Promise((resolve, reject) => {
+    process.env.NODE_ENV = 'test';
+    process.env.SRC_PATH = './src';
+
+    const jasm = new Jasmine();
+    jasm.addReporter(new TerminalReporter({color: true, verbosity: 2}));
+
+    if (inTeamCity()) {
+      jasm.addReporter(new TeamCityReporter());
+    }
+
+    jasm.onComplete(passed => passed ? resolve() : reject());
+    jasm.execute([].concat(files));
+  });
+}
