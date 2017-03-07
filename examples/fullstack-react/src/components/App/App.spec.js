@@ -10,8 +10,7 @@ describe('App', () => {
   afterEach(() => wrapper.detach());
 
   it('renders a title correctly', () => {
-    wrapper = mount(
-      <App/>, {attachTo: document.createElement('div')});
+    wrapper = mount(<App/>, {attachTo: document.createElement('div')});
 
     expect(wrapper.find('h2').length).to.eq(1);
   });
