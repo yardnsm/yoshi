@@ -5,10 +5,14 @@ import {mount} from 'enzyme';
 import App from './App';
 
 describe('App', () => {
+  let wrapper;
+
+  afterEach(() => wrapper.detach());
+
   it('renders a title correctly', () => {
-    const wrapper = mount(
-      <App/>
-    );
+    wrapper = mount(
+      <App/>, {attachTo: document.createElement('div')});
+
     expect(wrapper.find('h2').length).to.eq(1);
   });
 });
