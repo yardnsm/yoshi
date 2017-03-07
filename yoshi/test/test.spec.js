@@ -720,7 +720,7 @@ describe('Aggregator: Test', () => {
         expect(res.stdout).to.not.contain(`browser PhantomJS`);
         expect(res.stdout).to.contain('Executed 1 of 1 SUCCESS');
       });
-    })
+    });
   });
 });
 
