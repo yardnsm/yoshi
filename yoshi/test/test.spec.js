@@ -480,7 +480,6 @@ describe('Aggregator: Test', () => {
             'pom.xml': fx.pom()
           })
           .execute('test', ['--karma']);
-
         expect(res.code).to.equal(0);
         expect(res.stdout).to.contain(`Finished 'karma'`);
         expect(res.stdout).to.contain('Executed 1 of 1 SUCCESS');
@@ -705,6 +704,23 @@ describe('Aggregator: Test', () => {
         expect(res.code).to.equal(0);
       });
     });
+
+    describe('with browser (chrome) configurations', () => {
+      it('should pass with exit code 0', () => {
+        const res = test
+          .setup({
+            'src/test.spec.js': 'it("pass", function () {});',
+            'karma.conf.js': 'module.exports = {browsers: ["Chrome"]}',
+            'package.json': fx.packageJson()
+          })
+          .execute('test', ['--karma']);
+
+        expect(res.code).to.equal(0);
+        expect(res.stdout).to.contain(`browser Chrome`);
+        expect(res.stdout).to.not.contain(`browser PhantomJS`);
+        expect(res.stdout).to.contain('Executed 1 of 1 SUCCESS');
+      });
+    })
   });
 });
 

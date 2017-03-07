@@ -3,10 +3,11 @@
 const path = require('path');
 const {tryRequire, inTeamCity} = require('../lib/utils');
 const _ = require('lodash');
+const projectConfig = tryRequire(path.resolve('karma.conf.js')) || {files: []};
 
 const baseConfig = {
   basePath: process.cwd(),
-  browsers: ['PhantomJS'],
+  browsers: projectConfig.browsers ? [] : ['PhantomJS'],
   frameworks: ['mocha'],
   files: [
     'node_modules/phantomjs-polyfill/bind-polyfill.js',
@@ -31,7 +32,6 @@ const teamCityConfig = {
 };
 
 module.exports = config => {
-  const projectConfig = tryRequire(path.resolve('karma.conf.js')) || {files: []};
   const configuration = inTeamCity() ? _.mergeWith(baseConfig, teamCityConfig, customizer) : baseConfig;
   const merged = _.mergeWith(configuration, projectConfig, customizer);
   config.set(merged);
