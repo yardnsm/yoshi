@@ -203,7 +203,7 @@ We use [css modules](https://github.com/css-modules/css-modules) as default. You
   Using css when css modules are turned off:
 
   ```js
-  import s from './Counter.scss';//import css/scss
+  import './Counter.scss';//import css/scss
 
   <p className="mainColor">{counterValue}</p>
   ```
