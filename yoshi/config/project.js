@@ -10,8 +10,9 @@ const externalUnprocessedModules = [
   'wix-style-react/src'
 ].concat(getConfig('externalUnprocessedModules', []));
 
-const allSourcesButExternalModules = function (path) {
-  return path.startsWith(process.cwd()) && !path.includes('node_modules');
+const allSourcesButExternalModules = function (filePath) {
+  filePath = path.normalize(filePath);
+  return filePath.startsWith(process.cwd()) && !filePath.includes('node_modules');
 };
 
 module.exports = {

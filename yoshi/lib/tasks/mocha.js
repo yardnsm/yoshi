@@ -2,7 +2,7 @@
 
 const path = require('path');
 const gulp = require('gulp');
-const {spawn} = require('child_process');
+const spawn = require('cross-spawn');
 const {watchMode} = require('../utils');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
@@ -17,7 +17,8 @@ const env = Object.assign(process.env, {NODE_ENV: 'test', SRC_PATH: './src'});
 const options = {cwd: process.cwd(), env, stdio: 'inherit'};
 const args = {
   reporter: inTeamCity() ? 'mocha-teamcity-reporter' : 'progress',
-  timeout: 30000, recursive: true,
+  timeout: 30000,
+  recursive: true,
   require: [absolute('require-hooks'), absolute('setup', 'mocha-setup')]
 };
 
@@ -33,7 +34,7 @@ function mocha() {
 
 function runMocha() {
   return new Promise((resolve, reject) => {
-    const proc = spawn(require.resolve(mochaBin), [...toCliArgs(args), files], options);
+    const proc = spawn('node', [require.resolve(mochaBin), ...toCliArgs(args), files], options);
     proc.on('close', code => code ? reject() : resolve());
   });
 }
