@@ -16,7 +16,7 @@ const mochaBin = path.join('mocha', 'bin', 'mocha');
 const env = Object.assign(process.env, {NODE_ENV: 'test', SRC_PATH: './src'});
 const options = {cwd: process.cwd(), env, stdio: 'inherit'};
 const args = {
-  reporter: inTeamCity() ? 'mocha-teamcity-reporter' : 'progress',
+  reporter: inTeamCity() ? 'mocha-teamcity-reporter' : projectConfig.mochaReporter(),
   timeout: 30000,
   recursive: true,
   require: [absolute('require-hooks'), absolute('setup', 'mocha-setup')]

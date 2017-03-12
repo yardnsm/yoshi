@@ -51,7 +51,8 @@ module.exports = {
     return externalRegexList.some(regex => regex.test(path)) ||
       allSourcesButExternalModules(path);
   },
-  jestConfig: () => _.get(packagejson, 'jest', {})
+  jestConfig: () => _.get(packagejson, 'jest', {}),
+  mochaReporter: () => getConfig('mochaReporter', 'progress')
 };
 
 function getConfig(key, defaultVal = false) {

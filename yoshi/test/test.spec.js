@@ -240,6 +240,19 @@ describe('Aggregator: Test', () => {
       expect(res.stdout).to.contain('1 passing');
     });
 
+    it('should use a user-defined reporter', () => {
+      const res = test
+        .setup({
+          'test/some.spec.js': `it.only("pass", () => 1);`,
+          'package.json': fx.packageJson({ mochaReporter: 'spec' })
+        }, [tmp => hooks.installDependency(tmp)('babel-register')])
+        .execute('test', ['--mocha']);
+
+      expect(res.code).to.equal(0);
+      expect(res.stdout).to.contain('✓ pass');
+      expect(res.stdout).to.contain('1 passing');
+    });
+
     it('should mock scss/css files to always return a string as the prop name', function () {
       this.timeout(30000);
 
