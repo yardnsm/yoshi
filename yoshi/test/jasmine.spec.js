@@ -76,7 +76,7 @@ describe('test --jasmine', () => {
   });
 
   it('should attach require hooks', () => {
-    const res = test
+    test
       .setup({
         '.babelrc': `{"plugins": ["babel-plugin-transform-es2015-modules-commonjs"]}`,
         'test/some.js': `export default 1`,
