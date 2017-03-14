@@ -144,6 +144,42 @@ describe('Loaders', () => {
     });
   });
 
+  describe('Raw CSS', () => {
+    afterEach(() => test.teardown());
+
+    describe('client', () => {
+      it('should import and build unmodified CSS', () => {
+        setUpAndBuild();
+        expect(test.content('dist/statics/app.css')).to.contain('.bar{color:green}');
+      });
+    });
+
+    describe('detach css', () => {
+      it('should create an external app.css file with a source map', () => {
+        setUpAndBuild();
+        expect(test.content('dist/statics/app.css')).to.match(/.\w+/);
+        expect(test.content('dist/statics/app.css')).to.contain('color:green');
+      });
+
+      it('should keep styles inside the bundle when separateCss equals to false', () => {
+        setUpAndBuild({separateCss: false});
+        expect(test.list('dist/statics')).not.to.contain('app.css');
+        expect(test.list('dist/statics')).not.to.contain('app.css.map');
+        expect(test.content('dist/statics/app.bundle.js')).to.contain('color:green');
+      });
+    });
+
+    function setUpAndBuild(config) {
+      return test
+        .setup({
+          'src/client.js': `require('bar/bar.raw.css');`,
+          'node_modules/bar/bar.raw.css': '.bar{color:green}',
+          'package.json': fx.packageJson(config || {}),
+        })
+        .execute('build');
+    }
+  });
+
   describe('Sass', () => {
     afterEach(() => test.teardown());
 

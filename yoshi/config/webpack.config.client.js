@@ -18,6 +18,7 @@ const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
 
     module: {
       loaders: [
+        require('../lib/loaders/raw-css')(extractCSS).client,
         require('../lib/loaders/sass')(extractCSS, cssModules, tpaStyle).client,
         require('../lib/loaders/less')(extractCSS, cssModules, tpaStyle).client
       ]

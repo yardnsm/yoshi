@@ -17,6 +17,7 @@ module.exports = (extractCSS, cssModules, tpaStyle) => {
   return {
     client: {
       test: /\.s?css$/,
+      exclude: /\.raw\.css$/,
       loader: clientLoader(extractCSS, 'style', [
         `css-loader?${JSON.stringify(cssLoaderOptions)}`,
         'postcss',
@@ -26,6 +27,7 @@ module.exports = (extractCSS, cssModules, tpaStyle) => {
     },
     specs: {
       test: /\.s?css$/,
+      exclude: /\.raw\.css$/,
       loaders: [
         `css-loader/locals?${JSON.stringify(cssLoaderOptions)}`,
         ...tpaStyle ? ['wix-tpa-style-loader'] : [],
