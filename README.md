@@ -22,7 +22,8 @@ yoshi
 * async/await (`babel-polyfill` needed)
 * Minify/Uglify
 * Bundle JS/CSS using Webpack
-* External/Inline css
+* External/Inline CSS
+* Raw CSS (unmodified)
 * Webpack 2 (tree shaking)
 * HMR
 
@@ -207,6 +208,12 @@ We use [css modules](https://github.com/css-modules/css-modules) as default. You
 
   <p className="mainColor">{counterValue}</p>
   ```
+
+  You can use css modules and import css that will be bundled as-is (raw), useful for common components / modules:
+
+    ```js
+    import s from 'common/styles.raw.css'; // .raw.css files will be ignored
+    ```
 
 ##### yoshi.entry
 
