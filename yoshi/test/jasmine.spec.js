@@ -6,6 +6,7 @@ const psTree = require('ps-tree');
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
 const {outsideTeamCity, insideTeamCity, insideWatchMode} = require('./helpers/env-variables');
+const hooks = require('./helpers/hooks');
 
 describe('test --jasmine', () => {
   let test, child;
@@ -72,6 +73,25 @@ describe('test --jasmine', () => {
     return checkStdoutContains(test, '1 spec, 1 failure')
       .then(() => test.modify('test/a.spec.js', passingTest()))
       .then(() => checkStdoutContains(test, '1 spec, 0 failures'));
+  });
+
+  it('should attach require hooks', () => {
+    const res = test
+      .setup({
+        '.babelrc': `{"plugins": ["babel-plugin-transform-es2015-modules-commonjs"]}`,
+        'test/some.js': `export default 1`,
+        'test/some.spec.js': `import x from './some';
+it("should pass", () => 1);`,
+        'package.json': `{
+            "name": "a",\n
+            "dependencies": {\n
+              "babel-plugin-transform-es2015-modules-commonjs": "latest"\n
+            }
+          }`
+      }, [hooks.installDependencies])
+      .execute('test', ['--jasmine']);
+
+    return checkStdoutContains(test, '1 spec, 0 failure');
   });
 });
 
