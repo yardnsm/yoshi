@@ -75,23 +75,16 @@ describe('test --jasmine', () => {
       .then(() => checkStdoutContains(test, '1 spec, 0 failures'));
   });
 
-  it('should attach require hooks', () => {
-    test
+  it('should run tests in typescript', () => {
+    const res = test
       .setup({
-        '.babelrc': `{"plugins": ["babel-plugin-transform-es2015-modules-commonjs"]}`,
-        'test/some.js': `export default 1`,
-        'test/some.spec.js': `import x from './some';
-it("should pass", () => 1);`,
-        'package.json': `{
-            "name": "a",\n
-            "dependencies": {\n
-              "babel-plugin-transform-es2015-modules-commonjs": "latest"\n
-            }
-          }`
-      }, [hooks.installDependencies])
+        'tsconfig.json': fx.tsconfig(),
+        'test/some.spec.ts': `declare var it: any; it("pass", () => 1);`,
+        'package.json': fx.packageJson()
+      }, [tmp => hooks.installDependency(tmp)('ts-node')])
       .execute('test', ['--jasmine']);
 
-    return checkStdoutContains(test, '1 spec, 0 failure');
+    expect(res.code).to.equal(0);
   });
 });
 
