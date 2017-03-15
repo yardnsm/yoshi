@@ -73,7 +73,7 @@
     "petri-specs": "latest",
     "phantomjs-polyfill": "0.0.2",
     "postcss-loader": "^0.10.1",
-    "protractor": "^4.0.0",
+    "protractor": "^5.0.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.0",
     "screenshot-reporter": "^1.1.2",
