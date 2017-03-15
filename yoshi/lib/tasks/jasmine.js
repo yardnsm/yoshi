@@ -11,6 +11,7 @@ const {watchMode} = require('../utils');
 
 const watch = watchMode();
 const files = projectConfig.specs.node() || globs.specs();
+require('../require-hooks'); // TODO: remove once jasmine is spawned in a child process
 
 module.exports = log(jasmine);
 
