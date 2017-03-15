@@ -6,6 +6,7 @@ const psTree = require('ps-tree');
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
 const {outsideTeamCity, insideTeamCity, insideWatchMode} = require('./helpers/env-variables');
+const hooks = require('./helpers/hooks');
 
 describe('test --jasmine', () => {
   let test, child;
@@ -72,6 +73,18 @@ describe('test --jasmine', () => {
     return checkStdoutContains(test, '1 spec, 1 failure')
       .then(() => test.modify('test/a.spec.js', passingTest()))
       .then(() => checkStdoutContains(test, '1 spec, 0 failures'));
+  });
+
+  it('should run tests in typescript', () => {
+    const res = test
+      .setup({
+        'tsconfig.json': fx.tsconfig(),
+        'test/some.spec.ts': `declare var it: any; it("pass", () => 1);`,
+        'package.json': fx.packageJson()
+      }, [tmp => hooks.installDependency(tmp)('ts-node')])
+      .execute('test', ['--jasmine']);
+
+    expect(res.code).to.equal(0);
   });
 });
 
