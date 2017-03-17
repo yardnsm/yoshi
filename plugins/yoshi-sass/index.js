@@ -24,7 +24,7 @@ function renderFile() {
   return file => {
     const options = {
       file: path.resolve(file),
-      includePaths: ['.', 'node_modules', path.dirname(file), 'node_modules/compass-mixins/lib'],
+      includePaths: ['node_modules', 'node_modules/compass-mixins/lib'],
       indentedSyntax: path.extname(file) === '.sass'
     };
 
