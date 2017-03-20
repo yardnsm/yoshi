@@ -72,4 +72,4 @@ const runServer = ({entryPoint}) => {
   });
 };
 
-module.exports = () => runServer;
+module.exports = runServer;
