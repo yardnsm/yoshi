@@ -8,12 +8,16 @@ const eslint = require('../index');
 
 describe('ESLint', () => {
   let test;
+  let task;
   let cleanup;
   let stdout = '';
 
-  before(() => cleanup = intercept(s => {stdout += stripAnsi(s);}));
+  before(() => cleanup = intercept(s => {
+    stdout += stripAnsi(s);
+  }));
   beforeEach(() => test = tp.create());
   beforeEach(() => process.chdir(test.tmp));
+  beforeEach(() => task = eslint({base: () => 'src', logIf: a => a}));
 
   afterEach(() => test.teardown());
   afterEach(() => stdout = '');
@@ -32,26 +36,26 @@ describe('ESLint', () => {
   it('should lint js files in the root folder too', () => {
     setup({'a.js': 'parseInt("1");'});
 
-    return eslint()
-      .then(() => {throw new Error();})
+    return task()
+      .then(() => Promise.reject())
       .catch(() => {
         expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
       });
   });
 
   it('should pass with exit code 0', () => {
-    setup({'app/a.js': `parseInt("1", 10);`});
+    setup({'src/a.js': `parseInt("1", 10);`});
 
-    return eslint();
+    return task();
   });
 
   it('should fail with exit code 1', () => {
-    setup({'app/a.js': `parseInt("1");`});
+    setup({'src/a.js': `parseInt("1");`});
 
-    return eslint()
-      .then(() => {throw new Error();})
+    return task()
+      .then(() => Promise.reject())
       .catch(() => {
         expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
-      })
+      });
   });
 });

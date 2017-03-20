@@ -9,39 +9,9 @@ const fileTransformCache = require('gulp-file-transform-cache');
 const sourcemaps = require('gulp-sourcemaps');
 const babelTranspiler = require('gulp-babel');
 const globs = require('../globs');
-const {noop, watchMode} = require('../utils');
-const {log} = require('../log');
+const {noop} = require('../utils');
 
-const watch = watchMode();
 const files = globs.babel();
-
-function babel({done = noop}) {
-  const transpileThenDone = () => transpile().then(done);
-
-  if (watch) {
-    gulp.watch(files, transpileThenDone);
-  }
-
-  return transpileThenDone();
-}
-
-function transpile() {
-  return new Promise((resolve, reject) => {
-    const interceptor = createInterceptor(resolve, reject);
-
-    mkdirp(path.resolve('target'));
-
-    gulp.src(files, {base: '.'})
-      .pipe(interceptor.catchErrors())
-      .pipe(fileTransformCache({
-        path: path.resolve('target', '.babel-cache'),
-        transformStreams: [sourcemaps.init(), babelTranspiler()]
-      }))
-      .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('dist'))
-      .once('end', interceptor.flush);
-  });
-}
 
 function createInterceptor(resolve, reject) {
   let error;
@@ -67,4 +37,34 @@ function printErrors(err) {
   console.log(message);
 }
 
-module.exports = log(babel);
+function transpile() {
+  return new Promise((resolve, reject) => {
+    const interceptor = createInterceptor(resolve, reject);
+
+    mkdirp(path.resolve('target'));
+
+    gulp.src(files, {base: '.'})
+      .pipe(interceptor.catchErrors())
+      .pipe(fileTransformCache({
+        path: path.resolve('target', '.babel-cache'),
+        transformStreams: [sourcemaps.init(), babelTranspiler()]
+      }))
+      .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest('dist'))
+      .once('end', interceptor.flush);
+  });
+}
+
+module.exports = ({log, watch}) => {
+  function babel({done = noop}) {
+    const transpileThenDone = () => transpile().then(done);
+
+    if (watch) {
+      gulp.watch(files, transpileThenDone);
+    }
+
+    return transpileThenDone();
+  }
+
+  return log(babel);
+};

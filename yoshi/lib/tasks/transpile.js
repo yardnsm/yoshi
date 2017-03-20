@@ -18,4 +18,4 @@ function transpile() {
   return noTranspile;
 }
 
-module.exports = transpile();
+module.exports = () => transpile();

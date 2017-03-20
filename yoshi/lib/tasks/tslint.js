@@ -4,7 +4,6 @@ const fs = require('fs');
 const {Linter, Configuration} = require('tslint');
 const globs = require('../globs');
 const {readDir} = require('../utils');
-const {logIf} = require('../log');
 
 const options = {fix: false, formatter: 'prose'};
 const files = globs.tslint();
@@ -42,4 +41,4 @@ function readFile(file) {
       err ? reject(err) : resolve(content)));
 }
 
-module.exports = logIf(tslint, () => readGlob().length > 0);
+module.exports = ({logIf}) => logIf(tslint, () => readGlob().length > 0);

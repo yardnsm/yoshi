@@ -3,32 +3,10 @@
 const _ = require('lodash/fp');
 const spawn = require('cross-spawn');
 const gutil = require('gulp-util');
-const {watchMode, noop} = require('../utils');
-const {log} = require('../log');
+const {noop} = require('../utils');
 
-const watch = watchMode();
 const typescriptSuccessRegex = /Compilation complete/;
 const typescriptErrorRegex = /\(\d+,\d+\): error TS\d+:/;
-
-function typescript({done = noop}) {
-  const bin = require.resolve('typescript/bin/tsc');
-
-  const args = toCliArgs({
-    project: 'tsconfig.json',
-    rootDir: '.',
-    outDir: './dist/'
-  });
-
-  const child = spawn(bin, [...args, ...watch ? ['--watch'] : []]);
-
-  return new Promise((resolve, reject) => {
-    child.stdout.on('data', onStdout(_.compose(resolve, done), reject));
-
-    if (!watch) {
-      child.on('exit', code => code === 0 ? resolve() : reject());
-    }
-  });
-}
 
 function onStdout(resolve, reject) {
   return buffer => {
@@ -68,4 +46,26 @@ function toCliArgs(obj) {
   return _.toPairs(obj).reduce((list, [key, value]) => [...list, `--${key}`, value], []);
 }
 
-module.exports = log(typescript);
+module.exports = ({log, watch}) => {
+  function typescript({done = noop}) {
+    const bin = require.resolve('typescript/bin/tsc');
+
+    const args = toCliArgs({
+      project: 'tsconfig.json',
+      rootDir: '.',
+      outDir: './dist/'
+    });
+
+    const child = spawn(bin, [...args, ...watch ? ['--watch'] : []]);
+
+    return new Promise((resolve, reject) => {
+      child.stdout.on('data', onStdout(_.compose(resolve, done), reject));
+
+      if (!watch) {
+        child.on('exit', code => code === 0 ? resolve() : reject());
+      }
+    });
+  }
+
+  return log(typescript);
+};

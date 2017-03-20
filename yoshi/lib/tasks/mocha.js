@@ -3,13 +3,10 @@
 const path = require('path');
 const gulp = require('gulp');
 const spawn = require('cross-spawn');
-const {watchMode} = require('../utils');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
 const {inTeamCity} = require('../utils');
-const {log} = require('../log');
 
-const watch = watchMode();
 const files = projectConfig.specs.node() || globs.specs();
 
 const mochaBin = path.join('mocha', 'bin', 'mocha');
@@ -22,15 +19,17 @@ const args = {
   require: [absolute('require-hooks'), absolute('setup', 'mocha-setup')]
 };
 
-module.exports = log(mocha);
+module.exports = ({log, watch}) => {
+  function mocha() {
+    if (watch) {
+      gulp.watch(`${globs.base()}/**/*`, runMocha);
+    }
 
-function mocha() {
-  if (watch) {
-    gulp.watch(`${globs.base()}/**/*`, runMocha);
+    return runMocha();
   }
 
-  return runMocha();
-}
+  return log(mocha);
+};
 
 function runMocha() {
   return new Promise((resolve, reject) => {

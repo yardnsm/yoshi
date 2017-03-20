@@ -3,7 +3,6 @@
 const {lint} = require('stylelint');
 const cosmiconfig = require('cosmiconfig');
 const globs = require('../globs');
-const {logIfP} = require('../log');
 
 function hasConfig() {
   return cosmiconfig('stylelint')
@@ -29,4 +28,6 @@ function stylelint() {
   });
 }
 
-module.exports = logIfP(stylelint, hasConfig);
+module.exports = ({logIfP}) => {
+  return logIfP(stylelint, hasConfig);
+};

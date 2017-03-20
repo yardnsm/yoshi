@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
-    "build": ":",
+    "build": "eslint .",
     "release": "wnpm-release --no-shrinkwrap"
   },
   "publishConfig": {
@@ -19,8 +19,11 @@
     "mocha-env-reporter": "^2.0.4"
   },
   "devDependencies": {
-    "yoshi": "latest",
+    "eslint-config-wix": "^1.1.4",
     "test-phases": "latest",
     "wnpm-ci": "latest"
+  },
+  "eslintConfig": {
+    "extends": "wix"
   }
 }

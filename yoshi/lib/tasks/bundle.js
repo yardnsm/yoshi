@@ -4,7 +4,6 @@ const _ = require('lodash/fp');
 const webpack = require('webpack');
 const getConfig = require('../../config/webpack.config.client');
 const {shouldRunWebpack, filterNoise} = require('../utils');
-const {logIf} = require('../log');
 
 function runBundle(webpackOptions) {
   const webpackConfig = getConfig(webpackOptions);
@@ -28,4 +27,6 @@ function bundle() {
   return Promise.all([runBundle({debug: true}), runBundle({debug: false})]);
 }
 
-module.exports = logIf(bundle, _.compose(shouldRunWebpack, getConfig));
+module.exports = ({logIf}) => {
+  return logIf(bundle, _.compose(shouldRunWebpack, getConfig));
+};

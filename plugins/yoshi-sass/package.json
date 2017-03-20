@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
-    "build": ":",
+    "build": "eslint .",
     "release": "wnpm-release --no-shrinkwrap"
   },
   "publishConfig": {
@@ -14,6 +14,7 @@
   "dependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.16.1",
+    "fs-promise": "^2.0.0",
     "glob": "^7.1.1",
     "gulp": "^3.9.1",
     "mkdirp": "^0.5.1",
@@ -22,8 +23,11 @@
     "node-sass": "^4.5.0"
   },
   "devDependencies": {
-    "yoshi": "latest",
+    "eslint-config-wix": "^1.1.4",
     "test-phases": "latest",
     "wnpm-ci": "latest"
+  },
+  "eslintConfig": {
+    "extends": "wix"
   }
 }

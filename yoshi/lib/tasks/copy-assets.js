@@ -2,11 +2,8 @@
 
 const path = require('path');
 const gulp = require('gulp');
-const {watchMode} = require('../utils');
 const globs = require('../globs');
-const {log} = require('../log');
 
-const watch = watchMode();
 const baseDir = globs.base();
 
 function copyDir(source, destination = '', base = '.') {
@@ -18,21 +15,23 @@ function copyDir(source, destination = '', base = '.') {
   );
 }
 
-function copyAssets({output = 'statics'} = {}) {
-  const assets = `${baseDir}/assets/**/*`;
-  const htmlAssets = `${baseDir}/**/*.{ejs,html,vm}`;
-  const serverAssets = `${baseDir}/**/*.{css,json,d.ts}`;
+module.exports = ({log, watch}) => {
+  function copyAssets({output = 'statics'} = {}) {
+    const assets = `${baseDir}/assets/**/*`;
+    const htmlAssets = `${baseDir}/**/*.{ejs,html,vm}`;
+    const serverAssets = `${baseDir}/**/*.{css,json,d.ts}`;
 
-  const copyAllAssets = () => Promise.all([
-    copyDir([assets, htmlAssets, serverAssets]),
-    copyDir([assets, htmlAssets], output, path.join(process.cwd(), 'src'))
-  ]);
+    const copyAllAssets = () => Promise.all([
+      copyDir([assets, htmlAssets, serverAssets]),
+      copyDir([assets, htmlAssets], output, path.join(process.cwd(), 'src'))
+    ]);
 
-  if (watch) {
-    gulp.watch([assets, htmlAssets, serverAssets], copyAllAssets);
+    if (watch) {
+      gulp.watch([assets, htmlAssets, serverAssets], copyAllAssets);
+    }
+
+    return copyAllAssets();
   }
 
-  return copyAllAssets();
-}
-
-module.exports = log(copyAssets);
+  return log(copyAssets);
+};

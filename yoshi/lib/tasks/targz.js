@@ -28,4 +28,4 @@ function createMavenTarGz() {
   return Promise.resolve();
 }
 
-module.exports = createMavenTarGz;
+module.exports = () => createMavenTarGz;

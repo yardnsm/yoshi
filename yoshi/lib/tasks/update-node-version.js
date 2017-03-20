@@ -11,4 +11,4 @@ function updateNodeVersion() {
   return Promise.resolve();
 }
 
-module.exports = updateNodeVersion;
+module.exports = () => updateNodeVersion;

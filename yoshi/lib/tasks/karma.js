@@ -4,11 +4,8 @@ const _ = require('lodash/fp');
 const path = require('path');
 const {Server} = require('karma');
 const webpack = require('webpack');
-const {watchMode, logIfAny} = require('../utils');
+const {logIfAny} = require('../utils');
 const wpConfig = require('../../config/webpack.config.specs');
-const {log} = require('../log');
-
-const watch = watchMode();
 
 function printStats(stats) {
   logIfAny(stats.toString({
@@ -22,52 +19,54 @@ function printStats(stats) {
   }));
 }
 
-function bundle() {
-  return new Promise((resolve, reject) => {
-    const compiler = webpack(wpConfig);
+module.exports = ({log, watch}) => {
+  function bundle() {
+    return new Promise((resolve, reject) => {
+      const compiler = webpack(wpConfig);
 
-    const callback = (err, stats) => {
-      printStats(stats);
+      const callback = (err, stats) => {
+        printStats(stats);
 
-      if (err || stats.hasErrors()) {
-        return reject();
+        if (err || stats.hasErrors()) {
+          return reject();
+        }
+
+        return resolve();
+      };
+
+      if (watch) {
+        compiler.watch({}, callback);
+      } else {
+        compiler.run(callback);
       }
+    });
+  }
 
-      return resolve();
+  function karma() {
+    const karmaConfig = {
+      configFile: path.join(__dirname, '..', '..', 'config/karma.conf'),
+      singleRun: !watch,
+      autoWatch: watch
     };
 
-    if (watch) {
-      compiler.watch({}, callback);
-    } else {
-      compiler.run(callback);
-    }
-  });
-}
+    return bundle().then(() => {
+      return new Promise((resolve, reject) => {
+        const server = new Server(karmaConfig, code => {
+          if (code === 0) {
+            resolve();
+          } else {
+            reject();
+          }
 
-function karma() {
-  const karmaConfig = {
-    configFile: path.join(__dirname, '..', '..', 'config/karma.conf'),
-    singleRun: !watch,
-    autoWatch: watch
-  };
+          if (watch) {
+            process.exit(code);
+          }
+        });
 
-  return bundle().then(() => {
-    return new Promise((resolve, reject) => {
-      const server = new Server(karmaConfig, code => {
-        if (code === 0) {
-          resolve();
-        } else {
-          reject();
-        }
-
-        if (watch) {
-          process.exit(code);
-        }
+        server.start();
       });
-
-      server.start();
     });
-  });
-}
+  }
 
-module.exports = log(karma);
+  return log(karma);
+};

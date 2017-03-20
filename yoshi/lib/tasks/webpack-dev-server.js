@@ -7,7 +7,6 @@ const getConfig = require('../../config/webpack.config.client');
 const {servers} = require('../../config/project');
 const {shouldRunWebpack, filterNoise} = require('../utils');
 const {start} = require('../server-api');
-const {log} = require('../log');
 
 function webpackDevServer() {
   const webpackConfig = getConfig({debug: true});
@@ -39,4 +38,4 @@ function addHotEntries(entries) {
   }, {});
 }
 
-module.exports = log(webpackDevServer);
+module.exports = ({log}) => log(webpackDevServer);

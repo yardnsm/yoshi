@@ -3,16 +3,15 @@
 // TODO: consider multiple modules
 // TODO: figure out if we need definition files
 
-const {tryRequire, exists, watchMode} = require('../utils');
+const {tryRequire, exists} = require('../utils');
 const globs = require('../globs');
 const petriSpecs = tryRequire('petri-specs/lib/petri-specs');
-const {logIf} = require('../log');
 
 function shouldRun() {
   return petriSpecs && exists(globs.petriSpecs());
 }
 
-function build() {
+function runBuild() {
   const options = {directory: globs.petri(), json: globs.petriOutput()};
 
   if (!shouldRun()) {
@@ -24,13 +23,15 @@ function build() {
   return Promise.resolve();
 }
 
-function watch() {
+function runWatch() {
   // TODO: implement watch mode using chokidar
   return Promise.resolve();
 }
 
-function petri() {
-  return watchMode() ? watch() : build();
-}
+module.exports = ({logIf, watch}) => {
+  function petri() {
+    return watch ? runWatch() : runBuild();
+  }
 
-module.exports = logIf(petri, shouldRun);
+  return logIf(petri, shouldRun);
+};

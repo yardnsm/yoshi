@@ -1,7 +1,6 @@
 'use strict';
 
 const del = require('del');
-const {log} = require('../log');
 
 function cleanDir(dir) {
   return del([`${dir}/**`, `!${dir}`]);
@@ -14,4 +13,6 @@ function clean() {
   ]);
 }
 
-module.exports = log(clean);
+module.exports = ({log}) => {
+  return log(clean);
+};

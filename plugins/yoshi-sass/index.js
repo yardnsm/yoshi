@@ -2,22 +2,23 @@
 
 const path = require('path');
 const gulp = require('gulp');
-const {logIf} = require('yoshi/lib/log');
-const {base} = require('yoshi/lib/globs');
-const {writeFile, renderSass, readDir} = require('./utils');
+const glob = require('glob');
+const nodeSass = require('node-sass');
+const {writeFile, ensureDir} = require('fs-promise');
 
-const pattern = `${base()}/**/*.scss`;
-
-function sass({watch} = {}) {
-  if (watch) {
-    gulp.watch(pattern, () => transpile());
-  }
-
-  return transpile();
+function writeFileIntoDir(filepath, content) {
+  return ensureDir(path.dirname(filepath))
+    .then(() => writeFile(filepath, content));
 }
 
-function transpile() {
-  return Promise.all(readDir(pattern).map(renderFile()));
+function readDir(pattern) {
+  return glob.sync(pattern).filter(file => path.basename(file)[0] !== '_');
+}
+
+function renderSass(options) {
+  return new Promise((resolve, reject) =>
+    nodeSass.render(options, (err, result) => err ? reject(err.formatted) : resolve(result))
+  );
 }
 
 function renderFile() {
@@ -29,8 +30,24 @@ function renderFile() {
     };
 
     return renderSass(options)
-      .then(result => writeFile(path.resolve('dist', file), result.css));
+      .then(result => writeFileIntoDir(path.resolve('dist', file), result.css));
   };
 }
 
-module.exports = logIf(sass, () => readDir(pattern).length > 0);
+module.exports = ({logIf, base, watch}) => {
+  const pattern = `${base()}/**/*.scss`;
+
+  function sass() {
+    if (watch) {
+      gulp.watch(pattern, () => transpile());
+    }
+
+    return transpile();
+  }
+
+  function transpile() {
+    return Promise.all(readDir(pattern).map(renderFile()));
+  }
+
+  return logIf(sass, () => readDir(pattern).length > 0);
+};

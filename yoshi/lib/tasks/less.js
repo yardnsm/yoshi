@@ -5,20 +5,7 @@ const path = require('path');
 const lessModule = require('less');
 const gulp = require('gulp');
 const globs = require('../globs');
-const {watchMode, readDir, writeFile} = require('../utils');
-const {logIf} = require('../log');
-
-const watch = watchMode();
-
-function less() {
-  const glob = globs.less();
-
-  if (watch) {
-    gulp.watch(glob, () => transpile(glob));
-  }
-
-  return transpile(glob);
-}
+const {readDir, writeFile} = require('../utils');
 
 function readGlob(glob) {
   return readDir(glob).filter(file => path.basename(file)[0] !== '_');
@@ -53,4 +40,16 @@ function renderFile(file) {
   });
 }
 
-module.exports = logIf(less, () => readGlob(globs.less()).length > 0);
+module.exports = ({logIf, watch}) => {
+  function less() {
+    const glob = globs.less();
+
+    if (watch) {
+      gulp.watch(glob, () => transpile(glob));
+    }
+
+    return transpile(glob);
+  }
+
+  return logIf(less, () => readGlob(globs.less()).length > 0);
+};
