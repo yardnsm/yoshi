@@ -35,7 +35,6 @@
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.23.1",
     "detect-port": "1.0.7",
-    "eslint": "^3.6.1",
     "eslint-config-wix": "latest",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -69,7 +68,6 @@
     "mocha-env-reporter": "^1.0.2",
     "mocha-teamcity-reporter": "^1.1.1",
     "ng-annotate-loader": "^0.2.0",
-    "node-sass": "~3.9.0",
     "petri-specs": "latest",
     "phantomjs-polyfill": "0.0.2",
     "postcss-loader": "^0.10.1",
@@ -90,13 +88,17 @@
     "webpack-hot-middleware": "~2.13.2",
     "wix-tpa-style-loader": "^1.0.0",
     "wnpm-ci": "latest",
-    "xml2js": "^0.4.16"
+    "xml2js": "^0.4.16",
+    "yoshi-clean": "^1.0.1",
+    "yoshi-eslint": "^1.0.0",
+    "yoshi-sass": "^1.0.25"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.6.1",
     "node-fetch": "^1.6.0",
     "ps-tree": "^1.1.0",
     "retry-promise": "~1.0.0",

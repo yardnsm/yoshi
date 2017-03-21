@@ -1,7 +1,7 @@
 const {runIndividualTranspiler} = require('../config/project');
 const {isTypescriptProject, isBabelProject} = require('./utils');
 
-const linter = isTypescriptProject() ? './tasks/tslint' : './tasks/eslint';
+const linter = isTypescriptProject() ? './tasks/tslint' : 'yoshi-eslint';
 
 function transpiler() {
   if (isTypescriptProject() && runIndividualTranspiler()) {
@@ -23,14 +23,14 @@ function tests(options) {
 
 module.exports = options => ({
   build: [
-    ['./tasks/clean', './tasks/update-node-version'],
-    ['./tasks/sass', './tasks/less', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/bundle']
+    ['yoshi-clean', './tasks/update-node-version'],
+    ['yoshi-sass', './tasks/less', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/bundle']
   ],
   lint: [[linter, './tasks/stylelint']],
   release: [['./tasks/wnpm-release']],
   start: [
-    ['./tasks/clean', './tasks/update-node-version'],
-    ['./tasks/sass', './tasks/less', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/webpack-dev-server']
+    ['yoshi-clean', './tasks/update-node-version'],
+    ['yoshi-sass', './tasks/less', './tasks/petri', './tasks/targz', './tasks/copy-assets', transpiler(), './tasks/webpack-dev-server']
   ],
   test: tests(options)
 });
