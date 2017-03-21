@@ -84,6 +84,7 @@
     "xml2js": "^0.4.16",
     "yoshi-babel": "^1.0.0",
     "yoshi-clean": "^1.0.1",
+    "yoshi-copy": "^1.0.0",
     "yoshi-eslint": "^1.0.0",
     "yoshi-sass": "^1.0.25"
   },
