@@ -22,7 +22,7 @@ describe('Clean', () => {
 
     return task()
       .then(() => {
-        expect(test.list('dist/src/assets')).to.include('some-file')
+        expect(test.list('dist/src/assets')).to.include('some-file');
       });
   });
 
