@@ -9,7 +9,7 @@ function transpiler() {
   }
 
   if (isBabelProject() && runIndividualTranspiler()) {
-    return './tasks/babel';
+    return 'yoshi-babel';
   }
 
   return './tasks/no-transpile';

@@ -24,9 +24,6 @@
   },
   "dependencies": {
     "autoprefixer": "^6.4.0",
-    "babel-cli": "^6.11.4",
-    "babel-core": "^6.13.2",
-    "babel-eslint": "^6.0.2",
     "babel-loader": "^6.3.2",
     "babel-register": "^6.14.0",
     "case-sensitive-paths-webpack-plugin": "^1.1.4",
@@ -42,10 +39,6 @@
     "glob": "~7.0.5",
     "graphql-tag": "^1.2.3",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-file-transform-cache": "~1.0.6",
-    "gulp-plumber": "^1.1.0",
-    "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.6",
     "html-loader": "^0.4.4",
@@ -89,6 +82,7 @@
     "wix-tpa-style-loader": "^1.0.0",
     "wnpm-ci": "latest",
     "xml2js": "^0.4.16",
+    "yoshi-babel": "^1.0.0",
     "yoshi-clean": "^1.0.1",
     "yoshi-eslint": "^1.0.0",
     "yoshi-sass": "^1.0.25"
