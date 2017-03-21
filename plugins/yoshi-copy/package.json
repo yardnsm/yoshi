@@ -1,0 +1,29 @@
+{
+  "name": "yoshi-copy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
+    "build": "eslint .",
+    "release": "wnpm-release --no-shrinkwrap"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.16.1",
+    "eslint-config-wix": "^1.1.4",
+    "mocha": "^3.2.0",
+    "mocha-env-reporter": "^2.0.4",
+    "test-phases": "latest",
+    "wnpm-ci": "latest"
+  },
+  "eslintConfig": {
+    "extends": "wix"
+  }
+}
