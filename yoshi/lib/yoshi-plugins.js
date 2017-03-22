@@ -26,7 +26,7 @@ module.exports = options => ({
     ['yoshi-clean', 'yoshi-update-node-version'],
     ['yoshi-sass', './tasks/less', './tasks/petri', './tasks/targz', 'yoshi-copy', transpiler(), './tasks/bundle']
   ],
-  lint: [[linter, './tasks/stylelint']],
+  lint: [[linter, 'yoshi-stylelint']],
   release: [['./tasks/wnpm-release']],
   start: [
     ['yoshi-clean', 'yoshi-update-node-version'],

@@ -28,7 +28,6 @@
     "babel-register": "^6.14.0",
     "case-sensitive-paths-webpack-plugin": "^1.1.4",
     "commander": "^2.9.0",
-    "cosmiconfig": "^2.1.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.23.1",
     "detect-port": "1.0.7",
@@ -69,7 +68,6 @@
     "sass-loader": "^4.0.0",
     "screenshot-reporter": "^1.1.2",
     "style-loader": "^0.13.1",
-    "stylelint": "^7.9.0",
     "ts-loader": "^1.2.2",
     "ts-node": "^1.5.2",
     "tslint": "^4.1.0",
@@ -87,6 +85,7 @@
     "yoshi-copy": "^1.0.0",
     "yoshi-eslint": "^1.0.0",
     "yoshi-sass": "^1.0.25",
+    "yoshi-stylelint": "^1.0.0",
     "yoshi-update-node-version": "^1.0.0"
   },
   "publishConfig": {
