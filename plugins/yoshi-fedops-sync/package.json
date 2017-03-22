@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.16.1",
+    "eslint-config-wix": "^1.1.4",
     "intercept-stdout": "^0.1.2",
     "mocha": "^3.2.0",
     "mocha-env-reporter": "^2.0.4",
