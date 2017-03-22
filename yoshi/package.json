@@ -86,7 +86,8 @@
     "yoshi-clean": "^1.0.1",
     "yoshi-copy": "^1.0.0",
     "yoshi-eslint": "^1.0.0",
-    "yoshi-sass": "^1.0.25"
+    "yoshi-sass": "^1.0.25",
+    "yoshi-update-node-version": "^1.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

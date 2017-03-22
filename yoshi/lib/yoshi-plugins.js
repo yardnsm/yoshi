@@ -23,13 +23,13 @@ function tests(options) {
 
 module.exports = options => ({
   build: [
-    ['yoshi-clean', './tasks/update-node-version'],
+    ['yoshi-clean', 'yoshi-update-node-version'],
     ['yoshi-sass', './tasks/less', './tasks/petri', './tasks/targz', 'yoshi-copy', transpiler(), './tasks/bundle']
   ],
   lint: [[linter, './tasks/stylelint']],
   release: [['./tasks/wnpm-release']],
   start: [
-    ['yoshi-clean', './tasks/update-node-version'],
+    ['yoshi-clean', 'yoshi-update-node-version'],
     ['yoshi-sass', './tasks/less', './tasks/petri', './tasks/targz', 'yoshi-copy', transpiler(), './tasks/webpack-dev-server']
   ],
   test: tests(options)
