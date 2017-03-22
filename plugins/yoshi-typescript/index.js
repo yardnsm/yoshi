@@ -58,12 +58,12 @@ module.exports = ({log, watch}) => {
       outDir: './dist/'
     });
 
-    const child = spawn(bin, [...args, ...watch() ? ['--watch'] : []]);
+    const child = spawn(bin, [...args, ...watch ? ['--watch'] : []]);
 
     return new Promise((resolve, reject) => {
       child.stdout.on('data', onStdout(flowRight(resolve, done), reject));
 
-      if (!watch()) {
+      if (!watch) {
         child.on('exit', code => code === 0 ? resolve() : reject());
       }
     });

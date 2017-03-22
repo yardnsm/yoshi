@@ -33,7 +33,7 @@ describe('Typescript', () => {
   }));
   beforeEach(() => test = tp.create());
   beforeEach(() => process.chdir(test.tmp));
-  beforeEach(() => task = typescript({watch: () => false, log: a => a}));
+  beforeEach(() => task = typescript({watch: false, log: a => a}));
 
   afterEach(() => test.teardown());
   afterEach(() => stdout = '');
