@@ -78,7 +78,6 @@
     "webpack-dev-middleware": "~1.9.0",
     "webpack-hot-middleware": "~2.13.2",
     "wix-tpa-style-loader": "^1.0.0",
-    "wnpm-ci": "latest",
     "xml2js": "^0.4.16",
     "yoshi-babel": "^1.0.0",
     "yoshi-clean": "^1.0.1",
@@ -86,7 +85,8 @@
     "yoshi-eslint": "^1.0.0",
     "yoshi-sass": "^1.0.25",
     "yoshi-stylelint": "^1.0.0",
-    "yoshi-update-node-version": "^1.0.0"
+    "yoshi-update-node-version": "^1.0.0",
+    "yoshi-wnpm-release": "^1.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -98,7 +98,8 @@
     "ps-tree": "^1.1.0",
     "retry-promise": "~1.0.0",
     "shelljs": "^0.7.0",
-    "webpack-hot-middleware": "^2.13.1"
+    "webpack-hot-middleware": "^2.13.1",
+    "wnpm-ci": "latest"
   },
   "eslintConfig": {
     "extends": "wix",
