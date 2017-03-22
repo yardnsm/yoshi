@@ -34,28 +34,34 @@ describe('ESLint', () => {
   }
 
   it('should lint js files in the root folder too', () => {
-    setup({'a.js': 'parseInt("1");'});
+    setup({'a.js': `parseInt('1');`});
 
     return task()
       .then(() => Promise.reject())
-      .catch(() => {
-        expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
-      });
+      .catch(() =>
+        expect(stdout).to.contain('1:1  error  Missing radix parameter  radix'));
   });
 
   it('should pass with exit code 0', () => {
-    setup({'src/a.js': `parseInt("1", 10);`});
+    setup({'src/a.js': `parseInt('1', 10);`});
 
     return task();
   });
 
   it('should fail with exit code 1', () => {
-    setup({'src/a.js': `parseInt("1");`});
+    setup({'src/a.js': `parseInt('1');`});
 
     return task()
       .then(() => Promise.reject())
       .catch(() => {
         expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
       });
+  });
+
+  it('should generate a cache file inside target dir', () => {
+    setup({'src/a.js': `parseInt('1', 10);`});
+    return task()
+      .then(() =>
+        expect(test.list('target', '-A')).to.contain('.eslintcache'));
   });
 });

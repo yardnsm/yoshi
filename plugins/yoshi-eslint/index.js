@@ -8,7 +8,7 @@ module.exports = ({logIf, base}) => {
 
   function eslint() {
     return Promise.resolve().then(() => {
-      const cli = new CLIEngine();
+      const cli = new CLIEngine({cache: true, cacheLocation: 'target/.eslintcache'});
       const results = cli.executeOnFiles(files).results;
       const formatter = cli.getFormatter();
       const errors = CLIEngine.getErrorResults(results);
