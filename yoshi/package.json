@@ -78,15 +78,15 @@
     "webpack-hot-middleware": "~2.13.2",
     "wix-tpa-style-loader": "^1.0.0",
     "xml2js": "^0.4.16",
-    "yoshi-babel": "^1.0.0",
-    "yoshi-clean": "^1.0.1",
-    "yoshi-copy": "^1.0.0",
-    "yoshi-eslint": "^1.0.0",
-    "yoshi-sass": "^1.0.25",
-    "yoshi-stylelint": "^1.0.0",
-    "yoshi-typescript": "^1.0.1",
-    "yoshi-update-node-version": "^1.0.0",
-    "yoshi-wnpm-release": "^1.0.0"
+    "yoshi-babel": "latest",
+    "yoshi-clean": "latest",
+    "yoshi-copy": "latest",
+    "yoshi-eslint": "latest",
+    "yoshi-sass": "latest",
+    "yoshi-stylelint": "latest",
+    "yoshi-typescript": "latest",
+    "yoshi-update-node-version": "latest",
+    "yoshi-wnpm-release": "latest"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
