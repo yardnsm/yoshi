@@ -4,15 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "postinstall": "yarn add fedops-grafana-api || true",
     "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
     "build": "eslint .",
     "release": "wnpm-release --no-shrinkwrap"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
-  },
-  "optionalDependencies": {
-    "fedops-grafana-api": "^1.0.20"
   },
   "devDependencies": {
     "chai": "^3.5.0",
