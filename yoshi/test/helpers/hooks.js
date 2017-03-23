@@ -3,14 +3,11 @@
 const sh = require('shelljs');
 
 module.exports = {
-  installProtractor: tmp => {
-    sh.exec('npm install protractor@^4.0.0', {cwd: tmp});
+  installProtractor: cwd => {
+    sh.exec('yarn add protractor@^5.0.0', {cwd});
   },
-  installDependencies: tmp => {
-    sh.exec('npm install', {cwd: tmp});
+  installDependencies: cwd => {
+    sh.exec('yarn install --no-lockfile', {cwd});
   },
-  linkWixNodeBuild: tmp => {
-    sh.exec(`npm link '${process.cwd()}'`, {cwd: tmp});
-  },
-  installDependency: tmp => dep => sh.exec(`npm install ${dep}`, {cwd: tmp})
+  installDependency: cwd => dep => sh.exec(`yarn add ${dep}`, {cwd})
 };
