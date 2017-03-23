@@ -5,7 +5,7 @@ const linter = isTypescriptProject() ? './tasks/tslint' : 'yoshi-eslint';
 
 function transpiler() {
   if (isTypescriptProject() && runIndividualTranspiler()) {
-    return './tasks/typescript';
+    return 'yoshi-typescript';
   }
 
   if (isBabelProject() && runIndividualTranspiler()) {

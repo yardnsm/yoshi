@@ -72,7 +72,6 @@
     "ts-node": "^1.5.2",
     "tslint": "^4.1.0",
     "tslint-config-wix": "latest",
-    "typescript": "^2.1.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "~1.9.0",
@@ -85,6 +84,7 @@
     "yoshi-eslint": "^1.0.0",
     "yoshi-sass": "^1.0.25",
     "yoshi-stylelint": "^1.0.0",
+    "yoshi-typescript": "^1.0.1",
     "yoshi-update-node-version": "^1.0.0",
     "yoshi-wnpm-release": "^1.0.0"
   },
