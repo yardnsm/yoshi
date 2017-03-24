@@ -3,5 +3,5 @@
 module.exports = isAngularProject => ({
   test: /\.tsx?$/,
   exclude: /(node_modules)/,
-  loaders: [...isAngularProject ? ['ng-annotate'] : [], 'ts?{"logLevel":"warn"}']
+  use: [...isAngularProject ? ['ng-annotate-loader'] : [], 'ts-loader?{"logLevel":"warn"}']
 });

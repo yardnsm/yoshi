@@ -41,7 +41,7 @@ module.exports = {
   separateCss: () => getConfig('separateCss', true),
   cssModules: () => getConfig('cssModules', true),
   tpaStyle: () => getConfig('tpaStyle', false),
-  externals: () => getConfig('externals'),
+  externals: () => getConfig('externals', []),
   babel: () => _.get(packagejson, 'babel'),
   runIndividualTranspiler: () => getConfig('runIndividualTranspiler', true),
   unprocessedModules: () => path => {

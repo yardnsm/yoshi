@@ -1,12 +1,15 @@
 'use strict';
 
-module.exports = (extractCSS, cssModules, tpaStyle) => {
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = (separateCss, cssModules, tpaStyle) => {
   const cssLoaderOptions = {
     modules: cssModules,
     camelCase: true,
-    sourceMap: !!extractCSS,
+    sourceMap: !!separateCss,
     localIdentName: '[path][name]__[local]__[hash:base64:5]',
-    importLoaders: tpaStyle ? 3 : 2
+    importLoaders: tpaStyle ? 4 : 3
   };
 
   const lessLoaderOptions = {
@@ -17,24 +20,41 @@ module.exports = (extractCSS, cssModules, tpaStyle) => {
   return {
     client: {
       test: /\.less$/,
-      loader: clientLoader(extractCSS, 'style', [
-        `css-loader?${JSON.stringify(cssLoaderOptions)}`,
-        'postcss',
+      use: clientLoader(separateCss, 'style-loader', [
+        {
+          loader: 'css-loader',
+          options: cssLoaderOptions
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            config: path.join(__dirname, '..', '..', 'config', 'postcss.config.js')
+          }
+        },
         ...tpaStyle ? ['wix-tpa-style-loader'] : [],
-        `less?${JSON.stringify(lessLoaderOptions)}`
+        {
+          loader: 'less-loader',
+          options: lessLoaderOptions
+        }
       ])
     },
     specs: {
       test: /\.less$/,
-      loaders: [
-        `css-loader/locals?${JSON.stringify(cssLoaderOptions)}`,
+      use: [
+        {
+          loader: 'css-loader/locals',
+          options: cssLoaderOptions
+        },
         ...tpaStyle ? ['wix-tpa-style-loader'] : [],
-        `less?${JSON.stringify(lessLoaderOptions)}`
+        {
+          loader: 'less-loader',
+          options: lessLoaderOptions
+        }
       ]
     }
   };
 };
 
-function clientLoader(extractCSS, l1, l2) {
-  return extractCSS ? extractCSS.extract(l1, l2) : [l1].concat(l2).join('!');
+function clientLoader(separateCss, l1, l2) {
+  return separateCss ? ExtractTextPlugin.extract({fallback: l1, use: l2}) : [l1].concat(l2);
 }

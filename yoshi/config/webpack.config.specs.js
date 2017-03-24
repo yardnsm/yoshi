@@ -18,7 +18,7 @@ module.exports = mergeByConcat(webpackConfigCommon, {
     filename: 'specs.bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       require('../lib/loaders/sass')(false, cssModules(), tpaStyle()).specs,
       require('../lib/loaders/less')(false, cssModules(), tpaStyle()).specs
     ]
