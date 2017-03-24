@@ -11,16 +11,12 @@ const config = {
   output: getOutput(),
 
   resolve: {
-    modules: [
-      'node_modules',
-      context
-    ],
-
-    extensions: ['.ts', '.js', '.tsx', '.jsx']
+    root: context,
+    extensions: ['', '.ts', '.js', '.tsx', '.jsx']
   },
 
   resolveLoader: {
-    modules: [path.join(__dirname, '..', 'node_modules')]
+    root: path.join(__dirname, '..', 'node_modules')
   },
 
   plugins: [
@@ -28,11 +24,12 @@ const config = {
   ],
 
   module: {
-    rules: [
+    loaders: [
       require('../lib/loaders/babel')(projectConfig.isAngularProject()),
       require('../lib/loaders/typescript')(projectConfig.isAngularProject()),
       require('../lib/loaders/graphql')(),
       require('../lib/loaders/images')(),
+      require('../lib/loaders/json')(),
       require('../lib/loaders/html')(),
       require('../lib/loaders/raw')()
     ]

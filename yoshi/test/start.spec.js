@@ -97,7 +97,7 @@ describe('Aggregator: Start', () => {
 
         return checkServerIsServing({port: 3200, file: 'app.bundle.js'})
           .then(content =>
-            expect(content).to.contain(`if (false) {\n  throw new Error("[HMR] Hot Module Replacement is disabled.");`));
+            expect(content).to.contain(`if (false) {\n\t  throw new Error("[HMR] Hot Module Replacement is disabled.");`));
       });
 
       it('should set proper public path', () => {

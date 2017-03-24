@@ -41,7 +41,7 @@ describe('Webpack basic configs', () => {
         // in project itself: require('dep')
 
         // dep.js
-        expect(test.content('dist/statics/app.bundle.js')).to.contain('function (a) {\n  return 1;\n}')
+        expect(test.content('dist/statics/app.bundle.js')).to.contain('function (a) {\n\t  return 1;\n\t}')
       );
 
       // it('should display webpack stats with colors', () => {

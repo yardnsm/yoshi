@@ -495,7 +495,7 @@ describe('Aggregator: Test', () => {
           .execute('test', ['--karma']);
 
         expect(res.code).to.equal(1);
-        expect(res.stdout).to.contain(`Module not found: Error: Can't resolve './ballsack'`);
+        expect(res.stdout).to.contain(`Module not found: Error: Cannot resolve 'file' or 'directory' ./ballsack`);
         expect(res.stdout).not.to.contain(`Finished 'karma'`);
       });
 

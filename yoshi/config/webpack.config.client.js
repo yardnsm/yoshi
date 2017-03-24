@@ -2,7 +2,7 @@
 
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const {mergeByConcat, isSingleEntry, inTeamCity} = require('../lib/utils');
 const webpackConfigCommon = require('./webpack.config.common');
 const projectConfig = require('./project');
@@ -11,35 +11,30 @@ const DynamicPublicPath = require('../lib/plugins/dynamic-public-path');
 const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
   const cssModules = projectConfig.cssModules();
   const tpaStyle = projectConfig.tpaStyle();
+  const extractCSS = getExtractCss();
 
   return mergeByConcat(webpackConfigCommon, {
     entry: getEntry(),
 
     module: {
-      rules: [
-        require('../lib/loaders/sass')(separateCss, cssModules, tpaStyle).client,
-        require('../lib/loaders/less')(separateCss, cssModules, tpaStyle).client
+      loaders: [
+        require('../lib/loaders/sass')(extractCSS, cssModules, tpaStyle).client,
+        require('../lib/loaders/less')(extractCSS, cssModules, tpaStyle).client
       ]
     },
 
     plugins: [
-      new webpack.LoaderOptionsPlugin({
-        minimize: !debug
-      }),
-
+      new webpack.optimize.OccurenceOrderPlugin(),
       new DynamicPublicPath(),
 
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': debug ? '"development"' : '"production"'
       }),
 
-      ...!separateCss ? [] : [
-        new ExtractTextPlugin(debug ? '[name].css' : '[name].min.css')
-      ],
+      ...extractCSS ? [extractCSS] : [],
 
       ...debug ? [] : [
         new webpack.optimize.UglifyJsPlugin({
-          sourceMap: true,
           compress: {
             warnings: false,
           },
@@ -56,8 +51,17 @@ const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
       pathinfo: debug
     },
 
+    postcss: () => [autoprefixer],
+
     target: 'web'
   });
+
+  function getExtractCss() {
+    if (separateCss) {
+      const ExtractTextPlugin = require('extract-text-webpack-plugin');
+      return new ExtractTextPlugin(debug ? '[name].css' : '[name].min.css');
+    }
+  }
 };
 
 function getEntry() {
