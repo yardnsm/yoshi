@@ -4,6 +4,7 @@ const {expect} = require('chai');
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
 const {insideTeamCity} = require('./helpers/env-variables');
+const config = require('../config/webpack.config.common');
 
 describe('Webpack basic configs', () => {
   let res, test;
@@ -37,11 +38,11 @@ describe('Webpack basic configs', () => {
       );
 
       it('should resolve modules relatively to current context', () =>
-        // in webpack config: resolve.root to be the same as context
+        // in webpack config: resolve.modules to be the same as context
         // in project itself: require('dep')
 
         // dep.js
-        expect(test.content('dist/statics/app.bundle.js')).to.contain('function (a) {\n\t  return 1;\n\t}')
+        expect(test.content('dist/statics/app.bundle.js')).to.contain('function (a) {\n  return 1;\n}')
       );
 
       // it('should display webpack stats with colors', () => {
@@ -58,6 +59,9 @@ describe('Webpack basic configs', () => {
         expect(test.content('dist/statics/app.bundle.min.js')).not.to.contain('!*** ./dep.js ***!');
       });
     });
+
+    it(`should look for loaders in project's node_modules directory`, () =>
+      expect(config.resolveLoader.modules).to.contain('node_modules'));
 
     describe('Custom configurations per project', () => {
       it('should ignore externals from being bundled when externals config emerges', () => {
