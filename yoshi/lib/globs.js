@@ -12,6 +12,7 @@ const watchBase = '{app,src,test,petri-specs}';
 
 module.exports = {
   base: () => base,
+  statics: () => statics,
   babel: list => [path.join(list || base, '**', '*.js{,x}'), 'index.js'],
   specs: () => `${base}/**/*.spec.+(js|ts){,x}`,
   e2e: () => `${test}/**/*.e2e.{js,ts}`,
