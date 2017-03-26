@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "glob": "^7.1.1",
-    "petri-specs": "^1.0.389"
+    "petri-specs": "latest"
   },
   "devDependencies": {
     "chai": "^3.5.0",
