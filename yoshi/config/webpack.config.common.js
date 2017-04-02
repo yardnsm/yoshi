@@ -45,6 +45,7 @@ const config = {
 
 function getOutput() {
   const libraryExports = projectConfig.exports();
+  const libraryTarget = projectConfig.libraryTarget();
   const output = {
     path: path.resolve('./dist'),
     pathinfo: true
@@ -53,7 +54,7 @@ function getOutput() {
   if (libraryExports) {
     return Object.assign({}, output, {
       library: libraryExports,
-      libraryTarget: 'umd'
+      libraryTarget:  libraryTarget || 'umd'
     });
   }
 

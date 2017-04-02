@@ -694,6 +694,23 @@ describe('Aggregator: Build', () => {
       expect(test.content('dist/statics/app.bundle.js')).to.contain('exports["MyLibraryEndpoint"]');
       expect(test.content('dist/statics/app.bundle.js')).to.contain('root["MyLibraryEndpoint"]');
     });
+
+    it('should generate a specified targetLibrary support', () => {
+      const res = test
+        .setup({
+          'src/client.js': '',
+          'package.json': fx.packageJson({
+            exports: 'MyLibraryEndpoint',
+            libraryTarget: "var"
+        })
+      })
+      .execute('build');
+
+    expect(res.code).to.equal(0);
+    expect(test.content('dist/statics/app.bundle.js')).not.to.contain('exports["MyLibraryEndpoint"]');
+    expect(test.content('dist/statics/app.bundle.js')).not.to.contain('root["MyLibraryEndpoint"]');
+    expect(test.content('dist/statics/app.bundle.js')).to.contain('var MyLibraryEndpoint');
+    });
   });
 
   describe('Bundle - sass', () => {
