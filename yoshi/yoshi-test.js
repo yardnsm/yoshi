@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 
+const {isTypescriptProject, isBabelProject} = require('./lib/utils');
+const projectConfig = require('./config/project');
+
 const program = require('commander');
 const run = require('./lib/run');
 
@@ -12,5 +15,5 @@ program
   .option('--protractor', 'run e2e on protractor')
   .parse(process.argv);
 
-const {test} = require('./lib/yoshi-plugins')(program);
+const {test} = require('yoshi-preset-all')({isTypescriptProject, isBabelProject, projectConfig})(program);
 run(test, program);

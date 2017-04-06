@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-const {watchMode} = require('./lib/utils');
+const {watchMode, isTypescriptProject, isBabelProject} = require('./lib/utils');
+const projectConfig = require('./config/project');
 
 if (watchMode()) {
   process.exit(0);
@@ -12,5 +13,5 @@ const run = require('./lib/run');
 program
 	.parse(process.argv);
 
-const {lint} = require('./lib/yoshi-plugins')(program);
+const {lint} = require('yoshi-preset-all')({isTypescriptProject, isBabelProject, projectConfig})(program);
 run(lint, program);

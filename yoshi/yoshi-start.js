@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const spawn = require('cross-spawn');
-const {suffix, watchMode} = require('./lib/utils');
+const {suffix, watchMode, isTypescriptProject, isBabelProject} = require('./lib/utils');
+const projectConfig = require('./config/project');
 
 watchMode(true);
 
@@ -17,5 +18,5 @@ const runServer = require('./lib/tasks/run-server');
 const restartServer = () => program.server && runServer({entryPoint: program.entryPoint});
 Object.assign(program, {done: restartServer});
 
-const {start} = require('./lib/yoshi-plugins')(program);
+const {start} = require('yoshi-preset-all')({isTypescriptProject, isBabelProject, projectConfig})(program);
 run(start, program).then(() => spawn('npm', ['test', '--silent'], {stdio: 'inherit'}));
