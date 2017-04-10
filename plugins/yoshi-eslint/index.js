@@ -3,7 +3,7 @@
 const {CLIEngine} = require('eslint');
 const {readDir, logIfAny} = require('./utils');
 
-module.exports = ({logIf, base}) => {
+module.exports = ({logIf, base, inTeamCity}) => {
   const files = ['*.js', `${base()}/**/*.js`];
 
   function eslint() {
@@ -13,7 +13,7 @@ module.exports = ({logIf, base}) => {
       const formatter = cli.getFormatter();
       const errors = CLIEngine.getErrorResults(results);
       logIfAny(formatter(results));
-      return errors.length && Promise.reject();
+      return errors.length && inTeamCity() && Promise.reject();
     });
   }
 
