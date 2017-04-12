@@ -36,7 +36,8 @@ module.exports = {
       port: () => getConfig('servers.cdn.port', 3200)
     }
   },
-  preset: () => getConfig('preset'),
+  hasPreset: () => !!getConfig('preset'),
+  preset: () => getConfig('preset', 'yoshi-preset-all'),
   entry: () => getConfig('entry'),
   defaultEntry: () => './client',
   separateCss: () => getConfig('separateCss', true),

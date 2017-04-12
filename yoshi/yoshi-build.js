@@ -14,5 +14,7 @@ program
   .option('--output <dir>', 'output directory for the static assets', 'statics')
   .parse(process.argv);
 
-const {build} = require('yoshi-preset-all')({isTypescriptProject, isBabelProject, projectConfig})(program);
+const preset = projectConfig.preset();
+
+const {build} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
 run(build, program);

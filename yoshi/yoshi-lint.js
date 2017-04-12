@@ -13,5 +13,7 @@ const run = require('./lib/run');
 program
 	.parse(process.argv);
 
-const {lint} = require('yoshi-preset-all')({isTypescriptProject, isBabelProject, projectConfig})(program);
+const preset = projectConfig.preset();
+
+const {lint} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
 run(lint, program);

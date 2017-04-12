@@ -15,5 +15,7 @@ program
   .option('--protractor', 'run e2e on protractor')
   .parse(process.argv);
 
-const {test} = require('yoshi-preset-all')({isTypescriptProject, isBabelProject, projectConfig})(program);
+const preset = projectConfig.preset();
+
+const {test} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
 run(test, program);
