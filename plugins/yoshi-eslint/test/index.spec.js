@@ -1,6 +1,6 @@
 'use strict';
 
-const {expect} = require('chai');
+const {expect, assert} = require('chai');
 const tp = require('test-phases');
 const stripAnsi = require('strip-ansi');
 const intercept = require('intercept-stdout');
@@ -17,7 +17,11 @@ describe('ESLint', () => {
   }));
   beforeEach(() => test = tp.create());
   beforeEach(() => process.chdir(test.tmp));
-  beforeEach(() => task = eslint({base: () => 'src', logIf: a => a}));
+  beforeEach(() => task = opts => eslint(Object.assign({
+    base: () => 'src',
+    logIf: a => a,
+    inTeamCity: () => true
+  }, opts))());
 
   afterEach(() => test.teardown());
   afterEach(() => stdout = '');
@@ -33,11 +37,22 @@ describe('ESLint', () => {
     }, data));
   }
 
+  function mustReject(promise) {
+    return promise.then(result => {
+      assert(false, `expected promise to be rejected but it was fulfilled with ${result}`);
+    });
+  }
+
+  function mustFulfill(promise) {
+    return promise.catch(result => {
+      assert(false, `expected promise to be fulfilled but it was rejected with ${result}`);
+    });
+  }
+
   it('should lint js files in the root folder too', () => {
     setup({'a.js': `parseInt('1');`});
 
-    return task()
-      .then(() => Promise.reject())
+    return mustReject(task())
       .catch(() =>
         expect(stdout).to.contain('1:1  error  Missing radix parameter  radix'));
   });
@@ -45,22 +60,30 @@ describe('ESLint', () => {
   it('should pass with exit code 0', () => {
     setup({'src/a.js': `parseInt('1', 10);`});
 
-    return task();
+    return mustFulfill(task());
   });
 
   it('should fail with exit code 1', () => {
     setup({'src/a.js': `parseInt('1');`});
 
-    return task()
-      .then(() => Promise.reject())
+    return mustReject(task())
       .catch(() => {
+        expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
+      });
+  });
+
+  it('should fail with exit code 0 if not in teamcity', () => {
+    setup({'src/a.js': `parseInt('1');`});
+
+    return mustFulfill(task({inTeamCity: () => false}))
+      .then(() => {
         expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
       });
   });
 
   it('should generate a cache file inside target dir', () => {
     setup({'src/a.js': `parseInt('1', 10);`});
-    return task()
+    return mustFulfill(task())
       .then(() =>
         expect(test.list('target', '-A')).to.contain('.eslintcache'));
   });

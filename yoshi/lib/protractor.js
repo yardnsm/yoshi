@@ -23,7 +23,7 @@ function updateWebdriver() {
   return new Promise(resolve => {
     const webdriver = spawn(
       require.resolve(`${bin}/webdriver-manager`),
-      ['update', '--standalone'],
+      ['update', '--standalone', '--versions.chrome', '2.28'],
       {stdio: 'inherit'}
     );
 

@@ -1,9 +1,11 @@
 'use strict';
 
+const path = require('path');
 const expect = require('chai').expect;
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
 const hooks = require('./helpers/hooks');
+const {exists} = require('../lib/utils');
 const {outsideTeamCity, insideTeamCity} = require('./helpers/env-variables');
 
 describe('Aggregator: e2e', () => {
@@ -15,6 +17,19 @@ describe('Aggregator: e2e', () => {
 
   describe('should run protractor with a cdn server', function () {
     this.timeout(60000);
+
+    it('should download chromedriver 2.28 and use it', () => {
+      const res = test
+        .setup({
+          'protractor.conf.js': '',
+          'package.json': fx.packageJson()
+        }, [hooks.installProtractor])
+        .execute('test', ['--protractor'], outsideTeamCity);
+      const chromedriver = path.resolve('node_modules', 'webdriver-manager', 'selenium', 'chromedriver_2.28.zip');
+
+      expect(res.code).to.equal(1);
+      expect(exists(chromedriver)).to.be.true;
+    });
 
     it('should support single module structure by default', () => {
       const res = test
