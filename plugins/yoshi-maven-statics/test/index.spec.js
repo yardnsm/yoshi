@@ -31,7 +31,7 @@ const packageJson = (yoshiConfig = {}, dependencies = {}) => JSON.stringify({
   dependencies
 }, null, 2);
 
-describe('Clean', () => {
+describe('Maven Statis', () => {
   let test;
 
   beforeEach(() => test = tp.create());
@@ -122,6 +122,19 @@ describe('Clean', () => {
         </project>
       `
     });
+
+    const task = mavenStatics({
+      projectConfig: {
+        clientProjectName: () => undefined,
+        clientFilesPath: () => 'dist/statics'
+      }
+    });
+
+    return task();
+  });
+
+  it('should not fail if there is no pom.xml', () => {
+    test.setup({});
 
     const task = mavenStatics({
       projectConfig: {
