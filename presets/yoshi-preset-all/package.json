@@ -16,9 +16,12 @@
     "yoshi-clean": "latest",
     "yoshi-copy": "latest",
     "yoshi-eslint": "latest",
+    "yoshi-less": "latest",
+    "yoshi-maven-statics": "latest",
     "yoshi-petri": "latest",
     "yoshi-sass": "latest",
     "yoshi-stylelint": "latest",
+    "yoshi-tslint": "latest",
     "yoshi-typescript": "latest",
     "yoshi-update-node-version": "latest",
     "yoshi-wnpm-release": "latest"

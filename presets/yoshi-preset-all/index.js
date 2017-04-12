@@ -1,15 +1,29 @@
 'use strict';
 
+const babel = require('yoshi-babel');
+const clean = require('yoshi-clean');
+const copy = require('yoshi-copy');
+const eslint = require('yoshi-eslint');
+const less = require('yoshi-less');
+const mavenStatics = require('yoshi-maven-statics');
+const petri = require('yoshi-petri');
+const sass = require('yoshi-sass');
+const stylelint = require('yoshi-stylelint');
+const tslint = require('yoshi-tslint');
+const typescript = require('yoshi-typescript');
+const updateNoteVersion = require('yoshi-update-node-version');
+const wnpmRelease = require('yoshi-wnpm-release');
+
 module.exports = ({projectConfig, isTypescriptProject, isBabelProject}) => {
-  const linter = isTypescriptProject() ? './tasks/tslint' : 'yoshi-eslint';
+  const linter = isTypescriptProject() ? tslint : eslint;
 
   function transpiler() {
     if (isTypescriptProject() && projectConfig.runIndividualTranspiler()) {
-      return 'yoshi-typescript';
+      return typescript;
     }
 
     if (isBabelProject() && projectConfig.runIndividualTranspiler()) {
-      return 'yoshi-babel';
+      return babel;
     }
 
     return './tasks/no-transpile';
@@ -23,14 +37,14 @@ module.exports = ({projectConfig, isTypescriptProject, isBabelProject}) => {
 
   return options => ({
     build: [
-      ['yoshi-clean', 'yoshi-update-node-version'],
-      ['yoshi-sass', './tasks/less', 'yoshi-petri', './tasks/targz', 'yoshi-copy', transpiler(), './tasks/bundle']
+      [clean, updateNoteVersion],
+      [sass, less, petri, mavenStatics, copy, transpiler(), './tasks/bundle']
     ],
-    lint: [[linter, 'yoshi-stylelint']],
-    release: [['yoshi-wnpm-release']],
+    lint: [[linter, stylelint]],
+    release: [[wnpmRelease]],
     start: [
-      ['yoshi-clean', 'yoshi-update-node-version'],
-      ['yoshi-sass', './tasks/less', 'yoshi-petri', './tasks/targz', 'yoshi-copy', transpiler(), './tasks/webpack-dev-server']
+      [clean, updateNoteVersion],
+      [sass, less, petri, mavenStatics, copy, transpiler(), './tasks/webpack-dev-server']
     ],
     test: tests(options)
   });
