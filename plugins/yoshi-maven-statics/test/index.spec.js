@@ -33,7 +33,6 @@ const packageJson = (yoshiConfig = {}, dependencies = {}) => JSON.stringify({
 
 describe('Clean', () => {
   let test;
-  let task;
 
   beforeEach(() => test = tp.create());
   beforeEach(() => process.chdir(test.tmp));
