@@ -1,7 +1,11 @@
+const union = require('lodash/union');
 const webpackCommonConfig = require('./webpack.config.common');
 const projectConfig = require('./project');
 
 module.exports = config => {
+
+  config.resolve.extensions = union(config.resolve.extensions, webpackCommonConfig.resolve.extensions);
+
   const cssModules = projectConfig.cssModules();
 
   config.module.loaders = [
