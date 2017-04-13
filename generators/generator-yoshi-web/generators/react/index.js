@@ -38,6 +38,7 @@ module.exports = generators.Base.extend({
           'babel-preset-stage-0': '^6.5.0',
           'babel-preset-es2015': '^6.9.0',
           'react-addons-test-utils': '^15.3.2',
+          'react-test-renderer': '^15.5.4',
           'express-session': '^1.14.2',
           'jsdom-global': '^2.1.0',
           enzyme: '^2.3.0',

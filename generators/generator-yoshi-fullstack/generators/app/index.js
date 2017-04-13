@@ -70,6 +70,7 @@ module.exports = generators.Base.extend({
           'babel-preset-react': '^6.5.0',
           'babel-preset-stage-0': '^6.5.0',
           'react-addons-test-utils': '^15.3.2',
+          'react-test-renderer': '^15.5.4',
           chai: '^3.5.0',
           enzyme: '^2.3.0',
           'jsdom-global': '^2.1.0',
