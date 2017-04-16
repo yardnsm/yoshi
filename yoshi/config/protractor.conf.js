@@ -6,11 +6,11 @@ const {tryRequire} = require('../lib/utils');
 //skip wix' key for applitools
 //In case you want to use applitools & eyes.it (https://github.com/wix/eyes.it)
 //in your project, please use your own key
-tryRequire('wix-eyes-env');
+tryRequire('../private/node_modules/wix-eyes-env');
 
 // Private Wix environment config for screenshot reporter
 // Read how to set your own params (if needed) here: https://github.com/wix/screenshot-reporter#usage
-tryRequire('screenshot-reporter-env');
+tryRequire('../private/node_modules/screenshot-reporter-env');
 
 
 require('../lib/require-hooks');
