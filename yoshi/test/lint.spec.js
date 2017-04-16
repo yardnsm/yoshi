@@ -35,7 +35,7 @@ describe('Aggregator: Lint', () => {
       expect(res.stdout).to.contain('Missing radix parameter');
     });
 
-    it('should should fail with exit code 1 (tsx)', () => {
+    it('should fail with exit code 1 (tsx)', () => {
       const res = test
         .setup({
           'app/a.tsx': `parseInt("1");`,
