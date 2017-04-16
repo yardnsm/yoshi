@@ -2,13 +2,14 @@
 
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const localIdentName = require('../../config/css-scope-pattern');
 
 module.exports = (separateCss, cssModules, tpaStyle) => {
   const cssLoaderOptions = {
     modules: cssModules,
     camelCase: true,
     sourceMap: !!separateCss,
-    localIdentName: '[path][name]__[local]__[hash:base64:5]',
+    localIdentName,
     importLoaders: tpaStyle ? 4 : 3
   };
 
