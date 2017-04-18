@@ -51,7 +51,7 @@ describe('TSLint', () => {
       });
   });
 
-  it('should should fail with exit code 1 (tsx)', () => {
+  it('should fail with exit code 1 (tsx)', () => {
     test.setup({
       'src/a.tsx': `parseInt("1");`,
       'tslint.json': tslintConfig
