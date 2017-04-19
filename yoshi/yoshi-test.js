@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const {isTypescriptProject, isBabelProject} = require('./lib/utils');
-const projectConfig = require('./config/project');
+const {loadPreset} = require('./lib/utils');
 
 const program = require('commander');
 const run = require('./lib/run');
@@ -15,7 +14,5 @@ program
   .option('--protractor', 'run e2e on protractor')
   .parse(process.argv);
 
-const preset = projectConfig.preset();
-
-const {test} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
+const {test} = loadPreset(program);
 run(test, program);

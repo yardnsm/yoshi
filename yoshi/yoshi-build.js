@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const {watchMode, isTypescriptProject, isBabelProject} = require('./lib/utils');
-const projectConfig = require('./config/project');
+const {watchMode, loadPreset} = require('./lib/utils');
 
 if (watchMode()) {
   process.exit(0);
@@ -14,7 +13,5 @@ program
   .option('--output <dir>', 'output directory for the static assets', 'statics')
   .parse(process.argv);
 
-const preset = projectConfig.preset();
-
-const {build} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
+const {build} = loadPreset(program);
 run(build, program);

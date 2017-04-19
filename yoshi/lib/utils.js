@@ -8,6 +8,8 @@ const mkdirp = require('mkdirp');
 const glob = require('glob');
 const project = require('../config/project');
 
+const preset = project.preset();
+
 const readDir = module.exports.readDir = patterns =>
   [].concat(patterns).reduce((acc, pattern) =>
     acc.concat(glob.sync(pattern)), []);
@@ -49,12 +51,14 @@ module.exports.suffix = suffix => str => {
   return hasSuffix ? str : str + suffix;
 };
 
-module.exports.isTypescriptProject = () =>
+const isTypescriptProject = module.exports.isTypescriptProject = () =>
   !!tryRequire(path.resolve('tsconfig.json'));
 
-module.exports.isBabelProject = () => {
+const isBabelProject = module.exports.isBabelProject = () => {
   return !!glob.sync(path.resolve('.babelrc')).length || !!project.babel();
 };
+
+module.exports.loadPreset = options => require(preset)({isTypescriptProject, isBabelProject, projectConfig: project})(options);
 
 module.exports.writeFile = (targetFileName, data) => {
   mkdirp.sync(path.dirname(targetFileName));

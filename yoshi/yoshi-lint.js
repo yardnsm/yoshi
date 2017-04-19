@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const {watchMode, isTypescriptProject, isBabelProject} = require('./lib/utils');
-const projectConfig = require('./config/project');
+const {watchMode, loadPreset} = require('./lib/utils');
 
 if (watchMode()) {
   process.exit(0);
@@ -13,7 +12,5 @@ const run = require('./lib/run');
 program
 	.parse(process.argv);
 
-const preset = projectConfig.preset();
-
-const {lint} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
+const {lint} = loadPreset(program);
 run(lint, program);

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const spawn = require('cross-spawn');
-const {suffix, watchMode, isTypescriptProject, isBabelProject} = require('./lib/utils');
-const projectConfig = require('./config/project');
+const {suffix, watchMode, loadPreset} = require('./lib/utils');
 
 watchMode(true);
 
@@ -18,7 +17,5 @@ const runServer = require('./lib/tasks/run-server');
 const restartServer = () => program.server && runServer({entryPoint: program.entryPoint});
 Object.assign(program, {done: restartServer});
 
-const preset = projectConfig.preset();
-
-const {start} = require(preset)({isTypescriptProject, isBabelProject, projectConfig})(program);
+const {start} = loadPreset(program);
 run(start, program).then(() => spawn('npm', ['test', '--silent'], {stdio: 'inherit'}));
