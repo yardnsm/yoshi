@@ -1,0 +1,37 @@
+{
+  "name": "yoshi-preset-all",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": ":",
+    "build": "eslint .",
+    "release": "wnpm-release --no-shrinkwrap"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "yoshi-babel": "latest",
+    "yoshi-clean": "latest",
+    "yoshi-copy": "latest",
+    "yoshi-eslint": "latest",
+    "yoshi-less": "latest",
+    "yoshi-maven-statics": "latest",
+    "yoshi-petri": "latest",
+    "yoshi-sass": "latest",
+    "yoshi-stylelint": "latest",
+    "yoshi-tslint": "latest",
+    "yoshi-typescript": "latest",
+    "yoshi-update-node-version": "latest",
+    "yoshi-wnpm-release": "latest"
+  },
+  "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-config-wix": "^1.1.4",
+    "wnpm-ci": "latest"
+  },
+  "eslintConfig": {
+    "extends": "wix"
+  }
+}
