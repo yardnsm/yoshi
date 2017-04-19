@@ -2,6 +2,7 @@ const {expect} = require('chai');
 
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
+const {outsideTeamCity, insideTeamCity} = require('./helpers/env-variables');
 
 describe('Aggregator: Lint', () => {
   const test = tp.create();
@@ -75,19 +76,25 @@ describe('Aggregator: Lint', () => {
     }
 
     it('should lint js files in the root folder too', () => {
-      const res = setup({'a.js': 'parseInt("1");'}).execute('lint');
+      const res = setup({'a.js': 'parseInt("1");'}).execute('lint', [], insideTeamCity);
       expect(res.code).to.equal(1);
       expect(res.stdout).to.contain('1:1  error  Missing radix parameter  radix');
     });
 
     it('should pass with exit code 0', () => {
-      const res = setup({'app/a.js': `parseInt("1", 10);`}).execute('lint');
+      const res = setup({'app/a.js': `parseInt("1", 10);`}).execute('lint', [], insideTeamCity);
       expect(res.code).to.equal(0);
     });
 
     it('should fail with exit code 1', () => {
-      const res = setup({'app/a.js': `parseInt("1");`}).execute('lint');
+      const res = setup({'app/a.js': `parseInt("1");`}).execute('lint', [], insideTeamCity);
       expect(res.code).to.equal(1);
+      expect(res.stdout).to.contain('1:1  error  Missing radix parameter  radix');
+    });
+
+    it('should not fail with exit code 1 in outside of ci', () => {
+      const res = setup({'app/a.js': `parseInt("1");`}).execute('lint', [], outsideTeamCity);
+      expect(res.code).to.equal(0);
       expect(res.stdout).to.contain('1:1  error  Missing radix parameter  radix');
     });
   });
