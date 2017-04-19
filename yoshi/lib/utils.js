@@ -3,7 +3,6 @@
 const {mergeWith} = require('lodash/fp');
 const fs = require('fs');
 const process = require('process');
-const xml2js = require('xml2js');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const glob = require('glob');
