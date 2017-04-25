@@ -21,17 +21,15 @@ function renderSass(options) {
   );
 }
 
-function renderFile() {
-  return file => {
-    const options = {
-      file: path.resolve(file),
-      includePaths: ['node_modules', 'node_modules/compass-mixins/lib'],
-      indentedSyntax: path.extname(file) === '.sass'
-    };
-
-    return renderSass(options)
-      .then(result => writeFileIntoDir(path.resolve('dist', file), result.css));
+function renderFile(file) {
+  const options = {
+    file: path.resolve(file),
+    includePaths: ['node_modules', 'node_modules/compass-mixins/lib'],
+    indentedSyntax: path.extname(file) === '.sass'
   };
+
+  return renderSass(options)
+    .then(result => writeFileIntoDir(path.resolve('dist', file), result.css));
 }
 
 module.exports = ({logIf, base, watch}) => {
@@ -46,7 +44,7 @@ module.exports = ({logIf, base, watch}) => {
   }
 
   function transpile() {
-    return Promise.all(readDir(pattern).map(renderFile()));
+    return Promise.all(readDir(pattern).map(renderFile));
   }
 
   return logIf(sass, () => readDir(pattern).length > 0);
