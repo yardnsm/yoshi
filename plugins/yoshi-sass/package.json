@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "postinstall": "npm rebuild node-sass",
     "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
     "build": "eslint .",
     "release": "wnpm-release --no-shrinkwrap"
