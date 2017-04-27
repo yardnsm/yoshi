@@ -16,7 +16,7 @@ describe('Aggregator: e2e', () => {
   afterEach(() => test.teardown());
 
   describe('should run protractor with a cdn server', function () {
-    this.timeout(120000);
+    this.timeout(60000);
 
     it('should download chromedriver 2.28 and use it', () => {
       const res = test
@@ -85,7 +85,7 @@ describe('Aggregator: e2e', () => {
     });
 
     it('should use babel-register', function () {
-      this.timeout(120000);
+      this.timeout(60000);
 
       const res = test
         .setup(singleModuleWithJasmineAndES6Imports(), [hooks.installDependencies, hooks.installProtractor])

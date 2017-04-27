@@ -15,7 +15,7 @@ describe('Aggregator: Test', () => {
 
   describe('defaults', () => {
     it('should pass with exit code 0 with mocha as default', function () {
-      this.timeout(80000);
+      this.timeout(40000);
       const res = test
         .setup({
           'test/component.spec.js': 'it.only("pass", () => 1);',
@@ -241,7 +241,7 @@ describe('Aggregator: Test', () => {
     });
 
     it('should mock scss/css files to always return a string as the prop name', function () {
-      this.timeout(80000);
+      this.timeout(30000);
 
       const res = test
         .setup({
@@ -263,7 +263,7 @@ describe('Aggregator: Test', () => {
     });
 
     it('should load graphql files', function () {
-      this.timeout(80000);
+      this.timeout(30000);
 
       const res = test
         .setup({
@@ -286,7 +286,7 @@ describe('Aggregator: Test', () => {
     });
 
     it('should fail with exit code 1', function () {
-      this.timeout(80000);
+      this.timeout(60000);
 
       const res = test
         .setup({
@@ -468,7 +468,7 @@ describe('Aggregator: Test', () => {
   });
 
   describe('--karma', function () {
-    this.timeout(120000);
+    this.timeout(60000);
 
     describe('with jasmine configuration', () => {
       it('should pass with exit code 0', () => {
