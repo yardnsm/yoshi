@@ -197,7 +197,7 @@ describe('Aggregator: Start', () => {
     });
 
     describe('Watch', function () {
-      this.timeout(30000);
+      this.timeout(80000);
 
       describe('when using typescript', () => {
         it(`should rebuild and restart server after a file has been changed with typescript files`, () => {

@@ -179,7 +179,7 @@ describe('Aggregator: Build', () => {
     });
 
     it('should preserve folder structure, create source maps', function () {
-      this.timeout(60000);
+      this.timeout(120000);
 
       const resp = test
         .setup({
@@ -558,7 +558,7 @@ describe('Aggregator: Build', () => {
     });
 
     it('should consider babel\'s sourceMaps for bundle', function () {
-      this.timeout(120000); // 2min, may be even shorter
+      this.timeout(240000); // 2min, may be even shorter
 
       const res = test
           .setup({
