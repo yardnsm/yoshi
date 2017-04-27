@@ -1,37 +1,37 @@
 # Table of contents
 
 1. [Debug mocha tests (node-server/client)](#debug-mocha-tests)
-  
+
   1. [VSCode](#1-vscode)
 
   2. [Webstorm](#2-webstorm)
-  
+
   3. [Native node](#3-native-node---inspect)
 
   4. [WallabyJS](#4-wallabyjs)
-  
-    1. [Jetbrain](#jetbrains-webstormintellij)  
-    
+
+    1. [Jetbrain](#jetbrains-webstormintellij)
+
     2. [Atom](#atom)
-    
+
     3. [VSCode](#vscode)
-    
+
   5. [Node Inspector](#5-node-inspector)
 
 2. [Debug node server](#debug-node-server)
-  
+
   1.  [VSCode](#1-vscode-1)
-  
+
   2.  [Jetbrain](#2-jetbrain)
-  
+
   3.  [Native Chrome](#3-native-node)
 
 3. [Debug Protractor](#debug-protractor-e2e-tests)
 
   1. [VSCode](#1-vscode-2)
-  
+
   2. [Webstorm](#2-webstorm---tbd)
-  
+
   3. [Native](#3-native-protractor-debugpause)
 
 # Debug mocha tests
@@ -45,7 +45,7 @@ Vscode is a [great tool for debugging Node.js](https://code.visualstudio.com/doc
   ![alt tag](/assets/vscode_debugger.png?raw=true)
 
 
-You can add `debugger` to your code or just click on the side of the line you want to debug and add a breakpoint. 
+You can add `debugger` to your code or just click on the side of the line you want to debug and add a breakpoint.
 
 See this short video for example (**press for HD video**):
 
@@ -70,13 +70,13 @@ Update mocha configurations:
 ![alt tag](/assets/ws-mocha-config.png?raw=true)
 
  1. test directory: `{src,test}/**/*.spec.js`
- 2. extra mocha options: `--require babel-register --require ./node_modules/wix-node-build/lib/ignore-extensions ./test/mocha-setup.js --no-timeouts`
+ 2. extra mocha options: `--require babel-register --require ./node_modules/yoshi/lib/ignore-extensions ./test/mocha-setup.js --no-timeouts`
 
 And for the Typescript lovers:
 
 ![alt tag](/assets/ws-mocha-config-typescript.png?raw=true)
 
-(extra mocha options: `--require ts-node/register --require ./node_modules/wix-node-build/lib/ignore-extensions ./test/mocha-setup.ts --no-timeouts`)
+(extra mocha options: `--require ts-node/register --require ./node_modules/yoshi/lib/ignore-extensions ./test/mocha-setup.ts --no-timeouts`)
 
 
 You can watch an example in the following video (**press for HD video**):
@@ -94,7 +94,7 @@ Enables you to run node tests easily and much faster THEN `node-inspector`.
 Debugging mocha tests:
 
 ```bash
-node --debug-brk=41310 --inspect=9222 --nolazy --require babel-register --require ./node_modules/wix-node-build/lib/ignore-extensions node_modules/mocha/bin/_mocha {test,src}/**/*.spec.js --no-timeouts
+node --debug-brk=41310 --inspect=9222 --nolazy --require babel-register --require ./node_modules/yoshi/lib/ignore-extensions node_modules/mocha/bin/_mocha {test,src}/**/*.spec.js --no-timeouts
 ```
 
 You should see something like:
@@ -139,9 +139,9 @@ Look how cool it is:
 
 * Change the Node.js path to your local node. In nvm, path will look like `/Users/{yourUser}/.nvm/versions/node/v6.2.0/bin/node`
 
-* Use the node version according to your project's `.nvmrc` file (and make sure it is installed). 
+* Use the node version according to your project's `.nvmrc` file (and make sure it is installed).
 
-* Debugging - just press the run (`cmd + shift + R`) and choose wallaby configurations you just entered. 
+* Debugging - just press the run (`cmd + shift + R`) and choose wallaby configurations you just entered.
 
 * A full tutorial can be found [here](https://wallabyjs.com/docs/intro/get-started-jetbrains.html) - **no need for further configurations. There is already a Wallaby.js config file in your project with all your configurations**
 
@@ -179,7 +179,7 @@ Debugging mocha tests in debug mode:
 Mocha tests are running with node (don't be confused with tests which are running using Karma + Mocha. Those are running on browser. See details on Karma debugging section)
 
 ```bash
-node-debug --debug-brk --no-preload node_modules/wix-node-build/wix-node-build-test.js --mocha
+node-debug --debug-brk --no-preload node_modules/yoshi/yoshi-test.js --mocha
 ```
 
 #### debugging your code
@@ -202,7 +202,7 @@ debugger;
 
 ## 1. VSCode
 
-**Prerequisite:** 
+**Prerequisite:**
 
 1. Please make sure you have `.start({disableCluster: process.env.NODE_ENV === 'development'});` in your `index.js`.
 
@@ -218,14 +218,14 @@ Now all you have to do is put a breakpoint in your server code, and open `http:/
 
 To have all statics assets available, along with tests running in the background, you'll have to separately run:
 ```bash
-wix-node-build start --no-server
+yoshi start --no-server
 ```
 
 https://youtu.be/KpvTxSXSgzw
 
 ## 2. Jetbrain
 
-**Prerequisite:** 
+**Prerequisite:**
 
 * Please make sure you have `.start({disableCluster: process.env.NODE_ENV === 'development'});` in your `index.js`.
 
@@ -242,7 +242,7 @@ Now all you have to do is put a breakpoint in your server code, and open `http:/
 To have all statics assets available, along with tests running in the background, you'll have to separately run:
 
 ```bash
-wix-node-build start --no-server
+yoshi start --no-server
 ```
 
 ## 3. Native node
@@ -250,7 +250,7 @@ In case you want to debug your node endpoint/api, it is possible using the follo
 
 - Enter:
 
-  `SRC_PATH=./src NODE_ENV=development node --debug-brk --inspect=9222 --nolazy --require babel-register --require ./node_modules/wix-node-build/lib/ignore-extensions index.js`
+  `SRC_PATH=./src NODE_ENV=development node --debug-brk --inspect=9222 --nolazy --require babel-register --require ./node_modules/yoshi/lib/ignore-extensions index.js`
 
   Copy the `chrome-devtools://devtools/remote...` line from the message you received, and paste to your chrome browser:
 
@@ -297,11 +297,11 @@ Your test will stop at this point and you will be able to:
 
 a. Go to chrome and debug/see the broser in it's current state (using chrome inspector)
 
-b. Enter `repl` in console, and enter interactive mode. 
+b. Enter `repl` in console, and enter interactive mode.
 
 You will now be able to run things like:
 
-`element(by.binding('user')).getText()` 
+`element(by.binding('user')).getText()`
 
 in your console!
 
