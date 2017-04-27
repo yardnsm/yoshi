@@ -13,6 +13,7 @@ module.exports = function (wallaby) {
       {pattern: 'templates/**', instrument: false},
       {pattern: 'index.js', instrument: true},
       {pattern: 'package.json', instrument: false},
+      {pattern: 'pom.xml', instrument: false},
       'testkit/**/*.[j|t]s',
       'test/**/*.[j|t]s',
       'test/**/*.[j|t]sx',
