@@ -16,7 +16,7 @@ function webpackDevServer() {
   if (shouldRunWebpack(webpackConfig)) {
     webpackConfig.entry = addHotEntries(webpackConfig.entry);
     webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
-    webpackConfig.output.publicPath = `http://localhost:${servers.cdn.port()}/`;
+    webpackConfig.output.publicPath = `//localhost:${servers.cdn.port()}/`;
 
     const bundler = filterNoise(webpack(webpackConfig));
 
