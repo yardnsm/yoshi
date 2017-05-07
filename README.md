@@ -52,6 +52,21 @@ Or within the command-line:
 yoshi [command] [options]
 ```
 
+## Generators
+
+For a quick start, take a look at our [generators](https://github.com/wix/yoshi/tree/master/generators/generator-yoshi):
+
+```bash
+npm install -g yo
+npm install -g generator-yoshi
+```
+
+Then generate your new project:
+
+```bash
+yo yoshi
+```
+
 ---
 
 ## CLI
