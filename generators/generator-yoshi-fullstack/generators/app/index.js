@@ -37,7 +37,7 @@ module.exports = generators.Base.extend({
       copyTpl('.vscode/**/*', '.vscode');
       copyTpl('src/components/**/*', 'src/components');
 
-      copy('test/e2e/**/*', 'test/e2e');
+      copy('test/browser/**/*', 'test/browser');
       copy('test/it/**/*', 'test/it');
       copyTpl('test/mocha-setup.js', 'test/mocha-setup.js');
 
@@ -45,6 +45,7 @@ module.exports = generators.Base.extend({
       copy('.nvmrc', '.nvmrc');
       copy('index.js', 'index.js');
       copy('wallaby.js', 'wallaby.js');
+      copy('protractor.conf.js', 'protractor.conf.js');
     },
 
     package() {
