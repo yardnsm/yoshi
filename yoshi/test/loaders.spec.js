@@ -248,8 +248,8 @@ describe('Loaders', () => {
     });
 
     it('it should merge all style tags into one', () => {
-        setupAndBuild({separateCss: false});
-        expect(test.content('dist/statics/app.bundle.js')).to.contain('{"singleton":true}');
+      setupAndBuild({separateCss: false});
+      expect(test.content('dist/statics/app.bundle.js')).to.contain('{"singleton":true}');
     });
 
     function setupAndBuild(config) {
