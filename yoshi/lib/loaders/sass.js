@@ -21,7 +21,7 @@ module.exports = (separateCss, cssModules, tpaStyle) => {
   return {
     client: {
       test: /\.s?css$/,
-      use: clientLoader(separateCss, 'style-loader', [
+      use: clientLoader(separateCss, {loader: 'style-loader', options: {singleton: true}}, [
         {
           loader: 'css-loader',
           options: cssLoaderOptions
