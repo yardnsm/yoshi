@@ -39,7 +39,10 @@ module.exports = generators.Base.extend({
 
       copy('test/browser/**/*', 'test/browser');
       copy('test/it/**/*', 'test/it');
+      copy('test/e2e/**/*', 'test/e2e');
+      copy('test/environment.js', 'test/environment.js');
       copyTpl('test/mocha-setup.js', 'test/mocha-setup.js');
+      copy('test/test-common.js', 'test/test-common.js');
 
       copy('gitignore', '.gitignore');
       copy('.nvmrc', '.nvmrc');
@@ -74,11 +77,13 @@ module.exports = generators.Base.extend({
           'react-test-renderer': '^15.5.4',
           chai: '^3.5.0',
           enzyme: '^2.3.0',
-          'jsdom-global': '^2.1.0',
+          jsdom: '^10.1.0',
+          'jsdom-global': '^3.0.2',
           nock: '^8.0.0',
           yoshi: 'latest'
         },
         dependencies: {
+          axios: '^0.16.1',
           'babel-polyfill': '^6.9.1',
           bluebird: '^3.4.7',
           ejs: '^2.5.6',
