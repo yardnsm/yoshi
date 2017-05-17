@@ -23,11 +23,13 @@
     "react-test-renderer": "^15.5.4",
     "chai": "^3.5.0",
     "enzyme": "^2.3.0",
-    "jsdom-global": "^2.1.0",
+    "jsdom": "^10.1.0",
+    "jsdom-global": "^3.0.2",
     "nock": "^8.0.0",
     "yoshi": "latest"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-polyfill": "^6.9.1",
     "bluebird": "^3.4.7",
     "ejs": "^2.5.6",
