@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "yoshi start --entry-point=./test/fakes/start-fake-server.js",
-    "pretest": "yoshi lint && yoshi build",
+    "pretest": "yoshi build",
     "build": ":",
     "test": "BABEL_ENV=node yoshi test --jest"
   },
