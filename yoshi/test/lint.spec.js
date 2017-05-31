@@ -92,9 +92,9 @@ describe('Aggregator: Lint', () => {
       expect(res.stdout).to.contain('1:1  error  Missing radix parameter  radix');
     });
 
-    it('should not fail with exit code 1 in outside of ci', () => {
+    it('should fail with exit code 1 in outside of ci', () => {
       const res = setup({'app/a.js': `parseInt("1");`}).execute('lint', [], outsideTeamCity);
-      expect(res.code).to.equal(0);
+      expect(res.code).to.equal(1);
       expect(res.stdout).to.contain('1:1  error  Missing radix parameter  radix');
     });
   });
