@@ -19,8 +19,7 @@ describe('ESLint', () => {
   beforeEach(() => process.chdir(test.tmp));
   beforeEach(() => task = opts => eslint(Object.assign({
     base: () => 'src',
-    logIf: a => a,
-    inTeamCity: () => true
+    logIf: a => a
   }, opts))());
 
   afterEach(() => test.teardown());
@@ -68,15 +67,6 @@ describe('ESLint', () => {
 
     return mustReject(task())
       .catch(() => {
-        expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
-      });
-  });
-
-  it('should fail with exit code 0 if not in teamcity', () => {
-    setup({'src/a.js': `parseInt('1');`});
-
-    return mustFulfill(task({inTeamCity: () => false}))
-      .then(() => {
         expect(stdout).to.contain('1:1  error  Missing radix parameter  radix');
       });
   });
