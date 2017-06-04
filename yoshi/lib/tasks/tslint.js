@@ -15,6 +15,7 @@ function readGlob() {
 function tslint() {
   return Promise
     .all(readGlob().map(lint))
+    .then(results => results.filter(result => result.output !== '\n'))
     .then(results => {
       const output = results.reduce((acc, result) => acc + result.output, '');
       const errorCount = results.reduce((acc, result) => acc + result.errorCount, 0);
