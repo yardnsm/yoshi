@@ -38,8 +38,9 @@ In your `package.json`:
 {
   "scripts": {
     "start": "yoshi start",
+    "pretest": "yoshi lint && yoshi build", 
     "test": "yoshi test",
-    "build": "yoshi lint && yoshi build",
+    "build": ":",
     "release": "yoshi release" //only needed if you publish to npm
     ...
   }
