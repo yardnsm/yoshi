@@ -88,7 +88,7 @@ describe('Aggregator: e2e', () => {
       this.timeout(60000);
 
       const res = test
-        .setup(singleModuleWithJasmineAndES6Imports(), [hooks.installDependencies, hooks.installProtractor])
+        .setup(singleModuleWithJasmineAndES6Imports(true), [hooks.installDependencies, hooks.installProtractor])
         .execute('test', ['--protractor'], outsideTeamCity);
 
       expect(res.code).to.equal(0);
@@ -96,6 +96,17 @@ describe('Aggregator: e2e', () => {
       expect(res.stdout).to.contain('1 spec, 0 failures');
       // a dummy import in order to use es6 feature that is not supported by node env ootb
       expect(fx.e2eTestJasmineES6Imports()).to.contain(`import path from 'path'`);
+    });
+
+    it('should not use babel-register', function () {
+      this.timeout(60000);
+
+      const res = test
+        .setup(singleModuleWithJasmineAndES6Imports(false), [hooks.installProtractor])
+        .execute('test', ['--protractor'], outsideTeamCity);
+
+      expect(res.code).to.equal(1);
+      expect(res.stdout).to.contain('Unexpected token import');
     });
   });
 
@@ -121,13 +132,13 @@ describe('Aggregator: e2e', () => {
     };
   }
 
-  function singleModuleWithJasmineAndES6Imports() {
+  function singleModuleWithJasmineAndES6Imports(runIndividualTranspiler) {
     return Object.assign(singleModuleWithJasmine(), {
       'dist/test/subFolder/some.e2e.js': fx.e2eTestJasmineES6Imports(),
       'package.json': `{
           "name": "a",\n
           "version": "1.0.4",\n
-          "yoshi": ${JSON.stringify(cdnConfigurations())},
+          "yoshi": ${JSON.stringify(Object.assign(cdnConfigurations(), {runIndividualTranspiler}))},
           "dependencies": {
             "babel-plugin-transform-es2015-modules-commonjs": "latest"
           },
