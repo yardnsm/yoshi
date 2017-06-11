@@ -5,8 +5,7 @@ module.exports = function (wallaby) {
     require('babel-polyfill');
     const mocha = wallaby.testFramework;
     mocha.timeout(30000);
-    process.env.IN_WALLABY = true;
-    require('yoshi/config/mocha-setup');
+    require('yoshi/lib/setup/mocha-setup');
   };
   return wallabyCommon;
 };
