@@ -16,7 +16,7 @@ const args = {
   reporter: inTeamCity() ? 'mocha-teamcity-reporter' : 'progress',
   timeout: 30000,
   recursive: true,
-  require: [absolute('require-hooks'), absolute('setup', 'mocha-setup')]
+  require: [absolute('..', '..', 'config', 'mocha-setup')]
 };
 
 module.exports = ({log, watch}) => {
@@ -39,7 +39,7 @@ function runMocha() {
 }
 
 function absolute(...a) {
-  return path.join(__dirname, '..', ...a);
+  return path.join(__dirname, ...a);
 }
 
 function toCliArgs(args) {
