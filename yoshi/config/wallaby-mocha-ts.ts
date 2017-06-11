@@ -16,14 +16,15 @@ module.exports = function (wallaby) {
 
     tests: [
       {pattern: 'test/**/*.spec.ts*'},
-      {pattern: 'src/**/*.spec.ts*'},
+      {pattern: 'src/**/*.spec.ts*'}
     ],
     testFramework: 'mocha',
 
     setup(wallaby) {
       const mocha = wallaby.testFramework;
       mocha.timeout(30000);
-      require('yoshi/lib/setup/mocha-setup');
+      process.env.IN_WALLABY = true;
+      require('yoshi/config/mocha-setup');
     },
 
     env: {
