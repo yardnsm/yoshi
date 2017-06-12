@@ -23,7 +23,7 @@ describe('Aggregator: Start', () => {
 
     afterEach(done => {
       test.teardown();
-      killSpawnProcessAndHidChildren(done);
+      killSpawnProcessAndHisChildren(done);
     });
 
     describe('tests', function () {
@@ -99,7 +99,9 @@ describe('Aggregator: Start', () => {
           .then(content =>
             expect(content).to.contain(`if (false) {\n  throw new Error("[HMR] Hot Module Replacement is disabled.");`));
       });
+    });
 
+    describe('Public path', () => {
       it('should set proper public path', () => {
         child = test
           .setup({
@@ -111,6 +113,19 @@ describe('Aggregator: Start', () => {
         return checkServerIsServing({port: 3200, file: 'app.bundle.js'})
           .then(content =>
             expect(content).to.contain(`__webpack_require__.p = "//localhost:3200/";`));
+      });
+
+      it('should be able to set public path via servers.cdn.url', () => {
+        child = test
+          .setup({
+            'src/client.js': `module.exports.wat = 'hmr';\n`,
+            'package.json': fx.packageJson({servers: {cdn: {url: 'some.url'}}})
+          })
+          .spawn('start');
+
+        return checkServerIsServing({port: 3200, file: 'app.bundle.js'})
+          .then(content =>
+            expect(content).to.contain(`__webpack_require__.p = "some.url";`));
       });
     });
 
@@ -337,7 +352,7 @@ describe('Aggregator: Start', () => {
     });
   });
 
-  function killSpawnProcessAndHidChildren(done) {
+  function killSpawnProcessAndHisChildren(done) {
     if (!child) {
       return done();
     }

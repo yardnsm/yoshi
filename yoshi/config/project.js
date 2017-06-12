@@ -33,7 +33,8 @@ module.exports = {
   isAngularProject: () => !!_.get(packagejson, 'dependencies.angular', false) || !!_.get(packagejson, 'peerDependencies.angular', false),
   servers: {
     cdn: {
-      port: () => getConfig('servers.cdn.port', 3200)
+      port: () => getConfig('servers.cdn.port', 3200),
+      url: () => getConfig('servers.cdn.url', `//localhost:${module.exports.servers.cdn.port()}/`)
     }
   },
   entry: () => getConfig('entry'),
