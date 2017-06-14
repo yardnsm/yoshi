@@ -126,7 +126,7 @@ describe('Aggregator: e2e', () => {
     this.timeout(60000);
 
     test
-      .setup(singleModuleWithCssClassSelector(), [hooks.installDependencies, hooks.installProtractor])
+      .setup(singleModuleWithCssModules(), [hooks.installDependencies, hooks.installProtractor])
       .execute('build');
 
     const res = test.execute('test', ['--protractor'], outsideTeamCity);
@@ -199,10 +199,10 @@ describe('Aggregator: e2e', () => {
     };
   }
 
-  function singleModuleWithCssClassSelector() {
+  function singleModuleWithCssModules() {
     return {
       'protractor.conf.js': fx.protractorConfWithStatics(),
-      'test/some.e2e.js': fx.e2eTestWithCssClassSelector(),
+      'test/some.e2e.js': fx.e2eTestWithCssModules(),
       'src/client.js': `const style = require('./some.css');
         document.body.innerHTML = style.className;
       `,

@@ -119,7 +119,7 @@ const fx = {
       });
     });
   `,
-  e2eTestWithCssClassSelector: () => `
+  e2eTestWithCssModules: () => `
     const {className} = require('../src/some.css');
     it("should write some text to body", () => {
       browser.ignoreSynchronization = true;
