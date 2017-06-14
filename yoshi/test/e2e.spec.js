@@ -122,6 +122,18 @@ describe('Aggregator: e2e', () => {
     expect(res.stdout).to.not.contain('protractor');
   });
 
+  it('should support css class selectors with cssModules on', function () {
+    this.timeout(60000);
+
+    test
+      .setup(singleModuleWithCssModules(), [hooks.installDependencies, hooks.installProtractor])
+      .execute('build');
+
+    const res = test.execute('test', ['--protractor'], outsideTeamCity);
+
+    expect(res.code).to.equal(0);
+  });
+
   function cdnConfigurations() {
     return {
       servers: {
@@ -184,6 +196,18 @@ describe('Aggregator: e2e', () => {
       'package.json': fx.packageJson(
         Object.assign(cdnConfigurations())
       )
+    };
+  }
+
+  function singleModuleWithCssModules() {
+    return {
+      'protractor.conf.js': fx.protractorConfWithStatics(),
+      'test/some.e2e.js': fx.e2eTestWithCssModules(),
+      'src/client.js': `const style = require('./some.css');
+        document.body.innerHTML = style.className;
+      `,
+      'src/some.css': `.class-name {color: green;}`,
+      'package.json': fx.packageJson(cdnConfigurations(), {express: 'latest'})
     };
   }
 });

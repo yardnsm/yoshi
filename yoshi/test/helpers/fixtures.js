@@ -47,9 +47,28 @@ const fx = {
       radix: 'error'
     }
   }, null, 2),
+  protractorConfWithStatics: framework => `
+    const path = require('path');
+    const http = require("http");
+    const express = require('express');
+    const app = express();
+
+    exports.config = {
+      specs: ["test/**/*.e2e.js"],
+      framework: "${framework || 'jasmine'}",
+      onPrepare: () => {
+        const server = http.createServer((req, res) => {
+          const response = "<html><body><script src=http://localhost:6453/app.bundle.js></script></body></html>";
+          res.end(response);
+        });
+        app.use(express.static(path.join(__dirname, '/dist/statics')));
+        app.listen(6453);
+        return server.listen(1337);
+      }
+    };
+  `,
   protractorConf: framework => `
     const http = require("http");
-
     exports.config = {
       specs: ["dist/test/**/*.e2e.js"],
       framework: "${framework || 'jasmine'}",
@@ -58,7 +77,6 @@ const fx = {
           const response = "<html><body><script src=http://localhost:6452/app.bundle.js></script></body></html>";
           res.end(response);
         });
-
         return server.listen(1337);
       }
     };
@@ -99,6 +117,14 @@ const fx = {
       element(by.css("body")).getText().then(function (text) {
         equals(text, "Hello Kitty");
       });
+    });
+  `,
+  e2eTestWithCssModules: () => `
+    const {className} = require('../src/some.css');
+    it("should write some text to body", () => {
+      browser.ignoreSynchronization = true;
+      browser.get("http://localhost:1337");
+      expect(element(by.css("body")).getText()).toEqual(className);
     });
   `,
   e2eClient: () => `document.body.innerHTML = "Hello Kitty";`,

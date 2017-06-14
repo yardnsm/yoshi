@@ -31,6 +31,15 @@ const merged = ld.mergeWith({
   framework: 'jasmine',
   specs: [globs.e2e()],
   directConnect: true,
+  beforeLaunch() {
+    const rootDir = './src';
+    require('css-modules-require-hook')({
+      rootDir,
+      generateScopedName: require('./css-scope-pattern'),
+      extensions: ['.scss', '.css'],
+      camelCase: true
+    });
+  },
   onPrepare: () => {
     if (merged.framework === 'jasmine' && inTeamCity()) {
       const TeamCityReporter = require('jasmine-reporters').TeamCityReporter;
