@@ -31,6 +31,7 @@
     "commander": "^2.9.0",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.27.3",
+    "css-modules-require-hook": "^4.0.6",
     "detect-port": "1.0.7",
     "eslint-config-wix": "latest",
     "express": "^4.13.4",
