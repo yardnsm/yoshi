@@ -134,6 +134,17 @@ describe('Aggregator: e2e', () => {
     expect(res.code).to.equal(0);
   });
 
+  it('should extend project\'s beforeLaunch', function () {
+    this.timeout(60000);
+    const res = test
+    .setup(singleModuleWithBeforLaunch(), [hooks.installProtractor])
+    .execute('test', ['--protractor'], outsideTeamCity);
+
+    expect(res.code).to.equal(0);
+    expect(res.stdout).to.contain('protractor');
+    expect(res.stdout).to.contain('1 spec, 0 failures');
+  });
+
   function cdnConfigurations() {
     return {
       servers: {
@@ -209,5 +220,11 @@ describe('Aggregator: e2e', () => {
       'src/some.css': `.class-name {color: green;}`,
       'package.json': fx.packageJson(cdnConfigurations(), {express: 'latest'})
     };
+  }
+
+  function singleModuleWithBeforLaunch() {
+    return Object.assign(singleModuleWithJasmine(), {
+      'protractor.conf.js': fx.protractorConfWithBeforeLaunch()
+    });
   }
 });
