@@ -16,7 +16,7 @@
     "cross-spawn": "^5.1.0",
     "lodash.flowright": "^3.5.0",
     "lodash.topairs": "^4.3.0",
-    "typescript": "^2.2.1"
+    "typescript": "~2.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
