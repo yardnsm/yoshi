@@ -131,7 +131,6 @@ describe('Aggregator: e2e', () => {
 
     const res = test.execute('test', ['--protractor'], outsideTeamCity);
 
-    console.log(res);
     expect(res.code).to.equal(0);
   });
 
