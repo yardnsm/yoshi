@@ -122,7 +122,7 @@ describe('Aggregator: e2e', () => {
     expect(res.stdout).to.not.contain('protractor');
   });
 
-  it.only('should support css class selectors with cssModules on', function () {
+  it('should support css class selectors with cssModules on', function () {
     this.timeout(60000);
 
     test
