@@ -25,6 +25,7 @@ const userConfPath = path.resolve('protractor.conf.js');
 const userConf = exists(userConfPath) ? require(userConfPath).config : null;
 const onPrepare = (userConf && userConf.onPrepare) || ld.noop;
 const onComplete = (userConf && userConf.onComplete) || ld.noop;
+const beforeLaunch = (userConf && userConf.beforeLaunch) || ld.noop;
 let cdnServer;
 
 const merged = ld.mergeWith({
@@ -39,6 +40,7 @@ const merged = ld.mergeWith({
       extensions: ['.scss', '.css'],
       camelCase: true
     });
+    return beforeLaunch.call(merged);
   },
   onPrepare: () => {
     if (merged.framework === 'jasmine' && inTeamCity()) {
