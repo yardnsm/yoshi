@@ -132,7 +132,6 @@ describe('Aggregator: e2e', () => {
     const res = test.execute('test', ['--protractor'], outsideTeamCity);
 
     expect(res.code).to.equal(0);
-    expect(res.stdout).to.contain('protractor');
   });
 
   function cdnConfigurations() {
