@@ -58,11 +58,11 @@ const fx = {
       framework: "${framework || 'jasmine'}",
       onPrepare: () => {
         const server = http.createServer((req, res) => {
-          const response = "<html><body><script src=http://localhost:6452/app.bundle.js></script></body></html>";
+          const response = "<html><body><script src=http://localhost:6453/app.bundle.js></script></body></html>";
           res.end(response);
         });
         app.use(express.static(path.join(__dirname, '/dist/statics')));
-        app.listen(6452);
+        app.listen(6453);
         return server.listen(1337);
       }
     };
