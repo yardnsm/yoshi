@@ -122,7 +122,7 @@ describe('Aggregator: e2e', () => {
     expect(res.stdout).to.not.contain('protractor');
   });
 
-  it('should support css class selectors with cssModules on', function () {
+  it.only('should support css class selectors with cssModules on', function () {
     this.timeout(60000);
 
     test
@@ -131,6 +131,7 @@ describe('Aggregator: e2e', () => {
 
     const res = test.execute('test', ['--protractor'], outsideTeamCity);
 
+    console.log(res);
     expect(res.code).to.equal(0);
   });
 
