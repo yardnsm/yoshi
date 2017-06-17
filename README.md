@@ -232,6 +232,20 @@ Explanation is in [cli/build](#build) section.
 
 Explanation is in [cli/start](#start) section.
 
+##### yoshi.externals
+
+Prevent bundling of certain imported packages and instead retrieve these external dependencies at runtime (as a script tags)
+
+```json
+{
+  "yoshi": {
+    "externals": {
+      "react": "React"
+    }
+  }
+}
+```
+
 ##### yoshi.specs
 
 Specs globs are configurable. `browser` is for karma, `node` is for mocha and jasmine.
