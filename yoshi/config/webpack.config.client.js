@@ -50,6 +50,7 @@ const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
     devtool: inTeamCity() ? 'source-map' : 'cheap-module-source-map',
 
     output: {
+      umdNamedDefine: true,
       path: path.resolve('./dist/statics'),
       filename: debug ? '[name].bundle.js' : '[name].bundle.min.js',
       chunkFilename: debug ? '[name].chunk.js' : '[name].chunk.min.js',

@@ -697,6 +697,20 @@ describe('Aggregator: Build', () => {
       expect(test.content('dist/statics/app.bundle.js')).to.contain('exports["MyLibraryEndpoint"]');
       expect(test.content('dist/statics/app.bundle.js')).to.contain('root["MyLibraryEndpoint"]');
     });
+
+    it('should generate a bundle with named amd library support', () => {
+      const res = test
+        .setup({
+          'src/client.js': '',
+          'package.json': fx.packageJson({
+            exports: 'MyLibraryEndpoint'
+          })
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+      expect(test.content('dist/statics/app.bundle.js')).to.contain('define("MyLibraryEndpoint", [], factory)');
+    });
   });
 
   describe('Bundle - sass', () => {
