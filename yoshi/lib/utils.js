@@ -3,7 +3,6 @@
 const {mergeWith} = require('lodash/fp');
 const fs = require('fs');
 const process = require('process');
-const xml2js = require('xml2js');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const glob = require('glob');
@@ -57,19 +56,6 @@ module.exports.isBabelProject = () => {
   return !!glob.sync(path.resolve('.babelrc')).length || !!project.babel();
 };
 
-module.exports.getPom = () =>
-  parseXml(fs.readFileSync(path.resolve('pom.xml'), 'utf-8'));
-
-// TODO: replace with real template?
-module.exports.renderTemplate = (templateFileName, data) => {
-  let template = fs.readFileSync(templateFileName).toString();
-  Object.keys(data).forEach(function (key) {
-    template = template.replace('{{' + key + '}}', data[key]);
-  });
-
-  return template;
-};
-
 module.exports.writeFile = (targetFileName, data) => {
   mkdirp.sync(path.dirname(targetFileName));
   fs.writeFileSync(path.resolve(targetFileName), data);
@@ -109,19 +95,3 @@ module.exports.shouldRunWebpack = webpackConfig => {
   const defaultEntryPath = path.join(webpackConfig.context, project.defaultEntry());
   return project.entry() || exists(`${defaultEntryPath}.{js,jsx,ts,tsx}`);
 };
-
-function parseXml(pomXml) {
-  var parseError;
-  var parseResult;
-  xml2js.parseString(pomXml, function (err, result) {
-    // This looks to be async, but is totally synchronous. Which is why we can
-    // use the values of parseResult/Error in the code immediately after the call to parseString.
-    parseError = err;
-    parseResult = result;
-  });
-  if (parseError) {
-    throw parseError;
-  }
-
-  return parseResult;
-}
