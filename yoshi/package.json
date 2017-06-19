@@ -75,7 +75,7 @@
     "tslint": "^5.0.0",
     "tslint-config-wix": "latest",
     "url-loader": "^0.5.7",
-    "webpack": "^2.3.0",
+    "webpack": "^3.0.0",
     "webpack-dev-middleware": "~1.9.0",
     "webpack-hot-middleware": "~2.13.2",
     "wix-tpa-style-loader": "^1.0.0",
