@@ -106,15 +106,28 @@ agent-base@2:
     extend "~3.0.0"
     semver "~5.0.1"
 
-ajv-keywords@^1.0.0, ajv-keywords@^1.1.1:
+ajv-keywords@^1.0.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
+
+ajv-keywords@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-2.1.0.tgz#a296e17f7bfae7c1ce4f7e0de53d29cb32162df0"
 
 ajv@^4.11.2, ajv@^4.7.0, ajv@^4.9.1:
   version "4.11.6"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.6.tgz#947e93049790942b2a2d60a8289b28924d39f987"
   dependencies:
     co "^4.6.0"
+    json-stable-stringify "^1.0.1"
+
+ajv@^5.1.5:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.2.0.tgz#c1735024c5da2ef75cc190713073d44f098bf486"
+  dependencies:
+    co "^4.6.0"
+    fast-deep-equal "^0.1.0"
+    json-schema-traverse "^0.3.0"
     json-stable-stringify "^1.0.1"
 
 align-text@^0.1.1, align-text@^0.1.3:
@@ -1251,6 +1264,23 @@ css-loader@^0.27.3:
     postcss-modules-values "^1.1.0"
     source-list-map "^0.1.7"
 
+css-modules-require-hook@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/css-modules-require-hook/-/css-modules-require-hook-4.0.6.tgz#70a03b0ca3784e36e5a1dc1aa82ba068d53248bf"
+  dependencies:
+    debug "^2.2.0"
+    generic-names "^1.0.1"
+    glob-to-regexp "^0.1.0"
+    icss-replace-symbols "^1.0.2"
+    lodash "^4.3.0"
+    postcss "^5.0.19"
+    postcss-modules-extract-imports "^1.0.0"
+    postcss-modules-local-by-default "^1.0.1"
+    postcss-modules-parser "^1.1.0"
+    postcss-modules-scope "^1.0.0"
+    postcss-modules-values "^1.1.1"
+    seekout "^1.0.1"
+
 css-rule-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/css-rule-stream/-/css-rule-stream-1.1.0.tgz#3786e7198983d965a26e31957e09078cbb7705a2"
@@ -2145,6 +2175,10 @@ fancy-log@^1.1.0:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
 
+fast-deep-equal@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-0.1.0.tgz#5c6f4599aba6b333ee3342e2ed978672f1001f8d"
+
 fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
@@ -2461,6 +2495,12 @@ generate-object-property@^1.1.0:
   dependencies:
     is-property "^1.0.0"
 
+generic-names@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/generic-names/-/generic-names-1.0.2.tgz#e25b7feceb5b5a8f28f5f972a7ccfe57e562adcd"
+  dependencies:
+    loader-utils "^0.2.16"
+
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
@@ -2509,6 +2549,10 @@ glob-stream@^3.1.5:
     ordered-read-streams "^0.1.0"
     through2 "^0.6.1"
     unique-stream "^1.0.0"
+
+glob-to-regexp@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.1.0.tgz#e0369d426578fd456d47dc23b09de05c1da9ea5d"
 
 glob-watcher@^0.0.6:
   version "0.0.6"
@@ -3749,6 +3793,10 @@ json-loader@^0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.4.tgz#8baa1365a632f58a3c46d20175fc6002c96e37de"
 
+json-schema-traverse@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.3.0.tgz#0016c0b1ca1efe46d44d37541bcdfc19dcfae0db"
+
 json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
@@ -4029,6 +4077,12 @@ lodash._basecreate@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-3.0.3.tgz#1bc661614daa7fc311b7d03bf16806a0213cf821"
 
+lodash._baseeach@^3.0.0:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/lodash._baseeach/-/lodash._baseeach-3.0.4.tgz#cf8706572ca144e8d9d75227c990da982f932af3"
+  dependencies:
+    lodash.keys "^3.0.0"
+
 lodash._basefor@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/lodash._basefor/-/lodash._basefor-3.0.3.tgz#7550b4e9218ef09fad24343b612021c79b4c20c2"
@@ -4109,6 +4163,15 @@ lodash.escape@^3.0.0:
 lodash.flowright@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/lodash.flowright/-/lodash.flowright-3.5.0.tgz#2b5fff399716d7e7dc5724fe9349f67065184d67"
+
+lodash.foreach@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-3.0.3.tgz#6fd7efb79691aecd67fdeac2761c98e701d6c39a"
+  dependencies:
+    lodash._arrayeach "^3.0.0"
+    lodash._baseeach "^3.0.0"
+    lodash._bindcallback "^3.0.0"
+    lodash.isarray "^3.0.0"
 
 lodash.isarguments@^3.0.0:
   version "3.1.0"
@@ -5332,6 +5395,14 @@ postcss-modules-local-by-default@^1.0.1:
     css-selector-tokenizer "^0.6.0"
     postcss "^5.0.4"
 
+postcss-modules-parser@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/postcss-modules-parser/-/postcss-modules-parser-1.1.1.tgz#95f71ad7916f0f39207bb81c401336c8d245738c"
+  dependencies:
+    icss-replace-symbols "^1.0.2"
+    lodash.foreach "^3.0.3"
+    postcss "^5.0.10"
+
 postcss-modules-scope@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/postcss-modules-scope/-/postcss-modules-scope-1.0.2.tgz#ff977395e5e06202d7362290b88b1e8cd049de29"
@@ -5339,7 +5410,7 @@ postcss-modules-scope@^1.0.0:
     css-selector-tokenizer "^0.6.0"
     postcss "^5.0.4"
 
-postcss-modules-values@^1.1.0:
+postcss-modules-values@^1.1.0, postcss-modules-values@^1.1.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/postcss-modules-values/-/postcss-modules-values-1.2.2.tgz#f0e7d476fe1ed88c5e4c7f97533a3e772ad94ca1"
   dependencies:
@@ -5454,7 +5525,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.18, postcss@^5.0.2, postcss@^5.0.20, postcss@^5.0.21, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.1.0, postcss@^5.2.13, postcss@^5.2.15, postcss@^5.2.16, postcss@^5.2.4:
+postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.18, postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.20, postcss@^5.0.21, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.1.0, postcss@^5.2.13, postcss@^5.2.15, postcss@^5.2.16, postcss@^5.2.4:
   version "5.2.17"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.17.tgz#cf4f597b864d65c8a492b2eabe9d706c879c388b"
   dependencies:
@@ -6043,6 +6114,10 @@ screenshot-reporter@^1.1.2:
   dependencies:
     mkdirp "~0.3.5"
 
+seekout@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/seekout/-/seekout-1.0.2.tgz#09ba9f1bd5b46fbb134718eb19a68382cbb1b9c9"
+
 selenium-webdriver@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-3.0.1.tgz#a2dea5da4a97f6672e89e7ca7276cefa365147a7"
@@ -6254,9 +6329,9 @@ source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-0.1.8.tgz#c550b2ab5427f6b3f21f5afead88c4f5587b2106"
 
-source-list-map@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-1.1.1.tgz#1a33ac210ca144d1e561f906ebccab5669ff4cb4"
+source-list-map@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.0.tgz#aaa47403f7b245a92fbc97ea08f250d6087ed085"
 
 source-map-resolve@^0.3.0:
   version "0.3.1"
@@ -6570,7 +6645,7 @@ sugarss@^0.2.0:
   dependencies:
     postcss "^5.2.4"
 
-supports-color@3.1.2, supports-color@^3.1.0:
+supports-color@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -6580,7 +6655,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.0, supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
@@ -6906,11 +6981,11 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.2.1:
+typescript@^2.2.1, typescript@~2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.0.tgz#2e63e09284392bc8158a2444c33e2093795c0418"
 
-uglify-js@^2.6, uglify-js@^2.8.5, uglify-js@~2.8.22:
+uglify-js@^2.6, uglify-js@~2.8.22:
   version "2.8.22"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.22.tgz#d54934778a8da14903fa29a326fb24c0ab51a1a0"
   dependencies:
@@ -6922,6 +6997,13 @@ uglify-js@^2.6, uglify-js@^2.8.5, uglify-js@~2.8.22:
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
+
+uglifyjs-webpack-plugin@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-0.4.4.tgz#7829c50ee5a5b755969d4458357ed5a2dd36fbbd"
+  dependencies:
+    source-map "^0.5.6"
+    webpack-sources "^1.0.1"
 
 uid-number@^0.0.6:
   version "0.0.6"
@@ -7194,37 +7276,38 @@ webpack-sources@^0.1.0:
     source-list-map "~0.1.7"
     source-map "~0.5.3"
 
-webpack-sources@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.2.3.tgz#17c62bfaf13c707f9d02c479e0dcdde8380697fb"
+webpack-sources@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.1.tgz#c7356436a4d13123be2e2426a05d1dad9cbe65cf"
   dependencies:
-    source-list-map "^1.1.1"
+    source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@^2.3.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.4.1.tgz#15a91dbe34966d8a4b99c7d656efd92a2e5a6f6a"
+webpack@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.0.0.tgz#ee9bcebf21247f7153cb410168cab45e3a59d4d7"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"
-    ajv "^4.7.0"
-    ajv-keywords "^1.1.1"
+    ajv "^5.1.5"
+    ajv-keywords "^2.0.0"
     async "^2.1.2"
     enhanced-resolve "^3.0.0"
+    escope "^3.6.0"
     interpret "^1.0.0"
     json-loader "^0.5.4"
     json5 "^0.5.1"
     loader-runner "^2.3.0"
-    loader-utils "^0.2.16"
+    loader-utils "^1.1.0"
     memory-fs "~0.4.1"
     mkdirp "~0.5.0"
     node-libs-browser "^2.0.0"
     source-map "^0.5.3"
     supports-color "^3.1.0"
     tapable "~0.2.5"
-    uglify-js "^2.8.5"
+    uglifyjs-webpack-plugin "^0.4.4"
     watchpack "^1.3.1"
-    webpack-sources "^0.2.3"
+    webpack-sources "^1.0.1"
     yargs "^6.0.0"
 
 whatwg-encoding@^1.0.1:
@@ -7503,6 +7586,13 @@ yoshi-eslint@latest:
     eslint "^3.16.1"
     glob "^7.1.1"
 
+yoshi-maven-statics@latest:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/yoshi-maven-statics/-/yoshi-maven-statics-1.0.1.tgz#d48da7c0a309616d838c07b249b94e57e23cae81"
+  dependencies:
+    mkdirp "^0.5.1"
+    xml2js "^0.4.17"
+
 yoshi-petri@latest:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/yoshi-petri/-/yoshi-petri-1.0.3.tgz#662182b4a2ec4479a77bd8fd244c50da773ec725"
@@ -7526,6 +7616,14 @@ yoshi-stylelint@latest:
   dependencies:
     cosmiconfig "^2.1.1"
     stylelint "^7.9.0"
+
+yoshi-tslint@latest:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/yoshi-tslint/-/yoshi-tslint-1.0.1.tgz#1d3982408f5950d55ae9e92e81d959eb6beee238"
+  dependencies:
+    glob "^7.1.1"
+    tslint "^5.0.0"
+    typescript "~2.3.0"
 
 yoshi-typescript@latest:
   version "1.0.3"
