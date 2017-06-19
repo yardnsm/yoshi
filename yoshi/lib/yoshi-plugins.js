@@ -1,7 +1,7 @@
 const {runIndividualTranspiler} = require('../config/project');
 const {isTypescriptProject, isBabelProject} = require('./utils');
 
-const linter = isTypescriptProject() ? './tasks/tslint' : 'yoshi-eslint';
+const linter = isTypescriptProject() ? 'yoshi-tslint' : 'yoshi-eslint';
 
 function transpiler() {
   if (isTypescriptProject() && runIndividualTranspiler()) {

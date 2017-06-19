@@ -87,6 +87,7 @@
     "yoshi-petri": "latest",
     "yoshi-sass": "latest",
     "yoshi-stylelint": "latest",
+    "yoshi-tslint": "latest",
     "yoshi-typescript": "latest",
     "yoshi-update-node-version": "latest",
     "yoshi-wnpm-release": "latest"
