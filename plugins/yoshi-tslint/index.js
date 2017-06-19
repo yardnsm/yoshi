@@ -34,9 +34,10 @@ module.exports = ({logIf, base}) => {
   function tslint() {
     return Promise
       .all(readGlob().map(lint))
+      .then(results => results.filter(result => result.output !== '\n'))
       .then(results => {
         const output = results.reduce((acc, result) => acc + result.output, '');
-        const errorCount = results.reduce((acc, result) => acc + result.failureCount, 0);
+        const errorCount = results.reduce((acc, result) => acc + result.errorCount, 0);
         if (errorCount) {
           console.log(`${output}\n${errorCount} error(s)\n`);
           return Promise.reject();
