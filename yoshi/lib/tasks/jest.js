@@ -7,12 +7,12 @@ const {inTeamCity} = require('../utils');
 module.exports = ({log, watch}) => {
   function jest() {
     if (inTeamCity()) {
-      config.testResultsProcessor = 'node_modules/jest-teamcity-reporter';
+      config.testResultsProcessor = 'jest-teamcity-reporter';
       process.argv.push('--teamcity');
     }
 
     return new Promise((resolve, reject) => {
-      jestCli.runCLI({watch, config}, process.cwd(), result => {
+      jestCli.runCLI({watch, config}, [process.cwd()], result => {
         result.success ? resolve() : reject('jest failed');
       });
     });
