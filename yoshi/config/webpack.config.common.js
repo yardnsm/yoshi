@@ -32,7 +32,7 @@ const config = {
       require('../lib/loaders/babel')(projectConfig.isAngularProject()),
       require('../lib/loaders/typescript')(projectConfig.isAngularProject()),
       require('../lib/loaders/graphql')(),
-      require('../lib/loaders/images')(),
+      require('../lib/loaders/assets')(),
       require('../lib/loaders/html')(),
       require('../lib/loaders/raw')()
     ]

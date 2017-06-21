@@ -324,7 +324,7 @@ describe('Loaders', () => {
     }
   });
 
-  describe('Images', () => {
+  describe('Assets', () => {
     afterEach(() => test.teardown());
 
     it('should embed image below 10kb as base64', () => {
@@ -364,10 +364,23 @@ describe('Loaders', () => {
 
       const content = test.content('dist/statics/app.bundle.js');
 
-      expect(content).to.match(/"font.ttf\?\w+"/);
-      expect(content).to.match(/"font.woff\?\w+"/);
-      expect(content).to.match(/"font.woff2\?\w+"/);
-      expect(content).to.match(/"font.eot\?\w+"/);
+      expect(content).to.match(/"font\.ttf\?\w+"/);
+      expect(content).to.match(/"font\.woff\?\w+"/);
+      expect(content).to.match(/"font\.woff2\?\w+"/);
+      expect(content).to.match(/"font\.eot\?\w+"/);
+    });
+
+    it('should load wav files', () => {
+      test
+        .setup({
+          'src/client.js': `require('./beep.wav');`,
+          'src/beep.wav': _.repeat('a', 10001),
+        })
+        .execute('build');
+
+      const content = test.content('dist/statics/app.bundle.js');
+
+      expect(content).to.match(/"beep\.wav\?\w+"/);
     });
 
     it('should load files that have a path with query string ', () => {
