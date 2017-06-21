@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 2000 --reporter mocha-env-reporter",
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 10000 --reporter mocha-env-reporter",
     "build": "eslint .",
     "release": "wnpm-release --no-shrinkwrap"
   },
