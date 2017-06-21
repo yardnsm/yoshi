@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const {execSync} = require('child_process');
 const expect = require('chai').expect;
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
@@ -25,7 +26,8 @@ describe('Aggregator: e2e', () => {
           'package.json': fx.packageJson()
         }, [hooks.installProtractor])
         .execute('test', ['--protractor'], outsideTeamCity);
-      const chromedriver = path.resolve('node_modules', 'webdriver-manager', 'selenium', 'chromedriver_2.28.zip');
+
+      const chromedriver = execSync('find ./node_modules -name "chromedriver_2.28.zip"').toString();
 
       expect(res.code).to.equal(1);
       expect(exists(chromedriver)).to.be.true;
@@ -137,8 +139,8 @@ describe('Aggregator: e2e', () => {
   it('should extend project\'s beforeLaunch', function () {
     this.timeout(60000);
     const res = test
-    .setup(singleModuleWithBeforLaunch(), [hooks.installProtractor])
-    .execute('test', ['--protractor'], outsideTeamCity);
+      .setup(singleModuleWithBeforLaunch(), [hooks.installProtractor])
+      .execute('test', ['--protractor'], outsideTeamCity);
 
     expect(res.code).to.equal(0);
     expect(res.stdout).to.contain('protractor');

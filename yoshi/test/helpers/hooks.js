@@ -7,7 +7,7 @@ module.exports = {
     sh.exec('yarn add protractor@^5.0.0', {cwd});
   },
   installDependencies: cwd => {
-    sh.exec('yarn install --no-lockfile', {cwd});
+    sh.exec('yarn --no-lockfile', {cwd});
   },
   installDependency: cwd => dep => sh.exec(`yarn add ${dep}`, {cwd})
 };

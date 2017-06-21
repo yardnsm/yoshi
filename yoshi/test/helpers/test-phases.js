@@ -18,8 +18,10 @@ class Test {
   }
 
   setup(tree, hooks = []) {
+    //fix for ci with private registries (artifactory) where existing auth is used for all scoped dependencies
+    const treeWithDefaults = Object.assign({'.yarnrc': '"@types:registry" "https://registry.npmjs.org/"'}, tree);
     const tmp = this.tmp || (this.tmp = path.join(sh.tempdir().toString(), new Date().getTime().toString()));
-    const flat = flattenTree(tree);
+    const flat = flattenTree(treeWithDefaults);
     const files = Object.keys(flat);
     files.filter(f => !isExternalModule(f)).forEach(file => this.write(file, flat[file]));
     hooks.forEach(hook => hook(tmp, cwd));
