@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
+    "start": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --watch",
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js'",
     "build": "eslint .",
     "release": "wnpm-release --no-shrinkwrap"
   },
@@ -12,7 +13,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "glob": "^7.1.2",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
