@@ -11,7 +11,7 @@ before_install:
  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
  - sudo dpkg -i google-chrome*.deb
 install:
- - npm install && npm run pullreq-build
+ - yarn install -g && yarn install && yarn run pullreq-build
 
 notifications:
   email:
