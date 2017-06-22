@@ -92,10 +92,9 @@ module.exports.pullreq = () => start(
       Start(asyncReporter)(startModulesTasks.module.exec(module)(`yarn link ${module.dependencies.map(item => item.name).join(' ')}`))
     ),
     startModulesTasks.module.exec(module)('yarn --no-lockfile && yarn link'),
-    startModulesTasks.module.exec(module)('yarn run build')
-    )
-  ),
-  startModulesTasks.iter.forEach()(module => start(
+    startModulesTasks.module.exec(module)('yarn run build'),
     startModulesTasks.module.exec(module)('yarn run test')
-  ))
+    
+    )
+  )
 )
