@@ -12,7 +12,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "jest-cli": "^19.0.2",
+    "jest-cli": "^20.0.4",
     "jest-teamcity-reporter": "^0.6.2"
   },
   "devDependencies": {
