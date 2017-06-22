@@ -84,7 +84,6 @@ module.exports.clean = () => start(
 
 /* run job in pullreq ci - build only modules that have changes since origin/master */
 module.exports.pullreq = () => start(
-  startTasks.exec('npm cache clear'),
   startModulesTasks.modules.load(),
   startModulesTasks.modules.removeGitUnchanged('origin/master'),
   startModulesTasks.modules.removeExtraneousDependencies(),
