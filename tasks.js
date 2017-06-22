@@ -22,9 +22,9 @@ module.exports['depcheck'] = () => start(depcheck({ignoreMatches: ['wnpm-ci']}))
 
 module.exports.sync = () => start(
   /*modules.sync(),
-  /*dependencies.sync(),  
-  dependencies.unmanaged(),
-  dependencies.latest()*/
+   /*dependencies.sync(),
+   dependencies.unmanaged(),
+   dependencies.latest()*/
   dependencies.extraneous()
 )
 
@@ -87,14 +87,14 @@ module.exports.pullreq = () => start(
   startModulesTasks.modules.load(),
   startModulesTasks.modules.removeGitUnchanged('origin/master'),
   startModulesTasks.modules.removeExtraneousDependencies(),
-  startModulesTasks.iter.forEach()((module, input, asyncReporter) => Start(asyncReporter)(
+  startModulesTasks.iter.forEach()((module, input, asyncReporter) => start(
     startTasks.ifTrue(module.dependencies.length > 0)(() =>
       Start(asyncReporter)(startModulesTasks.module.exec(module)(`yarn link ${module.dependencies.map(item => item.name).join(' ')}`))
     ),
     startModulesTasks.module.exec(module)('yarn --no-lockfile && yarn link'),
-    startModulesTasks.module.exec(module)('yarn run build'),
+    startModulesTasks.module.exec(module)('yarn run build')
+  )),
+  startModulesTasks.iter.forEach()((module, input, asyncReporter) => start(
     startModulesTasks.module.exec(module)('yarn run test')
-    
-    )
-  )
+  ))
 )
