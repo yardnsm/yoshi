@@ -8,8 +8,8 @@
   "license": "ISC",
   "scripts": {
     "postinstall": "npm install --silent --prefix private screenshot-reporter-env wix-eyes-env || true",
-    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js'",
-    "posttest": "eslint .",
+    "build": "eslint .",
+    "test": "mocha './test/{,!(fixtures)/**/}/*.spec.js' --timeout 20000 --reporter mocha-env-reporter",
     "release": "wnpm-release --no-shrinkwrap"
   },
   "bin": {
