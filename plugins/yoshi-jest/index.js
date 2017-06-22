@@ -12,7 +12,7 @@ module.exports = ({log, watch, inTeamCity, projectConfig}) => {
     }
 
     return new Promise((resolve, reject) => {
-      jestCli.runCLI({watch, config}, process.cwd(), result => {
+      jestCli.runCLI({watch, config}, [process.cwd()], result => {
         result.success ? resolve() : reject('jest failed');
       });
     });
