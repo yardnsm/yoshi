@@ -6,8 +6,7 @@ const Start = require('start').default,
   dependencies = require('octopus-start-preset-dependencies'),
   modules = require('octopus-start-preset-modules'),
   idea = require('octopus-start-preset-idea'),
-  depcheck = require('octopus-start-preset-depcheck'),
-  markdownMagic = require('markdown-magic');
+  depcheck = require('octopus-start-preset-depcheck');
 
 const start = Start(reporter());
 
