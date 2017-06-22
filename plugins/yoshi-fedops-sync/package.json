@@ -26,5 +26,8 @@
   },
   "eslintConfig": {
     "extends": "wix"
+  },
+  "dependencies": {
+    "fedops-grafana-api": "^1.0.33"
   }
 }

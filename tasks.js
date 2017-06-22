@@ -10,8 +10,6 @@ const Start = require('start').default,
 
 const start = Start(reporter());
 
-module.exports['modules:list'] = () => start(modules.list());
-module.exports['modules:where'] = moduleName => start(modules.where(moduleName));
 module.exports['modules:sync'] = () => start(modules.sync());
 module.exports['deps:sync'] = () => start(dependencies.sync());
 module.exports['deps:extraneous'] = () => start(dependencies.extraneous());
@@ -19,8 +17,7 @@ module.exports['deps:unmanaged'] = () => start(dependencies.unmanaged());
 module.exports['deps:latest'] = () => start(dependencies.latest());
 module.exports['idea'] = () => start(idea());
 module.exports['init'] = () => start(prepush());
-module.exports['depcheck'] = () => start(depcheck({ignoreMatches: [
-  'mocha', 'mocha-env-reporter', 'wnp-configurable', 'jasmine', 'chromedriver']}));
+module.exports['depcheck'] = () => start(depcheck({ignoreMatches: ['wnpm-ci']}));
 
 
 module.exports.sync = () => start(
@@ -35,12 +32,12 @@ module.exports.sync = () => start(
 module.exports.bootstrap = () => start(
   startModulesTasks.modules.load(),
   startModulesTasks.modules.removeUnchanged('bootstrap'),
-  startModulesTasks.iter.async()((module, input, asyncReporter) => Start(asyncReporter)(
+  startModulesTasks.iter.forEach()((module, input, asyncReporter) => Start(asyncReporter)(
     startTasks.ifTrue(module.dependencies.length > 0)(() =>
-      Start(asyncReporter)(startModulesTasks.module.exec(module)(`npm link ${module.dependencies.map(item => item.name).join(' ')}`))
+      Start(asyncReporter)(startModulesTasks.module.exec(module)(`yarn link ${module.dependencies.map(item => item.name).join(' ')}`))
     ),
-    startModulesTasks.module.exec(module)('npm install --cache-min 3600 && npm link'),
-    startModulesTasks.module.exec(module)('npm run build'),
+    startModulesTasks.module.exec(module)('yarn --no-lockfile && yarn link'),
+    startModulesTasks.module.exec(module)('yarn run build'),
     startModulesTasks.module.markBuilt(module, 'bootstrap')
   ))
 )
@@ -50,7 +47,7 @@ module.exports.test = () => start(
   startModulesTasks.modules.load(),
   startModulesTasks.modules.removeUnchanged('test'),
   startModulesTasks.iter.forEach()(module => start(
-    startModulesTasks.module.exec(module)('npm run test'),
+    startModulesTasks.module.exec(module)('yarn run test'),
     startModulesTasks.module.markBuilt(module, 'test')
   ))
 )
@@ -60,7 +57,7 @@ module.exports.lint = () => start(
   startModulesTasks.modules.load(),
   startModulesTasks.modules.removeUnchanged('lint'),
   startModulesTasks.iter.forEach()(module => start(
-    startModulesTasks.module.exec(module)('npm run lint'),
+    startModulesTasks.module.exec(module)('yarn run lint'),
     startModulesTasks.module.markBuilt(module, 'lint')
   ))
 )
@@ -91,15 +88,15 @@ module.exports.pullreq = () => start(
   startModulesTasks.modules.load(),
   startModulesTasks.modules.removeGitUnchanged('origin/master'),
   startModulesTasks.modules.removeExtraneousDependencies(),
-  startModulesTasks.iter.async()((module, input, asyncReporter) => Start(asyncReporter)(
+  startModulesTasks.iter.forEach()((module, input, asyncReporter) => Start(asyncReporter)(
     startTasks.ifTrue(module.dependencies.length > 0)(() =>
-      Start(asyncReporter)(startModulesTasks.module.exec(module)(`npm link ${module.dependencies.map(item => item.name).join(' ')}`))
+      Start(asyncReporter)(startModulesTasks.module.exec(module)(`yarn link ${module.dependencies.map(item => item.name).join(' ')}`))
     ),
-    startModulesTasks.module.exec(module)('npm install --cache-min 3600 && npm link'),
-    startModulesTasks.module.exec(module)('npm run build')
+    startModulesTasks.module.exec(module)('yarn --no-lockfile && yarn link'),
+    startModulesTasks.module.exec(module)('yarn run build')
     )
   ),
   startModulesTasks.iter.forEach()(module => start(
-    startModulesTasks.module.exec(module)('npm run test')
+    startModulesTasks.module.exec(module)('yarn run test')
   ))
 )

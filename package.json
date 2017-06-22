@@ -1,10 +1,10 @@
 {
   "name": "yoshi-monorepo",
+  "private": true,
   "scripts": {
     "postinstall": "start-runner init",
-    "bootstrap": "start-runner bootstrap",
     "pullreq-build": "start-runner pullreq",
-    "test": "start-runner test"
+    "start": "start-runner"
   },
   "devDependencies": {
     "octopus-start-preset-dependencies": "latest",
