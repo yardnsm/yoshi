@@ -1,7 +1,6 @@
 sudo: required
 dist: trusty
 language: node_js
-cache: yarn
 
 before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
@@ -12,7 +11,7 @@ before_install:
  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
  - sudo dpkg -i google-chrome*.deb
 install:
- - npm install -g yarn && yarn
+ - npm install && npm run pullreq-build
 
 notifications:
   email:

@@ -1,12 +1,21 @@
 {
   "name": "yoshi-monorepo",
   "scripts": {
-    "postinstall": "octo bootstrap -n",
-    "build": ":",
-    "pretest": "octo modules sync --save && octo deps sync --save",
-    "test": "octo run test --v"
+    "postinstall": "start-runner init",
+    "bootstrap": "start-runner bootstrap",
+    "pullreq-build": "start-runner pullreq",
+    "test": "start-runner test"
   },
   "devDependencies": {
-    "octopus-cli": "0.0.8"
+    "octopus-start-preset-dependencies": "latest",
+    "octopus-start-preset-depcheck": "latest",
+    "octopus-start-preset-idea": "latest",
+    "octopus-start-preset-modules": "latest",
+    "octopus-start-modules-tasks": "latest",
+    "octopus-start-preset-prepush": "latest",
+    "octopus-start-reporter": "latest",
+    "octopus-start-tasks": "latest",
+    "start": "~5.1.0",
+    "start-simple-cli": "~4.1.1"
   }
 }
