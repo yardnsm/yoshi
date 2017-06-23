@@ -4,7 +4,7 @@ language: node_js
 branches:
   only:
   - master
-cache: yarn  
+cache: yarn
 
 before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
@@ -14,8 +14,9 @@ before_install:
  - sudo apt-get install -y libappindicator1 fonts-liberation
  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
  - sudo dpkg -i google-chrome*.deb
+ - npm install -g yarn
 install:
- - npm install -g yarn && yarn install && yarn run pullreq-build
+ - yarn install && yarn run pullreq-build
 
 notifications:
   email:

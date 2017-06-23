@@ -4,6 +4,7 @@
   "scripts": {
     "postinstall": "start-runner init",
     "pullreq-build": "start-runner pullreq",
+    "test": "echo run 'npm start test' to test all modules, tests are executed in ci during install phase",
     "start": "start-runner"
   },
   "devDependencies": {
