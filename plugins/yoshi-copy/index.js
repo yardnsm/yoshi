@@ -6,8 +6,16 @@ const gulp = require('gulp');
 const glob = require('glob');
 const mkdirp = require('mkdirp');
 
+function copyDir(source, destination = '', base = '.') {
+  return new Promise((resolve, reject) =>
+    gulp.src(source, {base})
+      .pipe(gulp.dest(path.join('dist', destination)))
+      .on('error', reject)
+      .once('end', resolve)
+  );
+}
 
-function copyFiles(patterns, destination = '', base = '.') {
+function copyFiles(patterns, destination = '', base = '.') { // eslint-disable-line no-unused-vars
   return matchFiles(patterns).then(fileList =>
     Promise.all(fileList.map(filePath =>
       copy(filePath, destination, base))));
@@ -53,8 +61,8 @@ module.exports = ({log, watch, base}) => {
     const serverAssets = `${base()}/**/*.{css,json,d.ts}`;
 
     const copyAllAssets = () => Promise.all([
-      copyFiles([assets, htmlAssets, serverAssets]),
-      copyFiles([assets, htmlAssets], output, path.join(process.cwd(), 'src'))
+      copyDir([assets, htmlAssets, serverAssets]),
+      copyDir([assets, htmlAssets], output, path.join(process.cwd(), 'src'))
     ]);
 
     if (watch) {
