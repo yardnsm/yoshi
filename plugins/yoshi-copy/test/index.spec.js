@@ -41,6 +41,20 @@ describe('Clean', () => {
       });
   });
 
+  it('should copy nested directories', () => {
+    test.setup({
+      'src/assets/fonts/some-font': '',
+      'src/assets/images/secret/an-image.png': ''
+    });
+
+    return task()
+      .then(() => {
+        expect(test.list('dist/statics/assets', '-R'))
+          .to.include('fonts/some-font')
+          .and.to.include('images/secret/an-image.png');
+      });
+  });
+
   it('should copy files from assets folder into the output dir if specified', () => {
     test.setup({
       'src/assets/some-file': 'a'
