@@ -8,9 +8,11 @@ describe('Clean', () => {
   let test;
   let task;
 
-  beforeEach(() => test = tp.create());
-  beforeEach(() => process.chdir(test.tmp));
-  beforeEach(() => task = clean({log: a => a, base: () => 'src'}));
+  beforeEach(() => {
+    test = tp.create();
+    process.chdir(test.tmp);
+    task = clean({log: a => a, base: () => 'src'});
+  });
   afterEach(() => test.teardown());
 
   it('should copy files from assets folder', () => {
