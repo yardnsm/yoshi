@@ -1,0 +1,4 @@
+{
+  "exclude": ["yoshi-monorepo"],
+  "engine": "yarn"
+} 
