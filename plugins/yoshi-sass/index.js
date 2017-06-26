@@ -23,14 +23,14 @@ function renderSass(options) {
   );
 }
 
-function cssModules(css, file, cssScopePatern = '[name]__[local]___[hash:base64:5]') {
+function cssModules(css, file, cssScopePattern = '[name]__[local]___[hash:base64:5]') {
   return postcss([postcssModules({
       getJSON: () => {},
-      generateScopedName: cssScopePatern
+      generateScopedName: cssScopePattern
   })]).process(css, { from: file });
 }
 
-function renderFile(file, cssModulesInBuildTime, cssScopePatern) {
+function renderFile(file, cssModulesInBuildTime, cssScopePattern) {
   const options = {
     file: path.resolve(file),
     includePaths: ['node_modules', 'node_modules/compass-mixins/lib'],
@@ -38,14 +38,16 @@ function renderFile(file, cssModulesInBuildTime, cssScopePatern) {
   };
 
   return renderSass(options)
-    .then(result => cssModulesInBuildTime ? cssModules(result.css, file, cssScopePatern) : result)
+    .then(result => cssModulesInBuildTime ? cssModules(result.css, file, cssScopePattern) : result)
     .then(result => writeFileIntoDir(path.resolve('dist', file), result.css));
 }
 
-module.exports = ({logIf, base, watch, projectConfig}) => {
+module.exports = ({logIf, base, watch, projectConfig = {}}) => {
   const pattern = `${base()}/**/*.scss`;
-  const cssModulesInBuildTime = projectConfig && projectConfig.cssModulesInBuildTime();
-  const cssScopePatern = projectConfig && projectConfig.cssScopePatern();
+  const cssModulesInBuildTime = typeof projectConfig.cssModulesInBuildTime === 'function'
+    && projectConfig.cssModulesInBuildTime();
+  const cssScopePattern = typeof projectConfig.cssScopePattern === 'function'
+    && projectConfig.cssScopePattern();
 
   function sass() {
     if (watch) {
@@ -56,7 +58,7 @@ module.exports = ({logIf, base, watch, projectConfig}) => {
   }
 
   function transpile() {
-    return Promise.all(readDir(pattern).map(file => renderFile(file, cssModulesInBuildTime, cssScopePatern)));
+    return Promise.all(readDir(pattern).map(file => renderFile(file, cssModulesInBuildTime, cssScopePattern)));
   }
 
   return logIf(sass, () => readDir(pattern).length > 0);

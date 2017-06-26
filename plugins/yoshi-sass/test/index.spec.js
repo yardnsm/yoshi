@@ -80,7 +80,7 @@ describe('Sass', () => {
     const compiledStyle = '.src-b-style__a__tiTI0 .src-b-style__b__3rPcp {\n  color: red; }';
     const projectConfig = {
       cssModulesInBuildTime: () => true,
-      cssScopePatern: () => '[path][name]__[local]__[hash:base64:5]'
+      cssScopePattern: () => '[path][name]__[local]__[hash:base64:5]'
     };
 
     test.setup({
