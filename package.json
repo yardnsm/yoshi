@@ -1,22 +1,12 @@
 {
   "name": "yoshi-monorepo",
-  "private": true,
   "scripts": {
-    "postinstall": "start-runner init",
-    "pullreq-build": "start-runner pullreq",
-    "test": "echo run 'npm start test' to test all modules, tests are executed in ci during install phase",
-    "start": "start-runner"
+    "postinstall": "octo bootstrap -n",
+    "build": ":",
+    "pretest": "octo modules sync --save && octo deps sync --save",
+    "test": "octo run test --v"
   },
   "devDependencies": {
-    "octopus-start-preset-dependencies": "latest",
-    "octopus-start-preset-depcheck": "latest",
-    "octopus-start-preset-idea": "latest",
-    "octopus-start-preset-modules": "latest",
-    "octopus-start-modules-tasks": "latest",
-    "octopus-start-preset-prepush": "latest",
-    "octopus-start-reporter": "latest",
-    "octopus-start-tasks": "latest",
-    "start": "~5.1.0",
-    "start-simple-cli": "~4.1.1"
+    "octopus-cli": "0.0.8"
   }
 }
