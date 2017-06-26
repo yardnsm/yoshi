@@ -13,7 +13,7 @@ describe('Sass', () => {
 
   beforeEach(() => test = tp.create());
   beforeEach(() => process.chdir(test.tmp));
-  beforeEach(() => task = sass({base: () => 'src', logIf: a => a}));
+  beforeEach(() => task = (projectConfig) => sass({base: () => 'src', logIf: a => a, projectConfig})());
   afterEach(() => test.teardown());
 
   it('should transpile to dist/, preserve folder structure, extensions and exit with code 0', () => {
@@ -75,4 +75,24 @@ describe('Sass', () => {
         expect(test.list('dist', '-R')).not.to.contain('app/a/_partial.scss');
       });
   });
+
+  it('should obfuscate CSS classes', () => {
+    const compiledStyle = '.src-b-style__a__tiTI0 .src-b-style__b__3rPcp {\n  color: red; }';
+    const projectConfig = {
+      cssModulesInBuildTime: () => true,
+      cssScopePatern: () => '[path][name]__[local]__[hash:base64:5]'
+    };
+
+    test.setup({
+      'src/b/style.scss': scss()
+    });
+
+    return task(projectConfig)
+        .then(() => {
+        expect(test.content('dist/src/b/style.scss')).to.contain(compiledStyle);
+    });
+  });
+
+
+
 });

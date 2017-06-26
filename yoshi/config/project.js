@@ -4,6 +4,7 @@ const path = require('path');
 const _ = require('lodash');
 const packagejson = require(path.resolve('package.json'));
 const globs = require('../lib/globs');
+const cssScopePatern = require('./css-scope-pattern');
 
 const config = packagejson.yoshi || {};
 const externalUnprocessedModules = [
@@ -52,7 +53,9 @@ module.exports = {
     return externalRegexList.some(regex => regex.test(path)) ||
       allSourcesButExternalModules(path);
   },
-  jestConfig: () => _.get(packagejson, 'jest', {})
+  jestConfig: () => _.get(packagejson, 'jest', {}),
+  cssModulesInBuildTime: () => getConfig('cssModulesInBuildTime', false),
+  cssScopePatern: () => cssScopePatern,
 };
 
 function getConfig(key, defaultVal = false) {
