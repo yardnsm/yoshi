@@ -76,7 +76,7 @@ color: #ff0;
     return task()
       .then(() => Promise.reject())
       .catch(() => {
-        expect(stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
+        expect(stdout).to.contain('✖  Expected no more than 1 empty line   max-empty-lines');
       });
   });
 
@@ -97,7 +97,7 @@ color: #ff0;
     return task()
       .then(() => Promise.reject())
       .catch(() => {
-        expect(stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
+        expect(stdout).to.contain('✖  Expected no more than 1 empty line   max-empty-lines');
       });
   });
 });
