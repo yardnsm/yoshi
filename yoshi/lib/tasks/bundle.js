@@ -3,7 +3,8 @@
 const _ = require('lodash/fp');
 const webpack = require('webpack');
 const getConfig = require('../../config/webpack.config.client');
-const {shouldRunWebpack, filterNoise} = require('../utils');
+const {shouldRunWebpack, filterNoise, inTeamCity, readDir, copyFile} = require('../utils');
+const {statics} = require('../globs');
 
 function runBundle(webpackOptions) {
   const webpackConfig = getConfig(webpackOptions);
@@ -23,8 +24,22 @@ function runBundle(webpackOptions) {
   });
 }
 
+function toMinExt(filePath) {
+  return filePath.replace(/(.+\.)(js|css)$/, '$1min.$2');
+}
+
+function copyFilesAsMin() {
+  const promises = readDir(`${statics()}/**/*.+(js|css)`)
+    .map(filePath => copyFile(filePath, toMinExt(filePath)));
+
+  return Promise.all(promises);
+}
+
 function bundle() {
-  return Promise.all([runBundle({debug: true}), runBundle({debug: false})]);
+  const debugBundle = runBundle({debug: true});
+  const minBundle = inTeamCity() ? runBundle({debug: false}) : debugBundle.then(copyFilesAsMin);
+
+  return Promise.all([debugBundle, minBundle]);
 }
 
 module.exports = ({logIf}) => {
