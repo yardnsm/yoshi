@@ -8,9 +8,11 @@ describe('Clean', () => {
   let test;
   let task;
 
-  beforeEach(() => test = tp.create());
-  beforeEach(() => process.chdir(test.tmp));
-  beforeEach(() => task = clean({log: a => a, base: () => 'src'}));
+  beforeEach(() => {
+    test = tp.create();
+    process.chdir(test.tmp);
+    task = clean({log: a => a, base: () => 'src'});
+  });
   afterEach(() => test.teardown());
 
   it('should copy files from assets folder', () => {
@@ -36,6 +38,20 @@ describe('Clean', () => {
     return task()
       .then(() => {
         expect(test.list('dist/src').sort()).to.eql(['a.ejs', 'a.html', 'a.vm']);
+      });
+  });
+
+  it('should copy nested directories', () => {
+    test.setup({
+      'src/assets/fonts/some-font': '',
+      'src/assets/images/secret/an-image.png': ''
+    });
+
+    return task()
+      .then(() => {
+        expect(test.list('dist/statics/assets', '-R'))
+          .to.include('fonts/some-font')
+          .and.to.include('images/secret/an-image.png');
       });
   });
 

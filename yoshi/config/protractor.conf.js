@@ -23,16 +23,19 @@ const globs = require('../lib/globs');
 
 const userConfPath = path.resolve('protractor.conf.js');
 const userConf = exists(userConfPath) ? require(userConfPath).config : null;
-const onPrepare = (userConf && userConf.onPrepare) || ld.noop;
-const onComplete = (userConf && userConf.onComplete) || ld.noop;
+
 const beforeLaunch = (userConf && userConf.beforeLaunch) || ld.noop;
+const onPrepare = (userConf && userConf.onPrepare) || ld.noop;
+const afterLaunch = (userConf && userConf.afterLaunch) || ld.noop;
+
 let cdnServer;
 
 const merged = ld.mergeWith({
   framework: 'jasmine',
   specs: [globs.e2e()],
   directConnect: true,
-  beforeLaunch() {
+
+  beforeLaunch: () => {
     const rootDir = './src';
     require('css-modules-require-hook')({
       rootDir,
@@ -40,7 +43,11 @@ const merged = ld.mergeWith({
       extensions: ['.scss', '.css'],
       camelCase: true
     });
-    return beforeLaunch.call(merged);
+
+    return start({host: 'localhost'}).then(server => {
+      cdnServer = server;
+      return beforeLaunch.call(merged);
+    });
   },
   onPrepare: () => {
     if (merged.framework === 'jasmine' && inTeamCity()) {
@@ -53,16 +60,13 @@ const merged = ld.mergeWith({
       jasmine.getEnv().addReporter(new ScreenshotReporter());
     } catch (e) {}
 
-    return start({host: 'localhost'}).then(server => {
-      cdnServer = server;
-      return onPrepare.call(merged);
-    });
+    return onPrepare.call(merged);
   },
-  onComplete: () => {
+  afterLaunch: () => {
     if (cdnServer) {
       cdnServer.close();
     }
-    onComplete(merged);
+    afterLaunch(merged);
   },
   mochaOpts: {
     timeout: 30000

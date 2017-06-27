@@ -430,6 +430,32 @@ describe('Aggregator: Build', () => {
   });
 
   describe('Bundle', () => {
+    ['fs', 'net', 'tls'].forEach(moduleName => {
+      it(`should not fail to require node built-ins such as ${moduleName}`, () => {
+        const res = test
+          .setup({
+            'src/client.js': `require('${moduleName}');`,
+            'package.json': fx.packageJson(),
+            'pom.xml': fx.pom()
+          })
+          .execute('build');
+
+        expect(res.code).to.equal(0);
+      });
+    });
+
+    it(`should not fail to require electron`, () => {
+      const res = test
+        .setup({
+          'src/client.js': `require('electron');`,
+          'package.json': fx.packageJson(),
+          'pom.xml': fx.pom()
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+    });
+
     it('should generate a bundle', () => {
       const res = test
         .setup({
