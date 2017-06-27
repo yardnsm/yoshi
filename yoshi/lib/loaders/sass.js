@@ -1,15 +1,16 @@
 'use strict';
 
 const path = require('path');
+const {merge} = require('lodash/fp');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const localIdentName = require('../../config/css-scope-pattern');
 
 module.exports = (separateCss, cssModules, tpaStyle) => {
   const cssLoaderOptions = {
-    modules: cssModules,
     camelCase: true,
     sourceMap: !!separateCss,
     localIdentName,
+    modules: cssModules,
     importLoaders: tpaStyle ? 4 : 3
   };
 
@@ -18,27 +19,34 @@ module.exports = (separateCss, cssModules, tpaStyle) => {
     includePaths: ['node_modules', 'node_modules/compass-mixins/lib']
   };
 
-  return {
-    client: {
-      test: /\.s?css$/,
-      use: clientLoader(separateCss, {loader: 'style-loader', options: {singleton: true}}, [
-        {
-          loader: 'css-loader',
-          options: cssLoaderOptions
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            config: path.join(__dirname, '..', '..', 'config', 'postcss.config.js')
-          }
-        },
-        ...tpaStyle ? ['wix-tpa-style-loader'] : [],
-        {
-          loader: 'sass-loader',
-          options: sassLoaderOptions
+  const globalRegex = /\.global.s?css$/;
+
+  const getScssRule = (ruleConfig, loaderConfig) => merge(ruleConfig, {
+    test: /\.s?css$/,
+    use: clientLoader(separateCss, {loader: 'style-loader', options: {singleton: true}}, [
+      {
+        loader: 'css-loader',
+        options: merge(cssLoaderOptions, loaderConfig)
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          config: path.join(__dirname, '..', '..', 'config', 'postcss.config.js')
         }
-      ])
-    },
+      },
+      ...tpaStyle ? ['wix-tpa-style-loader'] : [],
+      {
+        loader: 'sass-loader',
+        options: sassLoaderOptions
+      }
+    ])
+  });
+
+  return {
+    client: [
+      getScssRule({include: globalRegex}, {modules: false}),
+      getScssRule({exclude: globalRegex})
+    ],
     specs: {
       test: /\.s?css$/,
       use: [

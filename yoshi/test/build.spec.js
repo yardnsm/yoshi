@@ -117,6 +117,22 @@ describe('Aggregator: Build', () => {
       expect(test.content('dist/test/c/style.less')).to.contain(compiledStyle);
     });
 
+    it('should disable css modules for .global.less files', () => {
+      const res = test
+        .setup({
+          'src/client.js': 'require(\'./styles/my-file.global.less\');',
+          'src/styles/my-file.global.less': `.a {.b {color: red;}}`,
+          'package.json': fx.packageJson({
+            separateCss: true
+          }),
+          'pom.xml': fx.pom()
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+      expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain('.a .b {');
+    });
+
     it('should fail with exit code 1', () => {
       const resp = test
         .setup({
@@ -888,6 +904,22 @@ describe('Aggregator: Build', () => {
           'src/styles/my-file.scss': `.a {.b {color: red;}}`,
           'package.json': fx.packageJson({
             cssModules: false,
+            separateCss: true
+          }),
+          'pom.xml': fx.pom()
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+      expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain('.a .b {');
+    });
+
+    it('should disable css modules for .global.scss files', () => {
+      const res = test
+        .setup({
+          'src/client.js': 'require(\'./styles/my-file.global.scss\');',
+          'src/styles/my-file.global.scss': `.a {.b {color: red;}}`,
+          'package.json': fx.packageJson({
             separateCss: true
           }),
           'pom.xml': fx.pom()
