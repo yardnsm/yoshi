@@ -4,6 +4,7 @@
   "scripts": {
     "start": "yoshi start --entry-point=./test/fakes/start-fake-server.js",
     "pretest": "yoshi lint && yoshi build",
+    "build": ":",
     "test": "yoshi test --karma && yoshi test --protractor"
   },
   "yoshi": {
