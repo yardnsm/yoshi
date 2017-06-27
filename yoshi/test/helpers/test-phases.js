@@ -52,7 +52,7 @@ class Test {
   execute(command, cliArgs = [], environment = {}, execOptions = {}) {
     const args = [command].concat(cliArgs).join(' ');
     const env = Object.assign({}, this.env, environment);
-    const options = Object.assign({}, {cwd: this.tmp, env}, execOptions);
+    const options = Object.assign({}, {cwd: this.tmp, env, silent: true}, execOptions);
 
     if (this.hasTmp()) {
       return sh.exec(`node '${this.script}' ${args}`, options);

@@ -54,7 +54,7 @@ class Test {
   execute(command, cliArgs = [], environment = {}, execOptions = {}) {
     const args = [command].concat(cliArgs).join(' ');
     const env = Object.assign({}, this.env, environment);
-    const options = Object.assign({}, {cwd: this.tmp, env}, execOptions);
+    const options = Object.assign({}, {cwd: this.tmp, env, silent: true}, execOptions);
 
     if (this.hasTmp()) {
       return sh.exec(`node '${this.script}' ${args}`, options);
@@ -130,43 +130,3 @@ function flattenTree(tree, prefix) {
 module.exports = {
   create: (...args) => new Test(...args)
 };
-
-/*
-const test = module.exports.setup({
-  'app/a/a.js': 'const a = 1;',
-  test: {
-    'a/a.spec.js': '\'use strict\'',
-    'b/b.spec.ts': '\'use strict\'',
-    'c/c.spec.jsx': '\'use strict\''
-  },
-  src: {
-    b: {
-      'b.js': 'const b = 2;'
-    },
-    'c/c': {
-      'c.ts': 'const c = 3;'
-    }
-  }
-});
-*/
-
-/*
-function parseTree(tree) {
-  let result = {};
-  Object.keys(tree).forEach(key => {
-    let parts = key.split(path.sep);
-    const dir = parts.shift();
-    const rest = parts.join(path.sep);
-    const value = tree[key];
-    let branch;
-    if (rest) {
-      branch = {};
-      branch[rest] = value;
-    } else {
-      branch = value;
-    }
-    result[dir] = typeof branch === 'string' ? branch : parseTree(branch);
-  });
-  return result;
-}
-*/

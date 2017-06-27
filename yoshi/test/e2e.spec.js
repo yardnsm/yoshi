@@ -118,7 +118,6 @@ describe('Aggregator: e2e', () => {
       .execute('test', ['--protractor']);
 
     expect(res.code).to.equal(0);
-    console.log('wat', res.stdout);
     expect(res.stdout).to.not.contain('protractor');
   });
 

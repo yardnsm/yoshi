@@ -4,10 +4,21 @@ const sh = require('shelljs');
 
 module.exports = {
   installProtractor: cwd => {
-    sh.exec('yarn add protractor@^5.0.0', {cwd});
+    return exec('yarn add protractor@^5.0.0', cwd);
   },
   installDependencies: cwd => {
-    sh.exec('yarn install --no-lockfile', {cwd});
+    return exec('yarn install --no-lockfile', cwd);
   },
-  installDependency: cwd => dep => sh.exec(`yarn add ${dep}`, {cwd})
+  installDependency: cwd => {
+    return dep => exec(`yarn add ${dep}`, cwd);
+  }
 };
+
+function exec(cmd, cwd) {
+  const res = sh.exec(cmd, {cwd, silent: true});
+  if (res && res.code && res.code !== 0) {
+    throw new Error(`Command ${cmd} failed with code ${res.code} and output: ${res.stdout + res.stderr}`);
+  } else {
+    return res;
+  }
+}
