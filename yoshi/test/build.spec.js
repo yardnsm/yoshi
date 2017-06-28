@@ -117,6 +117,22 @@ describe('Aggregator: Build', () => {
       expect(test.content('dist/test/c/style.less')).to.contain(compiledStyle);
     });
 
+    it('should disable css modules for .global.less files', () => {
+      const res = test
+        .setup({
+          'src/client.js': 'require(\'./styles/my-file.global.less\');',
+          'src/styles/my-file.global.less': `.a {.b {color: red;}}`,
+          'package.json': fx.packageJson({
+            separateCss: true
+          }),
+          'pom.xml': fx.pom()
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+      expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain('.a .b {');
+    });
+
     it('should fail with exit code 1', () => {
       const resp = test
         .setup({
@@ -430,6 +446,32 @@ describe('Aggregator: Build', () => {
   });
 
   describe('Bundle', () => {
+    ['fs', 'net', 'tls'].forEach(moduleName => {
+      it(`should not fail to require node built-ins such as ${moduleName}`, () => {
+        const res = test
+          .setup({
+            'src/client.js': `require('${moduleName}');`,
+            'package.json': fx.packageJson(),
+            'pom.xml': fx.pom()
+          })
+          .execute('build');
+
+        expect(res.code).to.equal(0);
+      });
+    });
+
+    it(`should not fail to require electron`, () => {
+      const res = test
+        .setup({
+          'src/client.js': `require('electron');`,
+          'package.json': fx.packageJson(),
+          'pom.xml': fx.pom()
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+    });
+
     it('should generate a bundle', () => {
       const res = test
         .setup({
@@ -634,7 +676,7 @@ describe('Aggregator: Build', () => {
       expect(test.list('dist/statics')).to.contain('app.bundle.js');
     });
 
-    it('should generate a minified bundle', () => {
+    it('should generate a minified bundle on ci', () => {
       const res = test
         .setup({
           'src/client.js': `const aFunction = require('./dep');const a = aFunction(1);`,
@@ -642,7 +684,7 @@ describe('Aggregator: Build', () => {
           'package.json': fx.packageJson(),
           'pom.xml': fx.pom()
         })
-        .execute('build');
+        .execute('build', [], insideTeamCity);
 
       expect(res.code).to.equal(0);
 
@@ -679,6 +721,34 @@ describe('Aggregator: Build', () => {
 
       expect(res.code).to.equal(0);
       expect(test.list('dist/statics')).not.to.contain('app.bundle.js');
+    });
+
+    it('should not generate a minified version and instead copy the normal bundle inside of TeamCity', () => {
+      const res = test
+        .setup({
+          'src/client.js': `const aFunction = require('./dep');const a = aFunction(1);`,
+          'src/dep.js': `module.exports = function(a){return a + 1;};`,
+          'package.json': fx.packageJson(),
+          'pom.xml': fx.pom()
+        })
+        .execute('build', [], outsideTeamCity);
+
+      expect(res.code).to.equal(0);
+      expect(test.content('dist/statics/app.bundle.js')).to.eql(test.content('dist/statics/app.bundle.min.js'));
+    });
+
+    it('should generate a minified version inside of TeamCity', () => {
+      const res = test
+        .setup({
+          'src/client.js': `const aFunction = require('./dep');const a = aFunction(1);`,
+          'src/dep.js': `module.exports = function(a){return a + 1;};`,
+          'package.json': fx.packageJson(),
+          'pom.xml': fx.pom()
+        })
+        .execute('build', [], insideTeamCity);
+
+      expect(res.code).to.equal(0);
+      expect(test.content('dist/statics/app.bundle.js')).not.to.eql(test.content('dist/statics/app.bundle.min.js'));
     });
   });
 
@@ -844,6 +914,22 @@ describe('Aggregator: Build', () => {
       expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain('.a .b {');
     });
 
+    it('should disable css modules for .global.scss files', () => {
+      const res = test
+        .setup({
+          'src/client.js': 'require(\'./styles/my-file.global.scss\');',
+          'src/styles/my-file.global.scss': `.a {.b {color: red;}}`,
+          'package.json': fx.packageJson({
+            separateCss: true
+          }),
+          'pom.xml': fx.pom()
+        })
+        .execute('build');
+
+      expect(res.code).to.equal(0);
+      expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain('.a .b {');
+    });
+
     it.skip('should generate a bundle with svg/images', () => {
       const res = test
         .setup({
@@ -943,7 +1029,7 @@ describe('Aggregator: Build', () => {
         expect(test.content(`dist/${defaultOutput}/app.css`)).to.match(/display: flex;/g);
       });
 
-      it('should generate separated minified Css from bundle', () => {
+      it('should generate separated minified Css from bundle on ci', () => {
         const res = test
           .setup({
             'src/client.js': 'require(\'./style.scss\');',
@@ -951,7 +1037,7 @@ describe('Aggregator: Build', () => {
             'package.json': fx.packageJson(),
             'pom.xml': fx.pom()
           })
-          .execute('build');
+          .execute('build', [], insideTeamCity);
 
         expect(res.code).to.equal(0);
         expect(test.content('dist/statics/app.bundle.js')).not.to.contain('{\n  color: red; }');

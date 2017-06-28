@@ -17,8 +17,8 @@ const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
 
     module: {
       rules: [
-        require('../lib/loaders/sass')(separateCss, cssModules, tpaStyle).client,
-        require('../lib/loaders/less')(separateCss, cssModules, tpaStyle).client
+        ...require('../lib/loaders/sass')(separateCss, cssModules, tpaStyle).client,
+        ...require('../lib/loaders/less')(separateCss, cssModules, tpaStyle).client
       ]
     },
 

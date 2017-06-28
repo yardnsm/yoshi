@@ -1,15 +1,16 @@
 'use strict';
 
 const path = require('path');
+const {merge} = require('lodash/fp');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const localIdentName = require('../../config/css-scope-pattern');
 
 module.exports = (separateCss, cssModules, tpaStyle) => {
   const cssLoaderOptions = {
-    modules: cssModules,
     camelCase: true,
     sourceMap: !!separateCss,
     localIdentName,
+    modules: cssModules,
     importLoaders: tpaStyle ? 4 : 3
   };
 
@@ -18,27 +19,34 @@ module.exports = (separateCss, cssModules, tpaStyle) => {
     paths: ['.', 'node_modules']
   };
 
-  return {
-    client: {
-      test: /\.less$/,
-      use: clientLoader(separateCss, 'style-loader', [
-        {
-          loader: 'css-loader',
-          options: cssLoaderOptions
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            config: path.join(__dirname, '..', '..', 'config', 'postcss.config.js')
-          }
-        },
-        ...tpaStyle ? ['wix-tpa-style-loader'] : [],
-        {
-          loader: 'less-loader',
-          options: lessLoaderOptions
+  const globalRegex = /\.global.less$/;
+
+  const getLessRule = (ruleConfig, loaderConfig) => merge(ruleConfig, {
+    test: /\.less$/,
+    use: clientLoader(separateCss, {loader: 'style-loader', options: {singleton: true}}, [
+      {
+        loader: 'css-loader',
+        options: merge(cssLoaderOptions, loaderConfig)
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          config: path.join(__dirname, '..', '..', 'config', 'postcss.config.js')
         }
-      ])
-    },
+      },
+      ...tpaStyle ? ['wix-tpa-style-loader'] : [],
+      {
+        loader: 'less-loader',
+        options: lessLoaderOptions
+      }
+    ])
+  });
+
+  return {
+    client: [
+      getLessRule({include: globalRegex}, {modules: false}),
+      getLessRule({exclude: globalRegex})
+    ],
     specs: {
       test: /\.less$/,
       use: [

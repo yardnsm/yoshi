@@ -156,7 +156,7 @@ p {
         })
         .execute('lint', []);
 
-      expect(res.stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
+      expect(res.stdout).to.contain('✖  Expected no more than 1 empty line   max-empty-lines');
       expect(res.code).to.equal(1);
     });
 
@@ -186,7 +186,7 @@ p {
         })
         .execute('lint', []);
 
-      expect(res.stdout).to.contain('✖  Expected no more than 1 empty line(s)   max-empty-lines');
+      expect(res.stdout).to.contain('✖  Expected no more than 1 empty line   max-empty-lines');
       expect(res.code).to.equal(1);
     });
 
