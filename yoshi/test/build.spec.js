@@ -785,7 +785,7 @@ describe('Aggregator: Build', () => {
 
   describe('Bundle - sass', () => {
 
-    const generateCssModulesHash = (name, path, pattern = `[hash:base64:5]`) => {
+    const generateCssModulesPattern = (name, path, pattern = `[hash:base64:5]`) => {
       const genericNames = require('generic-names');
       const generate = genericNames(pattern);
       return generate(name, path);
@@ -872,7 +872,7 @@ describe('Aggregator: Build', () => {
     it('should generate (runtime) css modules on production with hash only', function () {
       this.timeout(60000);
 
-      const hash = generateCssModulesHash('a', 'styles/my-file.css');
+      const hash = generateCssModulesPattern('a', 'styles/my-file.css');
       const expectedCssMap = `{ a: '${hash}' }\n`;
       const myTest = tp.create('src/index');
       const res = myTest
@@ -910,7 +910,7 @@ describe('Aggregator: Build', () => {
     it('should NOT generate (runtime) css modules on production with hash only', function () {
       this.timeout(60000);
 
-      const hash = generateCssModulesHash('a', 'styles/my-file.css', '[path][name]__[local]__[hash:base64:5]');
+      const hash = generateCssModulesPattern('a', 'styles/my-file.css', '[path][name]__[local]__[hash:base64:5]');
       const expectedCssMap = `{ a: '${hash}' }\n`;
       const myTest = tp.create('src/index');
       const res = myTest
@@ -946,8 +946,8 @@ describe('Aggregator: Build', () => {
     });
 
     it('should generate css modules on CI with hash only', () => {
-      const hashA = generateCssModulesHash('a', 'styles/my-file.scss');
-      const hashB = generateCssModulesHash('b', 'styles/my-file.scss');
+      const hashA = generateCssModulesPattern('a', 'styles/my-file.scss');
+      const hashB = generateCssModulesPattern('b', 'styles/my-file.scss');
 
       const expectedCssPattern = `.${hashA} .${hashB} {`;
       const res = test
@@ -967,8 +967,8 @@ describe('Aggregator: Build', () => {
     });
 
     it('should NOT generate css modules on CI with hash only', () => {
-      const hashA = generateCssModulesHash('a', 'styles/my-file.scss', '[path][name]__[local]__[hash:base64:5]');
-      const hashB = generateCssModulesHash('b', 'styles/my-file.scss', '[path][name]__[local]__[hash:base64:5]');
+      const hashA = generateCssModulesPattern('a', 'styles/my-file.scss', '[path][name]__[local]__[hash:base64:5]');
+      const hashB = generateCssModulesPattern('b', 'styles/my-file.scss', '[path][name]__[local]__[hash:base64:5]');
 
       const expectedCssPattern = `.${hashA} .${hashB} {`;
       const res = test
