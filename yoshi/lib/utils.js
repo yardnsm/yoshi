@@ -86,6 +86,8 @@ module.exports.watchMode = value => {
 module.exports.inTeamCity = () =>
   process.env.BUILD_NUMBER || process.env.TEAMCITY_VERSION;
 
+module.exports.isProduction = () => (process.env.NODE_ENV || '').toLowerCase() === 'production';
+
 module.exports.filterNoise = comp => {
   comp.plugin('done', stats => {
     logIfAny(stats.toString({
