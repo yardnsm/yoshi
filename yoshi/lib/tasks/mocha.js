@@ -5,7 +5,7 @@ const gulp = require('gulp');
 const spawn = require('cross-spawn');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
-const {inTeamCity} = require('../utils');
+const isCI = require('is-ci');
 
 const files = projectConfig.specs.node() || globs.specs();
 
@@ -13,7 +13,7 @@ const mochaBin = path.join('mocha', 'bin', 'mocha');
 const env = Object.assign(process.env, {NODE_ENV: 'test', SRC_PATH: './src'});
 const options = {cwd: process.cwd(), env, stdio: 'inherit'};
 const args = {
-  reporter: inTeamCity() ? 'mocha-teamcity-reporter' : 'progress',
+  reporter: isCI ? 'mocha-teamcity-reporter' : 'progress',
   timeout: 30000,
   recursive: true,
   require: [absolute('..', '..', 'config', 'mocha-setup')]

@@ -83,9 +83,6 @@ module.exports.watchMode = value => {
   return !!process.env.WIX_NODE_BUILD_WATCH_MODE;
 };
 
-module.exports.inTeamCity = () =>
-  process.env.BUILD_NUMBER || process.env.TEAMCITY_VERSION;
-
 module.exports.filterNoise = comp => {
   comp.plugin('done', stats => {
     logIfAny(stats.toString({

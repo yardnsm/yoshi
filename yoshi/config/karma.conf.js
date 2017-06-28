@@ -1,7 +1,8 @@
 'use strict';
 
+const isCI = require('is-ci');
 const path = require('path');
-const {tryRequire, inTeamCity} = require('../lib/utils');
+const {tryRequire} = require('../lib/utils');
 const _ = require('lodash');
 const projectConfig = tryRequire(path.resolve('karma.conf.js')) || {files: []};
 
@@ -32,7 +33,7 @@ const teamCityConfig = {
 };
 
 module.exports = config => {
-  const configuration = inTeamCity() ? _.mergeWith(baseConfig, teamCityConfig, customizer) : baseConfig;
+  const configuration = isCI ? _.mergeWith(baseConfig, teamCityConfig, customizer) : baseConfig;
   const merged = _.mergeWith(configuration, projectConfig, customizer);
   config.set(merged);
 };

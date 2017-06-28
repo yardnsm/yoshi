@@ -5,7 +5,7 @@ const Jasmine = require('jasmine');
 const {TerminalReporter, TeamCityReporter} = require('jasmine-reporters');
 const projectConfig = require('../../config/project');
 const globs = require('../globs');
-const {inTeamCity} = require('../utils');
+const isCI = require('is-ci');
 
 const files = projectConfig.specs.node() || globs.specs();
 require('../require-hooks'); // TODO: remove once jasmine is spawned in a child process
@@ -18,7 +18,7 @@ function runJasmine() {
     const jasm = new Jasmine();
     jasm.addReporter(new TerminalReporter({color: true, verbosity: 2}));
 
-    if (inTeamCity()) {
+    if (isCI) {
       jasm.addReporter(new TeamCityReporter());
     }
 

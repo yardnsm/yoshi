@@ -3,7 +3,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const {mergeByConcat, isSingleEntry, inTeamCity} = require('../lib/utils');
+const isCI = require('is-ci');
+const {mergeByConcat, isSingleEntry} = require('../lib/utils');
 const webpackConfigCommon = require('./webpack.config.common');
 const projectConfig = require('./project');
 const DynamicPublicPath = require('../lib/plugins/dynamic-public-path');
@@ -47,7 +48,7 @@ const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
       ]
     ],
 
-    devtool: inTeamCity() ? 'source-map' : 'cheap-module-source-map',
+    devtool: isCI ? 'source-map' : 'cheap-module-source-map',
 
     output: {
       umdNamedDefine: true,

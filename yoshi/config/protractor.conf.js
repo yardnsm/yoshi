@@ -17,7 +17,7 @@ require('../lib/require-hooks');
 const path = require('path');
 const ld = require('lodash');
 const exists = require('../lib/utils').exists;
-const inTeamCity = require('../lib/utils').inTeamCity;
+const isCI = require('is-ci');
 const {start} = require('../lib/server-api');
 const globs = require('../lib/globs');
 
@@ -50,7 +50,7 @@ const merged = ld.mergeWith({
     });
   },
   onPrepare: () => {
-    if (merged.framework === 'jasmine' && inTeamCity()) {
+    if (merged.framework === 'jasmine' && isCI) {
       const TeamCityReporter = require('jasmine-reporters').TeamCityReporter;
       jasmine.getEnv().addReporter(new TeamCityReporter());
     }
@@ -74,7 +74,7 @@ const merged = ld.mergeWith({
 }, userConf, a => typeof a === 'function' ? a : undefined);
 
 if (merged.framework === 'mocha') {
-  merged.mochaOpts.reporter = inTeamCity() ? 'mocha-teamcity-reporter' : 'mocha-env-reporter';
+  merged.mochaOpts.reporter = isCI ? 'mocha-teamcity-reporter' : 'mocha-env-reporter';
 }
 
 function normaliseSpecs(config) {

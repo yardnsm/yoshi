@@ -3,7 +3,8 @@
 const _ = require('lodash/fp');
 const webpack = require('webpack');
 const getConfig = require('../../config/webpack.config.client');
-const {shouldRunWebpack, filterNoise, inTeamCity, readDir, copyFile} = require('../utils');
+const isCI = require('is-ci');
+const {shouldRunWebpack, filterNoise, readDir, copyFile} = require('../utils');
 const {statics} = require('../globs');
 
 function runBundle(webpackOptions) {
@@ -37,7 +38,7 @@ function copyFilesAsMin() {
 
 function bundle() {
   const debugBundle = runBundle({debug: true});
-  const minBundle = inTeamCity() ? runBundle({debug: false}) : debugBundle.then(copyFilesAsMin);
+  const minBundle = isCI ? runBundle({debug: false}) : debugBundle.then(copyFilesAsMin);
 
   return Promise.all([debugBundle, minBundle]);
 }

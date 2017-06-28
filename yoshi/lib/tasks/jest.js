@@ -2,11 +2,11 @@
 
 const jestCli = require('jest-cli');
 const config = require('../../config/project').jestConfig();
-const {inTeamCity} = require('../utils');
+const isCI = require('is-ci');
 
 module.exports = ({log, watch}) => {
   function jest() {
-    if (inTeamCity()) {
+    if (isCI) {
       config.testResultsProcessor = 'jest-teamcity-reporter';
       process.argv.push('--teamcity');
     }
