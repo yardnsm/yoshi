@@ -33,7 +33,8 @@ module.exports = (separateCss, cssModules, tpaStyle) => {
         options: {
           config: {
             path: path.join(__dirname, '..', '..', 'config', 'postcss.config.js')
-          }
+          },
+          sourceMap: true
         }
       },
       ...tpaStyle ? ['wix-tpa-style-loader'] : [],

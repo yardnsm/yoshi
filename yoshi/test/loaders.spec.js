@@ -158,8 +158,14 @@ describe('Loaders', () => {
         expect(test.content('dist/statics/app.bundle.js')).to.match(/"someRule":"some-css__some-rule__\w{5}"/);
       });
 
-      it('should apply auto-prefixer', () => {
-        expect(test.content('dist/statics/app.css')).to.contain('-webkit-appearance');
+      describe('postcss', () => {
+        it('should apply auto-prefixer', () => {
+          expect(test.content('dist/statics/app.css')).to.contain('-webkit-appearance');
+        });
+
+        it('should support source maps', () => {
+          expect(test.content('dist/statics/app.css.map')).not.to.contain('-webkit-appearance');
+        });
       });
 
       it('should allow import sass from node_modules', () => {
@@ -289,6 +295,16 @@ describe('Loaders', () => {
           .execute('build');
 
         expect(test.content('dist/statics/app.css')).to.contain('color: red');
+      });
+
+      describe('postcss', () => {
+        it('should apply auto-prefixer', () => {
+          expect(test.content('dist/statics/app.css')).to.contain('-webkit-appearance');
+        });
+
+        it('should support source maps', () => {
+          expect(test.content('dist/statics/app.css.map')).not.to.contain('-webkit-appearance');
+        });
       });
 
       it('should support TPA style params', () => {
