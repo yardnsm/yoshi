@@ -3,7 +3,7 @@
 const {expect} = require('chai');
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
-const {insideTeamCity, teamCityArtifactVersion} = require('./helpers/env-variables');
+const {insideTeamCity} = require('./helpers/env-variables');
 const config = require('../config/webpack.config.common');
 
 describe('Webpack basic configs', () => {
@@ -126,28 +126,6 @@ describe('Webpack basic configs', () => {
       .execute('build');
 
       expect(res.code).to.equal(1);
-    });
-  });
-
-  describe('DefinePlugin configuration', () => {
-    it('Should replace window.__CI_APP_VERSION__ with the current CI Artivact version', () => {
-      const res = test.setup({
-        'src/client.js': `console.log(window.__CI_APP_VERSION__);`
-      })
-      .execute('build', [], teamCityArtifactVersion);
-
-      expect(res.code).to.equal(0);
-      expect(test.content('dist/statics/app.bundle.js')).to.contain('1.0.0');
-    });
-
-    it('Should default to 0.0.0 when not in CI', () => {
-      const res = test.setup({
-        'src/client.js': `console.log(window.__CI_APP_VERSION__);`
-      })
-      .execute('build');
-
-      expect(res.code).to.equal(0);
-      expect(test.content('dist/statics/app.bundle.js')).to.contain('0.0.0');
     });
   });
 });
