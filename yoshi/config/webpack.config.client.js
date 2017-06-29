@@ -30,7 +30,8 @@ const config = ({debug, separateCss = projectConfig.separateCss()} = {}) => {
       new DynamicPublicPath(),
 
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': debug ? '"development"' : '"production"'
+        'process.env.NODE_ENV': debug ? '"development"' : '"production"',
+        'window.__CI_APP_VERSION__': process.env.ARTIFACT_VERSION || '0.0.0'
       }),
 
       ...!separateCss ? [] : [
