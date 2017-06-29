@@ -784,6 +784,13 @@ describe('Aggregator: Build', () => {
   });
 
   describe('Bundle - sass', () => {
+
+    const generateCssModulesPattern = (name, path, pattern = `[hash:base64:5]`) => {
+      const genericNames = require('generic-names');
+      const generate = genericNames(pattern);
+      return generate(name, path);
+    };
+
     it('should generate a bundle with css', () => {
       const res = test
         .setup({
@@ -860,6 +867,124 @@ describe('Aggregator: Build', () => {
       expect(res.code).to.equal(0);
       expect(test.content(`dist/${defaultOutput}/app.bundle.js`)).to.contain('.styles-__my-file__a__');
       expect(test.content(`dist/${defaultOutput}/app.bundle.js`)).to.contain('.styles-__my-file__b__');
+    });
+
+    it('should generate (runtime) css modules on production with hash only', function () {
+      this.timeout(60000);
+
+      const hash = generateCssModulesPattern('a', 'styles/my-file.css');
+      const expectedCssMap = `{ a: '${hash}' }\n`;
+      const myTest = tp.create('src/index');
+      const res = myTest
+        .setup({
+          'src/index.js': `require('css-modules-require-hook')({
+            rootDir: './src',
+            generateScopedName: require('${__dirname}/../config/css-scope-pattern'),
+            extensions: ['.scss', '.css'],
+            camelCase: true
+          });
+          const s = require('./styles/my-file.css')
+          console.log(s);
+          `,
+          'src/styles/my-file.css': `.a {color: red;}`,
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.4",\n
+            "dependencies": {\n
+              "css-modules-require-hook": "latest"\n
+            },
+            "yoshi": {
+              "cssModules": true,
+              "separateCss": true
+            }
+          }`,
+          'pom.xml': fx.pom()
+        }, [hooks.installDependencies])
+        .execute('', [], {NODE_ENV: 'production', SHORT_CSS_PATTERN: true});
+
+      expect(res.code).to.equal(0);
+      expect(res.stdout).to.equal(expectedCssMap);
+      myTest.teardown();
+    });
+
+    it('should NOT generate (runtime) css modules on production with hash only', function () {
+      this.timeout(60000);
+
+      const hash = generateCssModulesPattern('a', 'styles/my-file.css', '[path][name]__[local]__[hash:base64:5]');
+      const expectedCssMap = `{ a: '${hash}' }\n`;
+      const myTest = tp.create('src/index');
+      const res = myTest
+        .setup({
+          'src/index.js': `require('css-modules-require-hook')({
+            rootDir: './src',
+            generateScopedName: require('${__dirname}/../config/css-scope-pattern'),
+            extensions: ['.scss', '.css'],
+            camelCase: true
+          });
+          const s = require('./styles/my-file.css')
+          console.log(s);
+          `,
+          'src/styles/my-file.css': `.a {color: red;}`,
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.4",\n
+            "dependencies": {\n
+              "css-modules-require-hook": "latest"\n
+            },
+            "yoshi": {
+              "cssModules": true,
+              "separateCss": true
+            }
+          }`,
+          'pom.xml': fx.pom()
+        }, [hooks.installDependencies])
+        .execute('', [], {NODE_ENV: 'production'});
+
+      expect(res.code).to.equal(0);
+      expect(res.stdout).to.equal(expectedCssMap);
+      myTest.teardown();
+    });
+
+    it('should generate css modules on CI with hash only', () => {
+      const hashA = generateCssModulesPattern('a', 'styles/my-file.scss');
+      const hashB = generateCssModulesPattern('b', 'styles/my-file.scss');
+
+      const expectedCssPattern = `.${hashA} .${hashB} {`;
+      const res = test
+        .setup({
+          'src/client.js': 'require(\'./styles/my-file.scss\');',
+          'src/styles/my-file.scss': `.a {.b {color: red;}}`,
+          'package.json': fx.packageJson({
+            cssModules: true,
+            separateCss: true
+          }),
+          'pom.xml': fx.pom()
+        })
+        .execute('build', [], Object.assign({}, insideTeamCity, {SHORT_CSS_PATTERN: true}));
+
+      expect(res.code).to.equal(0);
+      expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain(expectedCssPattern);
+    });
+
+    it('should NOT generate css modules on CI with hash only', () => {
+      const hashA = generateCssModulesPattern('a', 'styles/my-file.scss', '[path][name]__[local]__[hash:base64:5]');
+      const hashB = generateCssModulesPattern('b', 'styles/my-file.scss', '[path][name]__[local]__[hash:base64:5]');
+
+      const expectedCssPattern = `.${hashA} .${hashB} {`;
+      const res = test
+        .setup({
+          'src/client.js': 'require(\'./styles/my-file.scss\');',
+          'src/styles/my-file.scss': `.a {.b {color: red;}}`,
+          'package.json': fx.packageJson({
+            cssModules: true,
+            separateCss: true
+          }),
+          'pom.xml': fx.pom()
+        })
+        .execute('build', [], insideTeamCity);
+
+      expect(res.code).to.equal(0);
+      expect(test.content(`dist/${defaultOutput}/app.css`)).to.contain(expectedCssPattern);
     });
 
     it('should generate css modules on separate css file', () => {

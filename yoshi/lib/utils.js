@@ -83,6 +83,8 @@ module.exports.watchMode = value => {
   return !!process.env.WIX_NODE_BUILD_WATCH_MODE;
 };
 
+module.exports.isProduction = () => (process.env.NODE_ENV || '').toLowerCase() === 'production';
+
 module.exports.filterNoise = comp => {
   comp.plugin('done', stats => {
     logIfAny(stats.toString({
