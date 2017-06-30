@@ -31,17 +31,21 @@ const getBundleNames = () => {
 const replaceDotsWithUnderscore = str => str.replace(/\./g, '_');
 
 const command = ({appName, bundleName, bundleSize, timestamp}) => {
-  const args = {
+  const metricNames = {
     'wix-bi-tube.root': 'events_catalog',
     src: '72',
     app_name: replaceDotsWithUnderscore(appName), // eslint-disable-line camelcase
     bundle_name: replaceDotsWithUnderscore(path.relative(path.join(process.cwd(), 'dist/statics'), bundleName)), // eslint-disable-line camelcase
-    bundle_size: bundleSize // eslint-disable-line camelcase
   };
+
+  const metricNamesSeperator = '.';
+  const bundleSizeMetricName = 'bundle_size';
 
   return ''.concat(
     'echo `',
-    Object.keys(args).map(key => `${key}=${args[key]}`).join('.'),
+    Object.keys(metricNames).map(key => `${key}=${metricNames[key]}`).join(metricNamesSeperator),
+    metricNamesSeperator,
+    `${bundleSizeMetricName} ${bundleSize}`,
     ' ',
     timestamp,
     '` | nc -q0 m.wixpress.com 2003'
@@ -82,7 +86,7 @@ module.exports = ({log, inTeamCity}) => {
 
     return getBundleNames()
         .then(bundleNames => {
-          return Promise.all(bundleNames.map(shellExec(config, Date.now())));
+          return Promise.all(bundleNames.map(shellExec(config, Math.floor(Date.now() / 1000))));
         })
         .catch(e => {
           console.warn('Bundle size report error:', e);
