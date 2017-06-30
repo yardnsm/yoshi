@@ -4,7 +4,7 @@ const {expect} = require('chai');
 const tp = require('test-phases');
 const clean = require('../index');
 
-describe('Clean', () => {
+describe('Copy', () => {
   let test;
   let task;
 

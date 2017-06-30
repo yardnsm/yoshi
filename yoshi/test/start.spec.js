@@ -296,7 +296,7 @@ describe('Aggregator: Start', () => {
       });
     });
 
-    it('should update .nvmrc to relevant version as shown in dockerfile', () => {
+    it('should use yoshi-update-node-version', () => {
       const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {encoding: 'utf-8'}).trim();
       child = test
         .setup({
@@ -313,25 +313,21 @@ describe('Aggregator: Start', () => {
       );
     });
 
-    describe('Clean', () => {
-      ['dist', 'target'].forEach(folderName =>
-        it(`should remove "${folderName}" folder before building`, () => {
-          child = test
-            .setup({
-              [`${folderName}/src/old.js`]: `const hello = "world!";`,
-              'src/new.js': 'const world = "hello!";',
-              'package.json': fx.packageJson(),
-              '.babelrc': '{}'
-            })
-            .spawn('start');
-
-          return checkServerLogCreated().then(() => {
-            expect(test.stdout).to.contains(`Finished 'clean'`);
-            expect(test.list(folderName)).to.not.include('old.js');
-            expect(test.list('dist/src')).to.include('new.js');
-          });
+    it(`should use yoshi-clean before building`, () => {
+      child = test
+        .setup({
+          'dist/src/old.js': `const hello = "world!";`,
+          'src/new.js': 'const world = "hello!";',
+          'package.json': fx.packageJson(),
+          '.babelrc': '{}'
         })
-      );
+        .spawn('start');
+
+      return checkServerLogCreated().then(() => {
+        expect(test.stdout).to.contains(`Finished 'clean'`);
+        expect(test.list('dist')).to.not.include('old.js');
+        expect(test.list('dist/src')).to.include('new.js');
+      });
     });
 
     describe('when there are runtime errors', () => {

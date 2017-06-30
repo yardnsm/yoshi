@@ -11,15 +11,14 @@ const {
 } = require('fs');
 
 describe('Aggregator: Build', () => {
-  // const baseFolders = ['app', 'src', 'test'];
   const defaultOutput = 'statics';
   let test;
 
   beforeEach(() => test = tp.create());
   afterEach(() => test.teardown());
 
-  describe('Sass', () => {
-    it('should transpile to dist/, preserve folder structure, extensions and exit with code 0', () => {
+  describe('yoshi-sass', () => {
+    it('should use yoshi-sass', () => {
       const compiledStyle = '.a .b {\n  color: red; }';
       const resp = test
         .setup({
@@ -50,50 +49,6 @@ describe('Aggregator: Build', () => {
       expect(resp.code).to.equal(1);
       expect(resp.stdout).to.contain(`Failed 'sass'`);
       expect(resp.stdout).to.contain('Invalid CSS after ".a {');
-    });
-
-    it('should consider node_modules for path', () => {
-      const resp = test
-        .setup({
-          'src/client.js': '',
-          'node_modules/some-module/style.scss': `.a { color: black; }`,
-          'src/a/style.scss': `@import 'some-module/style.scss'`,
-          'package.json': fx.packageJson()
-        })
-        .execute('build');
-
-      expect(resp.code).to.equal(0);
-      expect(resp.stdout).to.contain(`Finished 'sass'`);
-      expect(test.content('dist/src/a/style.scss')).to.contain('.a {\n  color: black; }');
-    });
-
-    it('should support compass', () => {
-      const resp = test
-        .setup({
-          'src/style.scss': `@import 'compass'; .a { color: black; }`,
-          'node_modules/compass-mixins/lib/_compass.scss': '',
-          'package.json': fx.packageJson()
-        })
-        .execute('build');
-
-      expect(resp.code).to.equal(0);
-      expect(resp.stdout).to.contain(`Finished 'sass'`);
-      expect(test.content('dist/src/style.scss')).to.contain('.a {\n  color: black; }');
-    });
-
-    it('should not render partial files with the name starting with _', () => {
-      const resp = test
-        .setup({
-          'src/client.js': '',
-          'src/a/_partial.scss': '$text-color: #ff0000',
-          'src/a/style.scss': `@import './partial'; body {color: $text-color;}`,
-          'package.json': fx.packageJson()
-        })
-        .execute('build');
-
-      expect(resp.code).to.equal(0);
-      expect(resp.stdout).to.contain(`Finished 'sass'`);
-      expect(test.list('dist', '-R')).not.to.contain('app/a/_partial.scss');
     });
   });
 
@@ -178,8 +133,8 @@ describe('Aggregator: Build', () => {
     });
   });
 
-  describe('Babel', () => {
-    it('should transpile to dist but only form app, src, test, testkit folders and index.js itself and exit with code 0', () => {
+  describe('yoshi-babel', () => {
+    it('should use yoshi-babel', () => {
       const resp = test
         .setup({
           '.babelrc': '{}',
@@ -199,51 +154,6 @@ describe('Aggregator: Build', () => {
       expect(test.list('dist')).to.include.members(['src', 'app', 'test', 'testkit', 'bin', 'index.js']);
     });
 
-    it('should preserve folder structure, create source maps', function () {
-      this.timeout(60000);
-
-      const resp = test
-        .setup({
-          '.babelrc': `{"presets": ["es2015"]}`,
-          'src/a/a.js': 'const a = 1;',
-          'package.json': `{
-              "name": "a",\n
-              "version": "1.0.4",\n
-              "dependencies": {\n
-                "babel-preset-es2015": "latest"\n
-              }
-            }`,
-          'pom.xml': fx.pom()
-        }, [hooks.installDependencies])
-        .execute('build');
-
-      expect(resp.stdout).to.contain(`Finished 'babel'`);
-      expect(resp.code).to.equal(0);
-      expect(test.content('dist/src/a/a.js')).to.contain('var a = 1;');
-      expect(test.content('dist/src/a/a.js')).to.contain('//# sourceMappingURL=a.js.map');
-      expect(test.contains('dist/src/a/a.js.map')).to.be.true;
-    });
-
-    it('should transpile when there is babel config inside package.json', () => {
-      const resp = test
-        .setup({
-          'package.json': `{
-            "name": "a",\n
-            "version": "1.0.4",\n
-            "babel": {}
-          }`,
-          'src/a/a.js': 'const a = 1;',
-          'pom.xml': fx.pom()
-        })
-        .execute('build');
-
-      expect(resp.stdout).to.contain(`Finished 'babel'`);
-      expect(resp.code).to.equal(0);
-      expect(test.content('dist/src/a/a.js')).to.contain('const a = 1;');
-      expect(test.content('dist/src/a/a.js')).to.contain('//# sourceMappingURL=a.js.map');
-      expect(test.contains('dist/src/a/a.js.map')).to.be.true;
-    });
-
     it('should fail with exit code 1', () => {
       const resp = test
         .setup({
@@ -257,37 +167,10 @@ describe('Aggregator: Build', () => {
       expect(resp.stdout).to.contain('Unexpected token (1:9)');
       expect(resp.stdout).to.contain('1 | function ()');
     });
-
-    it('should ignore dist/ and node_modules/ from being transpiled', () => {
-      const resp = test
-        .setup({
-          'dist/a.js': 'function () {{}',
-          'node_modules/a.js': 'function () {{}',
-          'package.json': fx.packageJson(),
-          'pom.xml': fx.pom()
-        })
-        .execute('build');
-      expect(resp.code).to.equal(0);
-      expect(test.contains('dist/node_modules')).to.be.false;
-    });
-
-    it('should store transpilation output into file system cache', () => {
-      const resp = test
-        .setup({
-          '.babelrc': '{}',
-          'src/foo.js': 'const foo = `bar`;',
-          'package.json': fx.packageJson(),
-          'pom.xml': fx.pom()
-        })
-        .execute('build');
-
-      expect(resp.code).to.equal(0);
-      expect(test.list('.', '-RA')).to.contain('target/.babel-cache');
-    });
   });
 
-  describe('TypeScript', () => {
-    it('should transpile to dist and exit with code 0', () => {
+  describe('yoshi-typescript', () => {
+    it('should use yoshi-typescript', () => {
       const resp = test
         .setup({
           'app/a.ts': 'const a = 1;',
@@ -304,19 +187,6 @@ describe('Aggregator: Build', () => {
       expect(test.content('dist/app/b.js')).to.contain('var b = 2');
     });
 
-    it('should create source maps and definition files side by side', () => {
-      test.setup({
-        'app/a.ts': 'const b = 2;',
-        'tsconfig.json': fx.tsconfig(),
-        'package.json': fx.packageJson(),
-        'pom.xml': fx.pom()
-      })
-        .execute('build');
-
-      expect(test.content('dist/app/a.js')).to.contain('//# sourceMappingURL=a.js.map');
-      expect(test.list('dist/app')).to.include('a.js.map', 'a.d.ts');
-    });
-
     it('should fail with exit code 1', () => {
       const resp = test
         .setup({
@@ -330,60 +200,6 @@ describe('Aggregator: Build', () => {
       expect(resp.code).to.equal(1);
       expect(resp.stdout).to.contain('error TS1003: Identifier expected');
     });
-
-    // it('should transpile from the base folders with consider tsconfig include & exclude', () => {
-    //   const filesInFolders = baseFolders
-    //     .map(dir => `${dir}/a.ts`)
-    //     .concat(['app/b.ts', 'outOfBase/a.ts'])
-    //     .reduce((result, dir) =>
-    //       Object.assign(result, {[dir]: 'function(){}'})
-    //     , {});
-
-    //   test.setup(Object.assign({
-    //     'tsconfig.json': fx.tsconfig({
-    //       rootDirs: ['app', 'test', 'src'],
-    //       include: ['outOfBase/a.ts', ...baseFolders.map(dir => `${dir}/**/*.*`)],
-    //       exclude: ['app/b.ts'],
-    //     }),
-    //     'package.json': fx.packageJson(),
-    //     'pom.xml': fx.pom()
-    //   }, filesInFolders))
-    //     .execute('build');
-
-    //   expect(test.list('dist/').length).to.equal(baseFolders.length + 1);
-    //   expect(test.list('dist/')).to.include('outOfBase');
-    //   expect(test.list('dist/')).not.to.include('b.js');
-    // });
-
-    // it('should build from specified directory', () => {
-    //   const resp = test.setup({
-    //     'src/nope.ts': 'const nope = "nope";',
-    //     'custom/yep.ts': 'const yep = "yep";',
-    //     'package.json': fx.packageJson(),
-    //     'tsconfig.json': fx.tsconfig(),
-    //     'pom.xml': fx.pom()
-    //   }).execute('build --dirs=custom');
-
-    //   expect(resp.code).to.equal(0);
-    //   expect(test.content('dist/custom/yep.js')).to.contain('yep');
-    //   expect(test.contains('dist/src')).to.be.false;
-    // });
-
-    // it('should build from multiple specified directories', () => {
-    //   const resp = test.setup({
-    //     'src/nope.ts': 'const nope = "nope";',
-    //     'custom/yep.ts': 'const yep = "yep";',
-    //     'another/yep.tsx': 'const yep2 = "yep2";',
-    //     'package.json': fx.packageJson(),
-    //     'tsconfig.json': fx.tsconfig(),
-    //     'pom.xml': fx.pom()
-    //   }).execute('build --dirs=custom,another');
-
-    //   expect(resp.code).to.equal(0);
-    //   expect(test.content('dist/custom/yep.js')).to.contain('yep');
-    //   expect(test.content('dist/another/yep.js')).to.contain('yep2');
-    //   expect(test.contains('dist/src')).to.be.false;
-    // });
 
     it('should not transpile with babel if there is tsconfig', () => {
       const resp = test
@@ -1277,10 +1093,8 @@ describe('Aggregator: Build', () => {
 
   });
 
-  describe('Assets', () => {
-    const dirs = ['app', 'src', 'test'];
-
-    it('should copy files from assets folder', () => {
+  describe('yoshi-copy', () => {
+    it('should use yoshi-copy', () => {
       const res = test
         .setup({
           'app/assets/some-file': 'a',
@@ -1292,87 +1106,12 @@ describe('Aggregator: Build', () => {
         .execute('build');
 
       expect(res.code).to.equal(0);
-
-      dirs.forEach(dir =>
-        expect(test.list(`dist/${dir}/assets`)).to.include('some-file')
-      );
-    });
-
-    it('should copy given types', () => {
-      const types = ['ejs', 'html', 'vm'];
-
-      const paths = ['app', 'src', 'test']
-        .reduce((result, dir) => {
-          types.forEach(type => result.push([dir, type]));
-          return result;
-        }, [])
-        .reduce((result, dirTypePair) =>
-          Object.assign(result, {
-            [`${dirTypePair[0]}/a.${dirTypePair[1]}`]: 'a'
-          }), {});
-
-      const res = test
-        .setup(Object.assign({
-          'package.json': fx.packageJson(),
-          'pom.xml': fx.pom()
-        }, paths))
-        .execute('build');
-
-      expect(res.code).to.equal(0);
-      dirs.forEach(dir =>
-        expect(test.list(`dist/${dir}`).sort()).to.eql(types.map(type => `a.${type}`).sort())
-      );
-    });
-
-    it('should copy files from assets folder into the output dir if specified', () => {
-      const res = test.setup({
-        'src/assets/some-file': 'a',
-        'package.json': fx.packageJson(),
-        'pom.xml': fx.pom()
-      }).execute('build', ['--output=statics1']);
-
-      expect(res.code).to.equal(0);
-      expect(test.list(`dist/statics1/assets`)).to.include('some-file');
-    });
-
-    it('should copy html assets to dist and to statics', () => {
-      const res = test.setup({
-        'src/index.html': 'a',
-        'src/index.vm': 'a',
-        'src/index.ejs': 'a',
-        'package.json': fx.packageJson(),
-        'pom.xml': fx.pom()
-      }).execute('build');
-
-      expect(res.code).to.equal(0);
-      expect(test.list(`dist/statics`)).to.include('index.html');
-      expect(test.list(`dist/statics`)).to.include('index.vm');
-      expect(test.list(`dist/statics`)).to.include('index.ejs');
-      expect(test.list(`dist/src`)).to.include('index.html');
-      expect(test.list(`dist/src`)).to.include('index.vm');
-      expect(test.list(`dist/src`)).to.include('index.ejs');
-    });
-
-    it('should copy server assets to dist', () => {
-      const res = test.setup({
-        'src/style.css': fx.css(),
-        'src/some.d.ts': '',
-        'src/file.json': '{}',
-        'package.json': fx.packageJson(),
-        'pom.xml': fx.pom()
-      }).execute('build');
-
-      expect(res.code).to.equal(0);
-      expect(test.list('dist/src')).to.include.members([
-        'style.css',
-        'file.json',
-        'some.d.ts'
-      ]);
+      expect(test.list(`dist/src/assets`)).to.include('some-file');
     });
   });
 
-  describe('Tar.gz.xml creation', () => {
-    it('should create tar.gz.xml based on client project name', () => {
+  describe('yoshi-maven-statics', () => {
+    it('should use yoshi-maven-statics', () => {
       const res = test
         .setup({
           'package.json': fx.packageJson({
@@ -1405,125 +1144,28 @@ describe('Aggregator: Build', () => {
         </assembly>
       `.replace(/\s/g, ''));
     });
+  });
 
-    it('should create tar.gz.xml for universal app, using default directory for statics', () => {
+  describe('yoshi-clean', () => {
+    it('should use yoshi-clean', () => {
       const res = test
         .setup({
-          'package.json': fx.packageJson({
-            universalProject: true
-          }),
-          'pom.xml': fx.pom()
+          '.babelrc': '{}',
+          'dist/old.js': `const hello = "world!";`,
+          'src/new.js': 'const world = "hello!";',
+          'package.json': fx.packageJson()
         })
         .execute('build');
 
-      expect(res.code).to.equal(0);
-      expect(test.content('maven/assembly/tar.gz.xml').replace(/\s/g, '')).to.contain(`
-        <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
-            <id>wix-angular</id>
-            <baseDirectory>/</baseDirectory>
-            <formats>
-                <format>tar.gz</format>
-            </formats>
-            <fileSets>
-                <fileSet>
-                <directory>\${project.basedir}/dist/statics</directory>
-                    <outputDirectory>/</outputDirectory>
-                    <includes>
-                        <include>*</include>
-                        <include>*/**</include>
-                    </includes>
-                </fileSet>
-            </fileSets>
-        </assembly>
-      `.replace(/\s/g, ''));
-    });
-
-    it('should create tar.gz.xml for universal app, using different directory for statics', () => {
-      const res = test
-        .setup({
-          'package.json': fx.packageJson({
-            universalProject: true,
-            servers: {
-              cdn: {
-                dir: 'dist/bla'
-              }
-            }
-          }),
-          'pom.xml': fx.pom()
-        })
-        .execute('build');
-
-      expect(res.code).to.equal(0);
-      expect(test.content('maven/assembly/tar.gz.xml').replace(/\s/g, '')).to.contain(`
-        <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
-            <id>wix-angular</id>
-            <baseDirectory>/</baseDirectory>
-            <formats>
-                <format>tar.gz</format>
-            </formats>
-            <fileSets>
-                <fileSet>
-                <directory>\${project.basedir}/dist/bla</directory>
-                    <outputDirectory>/</outputDirectory>
-                    <includes>
-                        <include>*</include>
-                        <include>*/**</include>
-                    </includes>
-                </fileSet>
-            </fileSets>
-        </assembly>
-      `.replace(/\s/g, ''));
-    });
-
-    it('should not fail if there is no "tarGZLocation"', () => {
-      const res = test
-        .setup({
-          'package.json': fx.packageJson({
-            universalProject: true,
-            servers: {
-              cdn: {
-                dir: 'dist/bla'
-              }
-            }
-          }),
-          'pom.xml': `
-              <?xml version="1.0" encoding="UTF-8"?>
-              <project>
-              </project>
-            `
-        })
-        .execute('build');
-
-      expect(res.code).to.equal(0);
+      expect(res.code).to.be.equal(0);
+      expect(res.stdout).to.include(`Finished 'clean'`);
+      expect(test.list('dist')).to.not.include('old.js');
+      expect(test.list('dist/src')).to.include('new.js');
     });
   });
 
-  describe('Clean', () => {
-    ['dist', 'target'].forEach(folderName =>
-      it(`should remove "${folderName}" folders before building`, () => {
-        const res = test
-          .setup({
-            '.babelrc': '{}',
-            [`${folderName}/old.js`]: `const hello = "world!";`,
-            'src/new.js': 'const world = "hello!";',
-            'package.json': fx.packageJson()
-          })
-          .execute('build');
-
-        expect(res.code).to.be.equal(0);
-        expect(res.stdout).to.include(`Finished 'clean'`);
-        expect(test.list(folderName)).to.not.include('old.js');
-        expect(test.list('dist/src')).to.include('new.js');
-      })
-    );
-  });
-
-  describe('Node', () => {
-    it('should update .nvmrc to relevant version as shown in dockerfile', () => {
+  describe('yoshi-update-node-version', () => {
+    it('should use yoshi-update-node-version', () => {
       const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {
         encoding: 'utf-8'
       }).trim();
@@ -1537,46 +1179,10 @@ describe('Aggregator: Build', () => {
       expect(res.code).to.be.equal(0);
       expect(test.content('.nvmrc')).to.equal(nodeVersion);
     });
-
-    it('should create .nvmrc if it does not exist', () => {
-      const nodeVersion = readFileSync(require.resolve('../templates/.nvmrc'), {
-        encoding: 'utf-8'
-      }).trim();
-      const res = test
-        .setup({
-          'package.json': fx.packageJson()
-        })
-        .execute('build', [], outsideTeamCity);
-
-      expect(res.code).to.be.equal(0);
-      expect(test.content('.nvmrc')).to.equal(nodeVersion);
-    });
-
-    it('should not update .nvmrc if project has a higher version set in .nvmrc', () => {
-      const res = test
-        .setup({
-          '.nvmrc': '99.0.0',
-          'package.json': fx.packageJson()
-        })
-        .execute('build', [], outsideTeamCity);
-
-      expect(res.code).to.be.equal(0);
-      expect(test.content('.nvmrc')).to.equal('99.0.0');
-    });
-
-    it('should not update .nvmrc inside TeamCity', () => {
-      test
-        .setup({
-          'package.json': fx.packageJson()
-        })
-        .execute('build', [], insideTeamCity);
-
-      expect(test.list('.nvmrc').length).to.equal(0);
-    });
   });
 
-  describe('petri specs', () => {
-    it('should create petri-experiments.json file inside dist/statics folder', () => {
+  describe('yoshi-petri', () => {
+    it('should use yoshi-petri', () => {
       test
         .setup({
           'petri-specs/specs.infra.Dummy.json': fx.petriSpec(),
@@ -1585,17 +1191,6 @@ describe('Aggregator: Build', () => {
         .execute('build');
 
       expect(test.list('dist', '-R')).to.contain('statics/petri-experiments.json');
-    });
-
-    it('should not run petri specs if there are no spec files', () => {
-      test
-        .setup({
-          'petri-specs/dummy.txt': '',
-          'package.json': fx.packageJson()
-        })
-        .execute('build');
-
-      expect(test.stdout).not.to.contain('Building petri specs');
     });
 
     it.skip('should do nothing if there is no petri-specs installed', () => {
