@@ -42,7 +42,10 @@ describe('measure bundle size', () => {
   };
 
   const output = (bundleName, fileContent, appName = APP_NAME) => {
-    return `echo \`wix-bi-tube.root=events_catalog.src=72.app_name=${appName}.bundle_name=${bundleName}.bundle_size=${bundleSize(fileContent)} ${timestamp}\` | nc -q0 m.wixpress.com 2003`;
+    return ''.concat(
+            `echo \`wix-bi-tube.root=events_catalog.src=72.app_name=${appName}.bundle_name=${bundleName}.bundle_size `,
+            `${bundleSize(fileContent)} ${Math.floor(timestamp / 1000)}\` | nc -q0 m.wixpress.com 2003`
+          );
   };
 
   beforeEach(() => {
