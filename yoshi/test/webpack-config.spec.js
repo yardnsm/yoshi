@@ -3,7 +3,11 @@
 const {expect} = require('chai');
 const tp = require('./helpers/test-phases');
 const fx = require('./helpers/fixtures');
-const {insideTeamCity, teamCityArtifactVersion} = require('./helpers/env-variables');
+const {
+  insideTeamCity,
+  teamCityArtifactVersion,
+  noArtifactVersion
+} = require('./helpers/env-variables');
 const config = require('../config/webpack.config.common');
 
 describe('Webpack basic configs', () => {
@@ -144,7 +148,7 @@ describe('Webpack basic configs', () => {
       const res = test.setup({
         'src/client.js': `const foo = window.__CI_APP_VERSION__;`
       })
-      .execute('build');
+      .execute('build', [], noArtifactVersion);
 
       expect(res.code).to.equal(0);
       expect(test.content('dist/statics/app.bundle.js')).to.contain('"0.0.0"');
