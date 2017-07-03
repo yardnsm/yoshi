@@ -10,7 +10,7 @@ module.exports = config => {
 
   config.module.rules = [
     ...webpackCommonConfig.module.rules,
-    ...require('../lib/loaders/sass')(true, cssModules, false).client
+    ...require('../lib/loaders/sass')(false, cssModules, false).client
   ];
 
   return config;
